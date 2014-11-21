@@ -21,14 +21,13 @@ public class Neo4jManager {
 	public void executeQueryNeo4j(GraphDatabaseService db, String query){
 		Transaction tx =  db.beginTx();		
 		try { 
-			    ExecutionEngine engine = new ExecutionEngine(db);
-			    ExecutionResult result = engine.execute(query);			    
-			    tx.success();
+			ExecutionEngine engine = new ExecutionEngine(db);
+			ExecutionResult result = engine.execute(query);			    
+			tx.success();
 		       } 
 		 finally {    
 		     tx.close();  
-		 } 
-		
+		 } 		
 	}
 	
 	
