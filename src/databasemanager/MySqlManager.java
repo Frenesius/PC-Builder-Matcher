@@ -1,6 +1,11 @@
 package databasemanager;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
 
 public class MySqlManager {
 	public boolean isConnected = false;
@@ -23,7 +28,7 @@ public class MySqlManager {
 		String query = "SELECT * FROM hardwareprice.hardwareprice;";
 		try {
 			Statement myStmt = mysqlConnection.createStatement();
-			myStmt.executeUpdate(query);
+			myStmt.execute(query);
 			ResultSet c = myStmt.getResultSet();
 			System.out.println(c.toString());
 		} catch (SQLException e) {
