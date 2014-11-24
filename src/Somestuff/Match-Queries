@@ -1,0 +1,11 @@
+// MATCH A CPU WITH THE MOBO BASED ON SOCKET
+	MATCH (n)-->(c)-->(h), (x)-->(y)-->(h)
+	WHERE n.EAN = '0884962471586, 4948382686046' AND y.Label = 'MOTHERBOARD' AND x.Socket = n.Socket
+	RETURN n, x
+	LIMIT 20
+	
+	
+	
+	
+	
+//	
