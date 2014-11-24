@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.glassfish.jersey.client.ClientResponse;
+import org.neo4j.cypher.internal.spi.v2_1.TransactionBoundQueryContext.NodeOperations;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -39,42 +40,12 @@ public class Neo4jManager {
 				
 			ExecutionEngine engine = new ExecutionEngine(db);
 			ExecutionResult result = engine.execute(query);
-			//System.out.println(result.dumpToString());
+			//Do something
 			tx.success();
 			} 
 		finally {    
 		     tx.close();  
 		 		} 		
-}
-	public ArrayList getAllNodes(GraphDatabaseService db){
-		String query = "MATCH (n) RETURN n;";
-		Transaction tx =  db.beginTx();		
-		try { 
-			ExecutionEngine engine = new ExecutionEngine(db);
-			ExecutionResult result = engine.execute(query);	
-			
-			String rows = null;
-			ArrayList arr = new ArrayList();
-			
-			for ( Map<String, Object> row : result )
-	        {	
-	            for ( Map.Entry<String, Object> column : row.entrySet()){
-	                Object e = column.getValue();
-	                
-	            	rows += column.getKey() + ": " + column.getValue() + "; ";
-	            }
-	            
-	            rows += "\n";
-	            System.out.println(rows);
-	        }
-			
-			tx.success();
-			return arr;
-		       } 
-		 finally {    
-		     tx.close();  
-		 } 
-		
 	}
 	
 	public void openConnectionRest(){
@@ -87,21 +58,30 @@ public class Neo4jManager {
 		response.close();
 	}
 	
-    public ArrayList<Node> getAllNodes1(GraphDatabaseService graphDb )
-    {
+    public ArrayList<Node> getAllNodes(GraphDatabaseService graphDb ){
         ArrayList<Node> nodes = new ArrayList<>();
-        try (Transaction tx = graphDb.beginTx())
-        {
+        try (Transaction tx = graphDb.beginTx()){
             for (Node node : GlobalGraphOperations.at( graphDb ).getAllNodes()){
                 nodes.add(node);
             }
             tx.success();
         }
-        return nodes;
+        return nodes;	//Returns an ArrayList with all the Nodes.
     }
 	
+    public void getNodeByProperty(ArrayList arr, String property){
+		for(int i = 0; i<arr.size();i++){
+			Node n = (Node) arr.get(i);
+			try{
+				n.getProperty(property);
+			}
+			catch(Exception e){}
+		}
+	}
+    
 	
 	
 	
 	
 }
+
