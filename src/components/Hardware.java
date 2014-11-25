@@ -17,12 +17,18 @@ public class Hardware {
 	String url;
 	String aantalcores;
 	String hardwaresort;
+	Boolean isEmpty;
 	
 	
 	
 	
 	
-	
+	public Boolean getIsEmpty() {
+		return isEmpty;
+	}
+	public void setIsEmpty(Boolean isEmpty) {
+		this.isEmpty = isEmpty;
+	}
 	public String getSku() {
 		return sku;
 	}

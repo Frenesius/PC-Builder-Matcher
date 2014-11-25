@@ -1,5 +1,6 @@
 package databasemanager;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -10,8 +11,10 @@ import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Relationship;
+import org.neo4j.graphdb.ResourceIterator;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
+import org.neo4j.helpers.collection.IteratorUtil;
 import org.neo4j.tooling.GlobalGraphOperations;
 
 import scala.collection.Iterator;
@@ -33,19 +36,25 @@ public class Neo4jManager {
 		System.out.println("Database Closed Successfully...");
 	}
 	
-	public void executeQueryNeo4j(GraphDatabaseService db, String query){
+	public ArrayList executeQueryNeo4j(GraphDatabaseService db, String query){
 		Transaction tx =  db.beginTx();		
+		ArrayList nodeArr = new ArrayList();
 		try { 
-			System.out.println("Start");
-				
 			ExecutionEngine engine = new ExecutionEngine(db);
 			ExecutionResult result = engine.execute(query);
-			//Do something
+			ResourceIterator<Node> n_column = result.columnAs("n");
+			
+			for(int i = 0; n_column.hasNext();i++){
+				Node ga  = n_column.next();
+				nodeArr.add(ga);
+				}
+			
 			tx.success();
 			} 
 		finally {    
 		     tx.close();  
-		 		} 		
+		 		} 
+		return nodeArr;
 	}
 	
 	public void openConnectionRest(){
