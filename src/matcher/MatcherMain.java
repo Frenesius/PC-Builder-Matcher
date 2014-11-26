@@ -39,10 +39,9 @@ public class MatcherMain {
 		mb = (Motherboard) components.get(7);
 		
 		String motherboardSocket = mb.getSocket();
-		String motherboardGeheugenType;
-		String motherboardCardInterface;
-	
-	
+		String motherboardGeheugenType = mb.getGeheugentype();
+		String motherboardCardInterface = mb.getCardinterface();
+
 	}
 
 	public ArrayList getNodesByInput(ArrayList components){
@@ -52,16 +51,19 @@ public class MatcherMain {
 		for(int i = 0; i<components.size(); i++){
 			String part = (String) components.get(i);
 			if(part != null)
-				part = part.replaceAll("\\s","").toLowerCase();			
+				part = part.toLowerCase();
+				try{
+					part = part.replaceAll("\\s","").toLowerCase();			
+					part = part.replaceAll("\\(moederbord\\)","").toLowerCase();
+				}catch(Exception e ){}
+				
 			switch(i){
 			case 0:	//CPU
 				CPU cpu = new CPU();
 				if(part != null){
 					cpu = gson.fromJson(part, CPU.class);					
 					cpu.setIsEmpty(false);
-				}else{
-					cpu.setIsEmpty(true);
-				}
+				}else{cpu.setIsEmpty(true);}
 				cpu.setHardwaresort("cpu");
 				componentsObjects.add(cpu);
 				break;
@@ -70,9 +72,7 @@ public class MatcherMain {
 				if(part != null){
 					gpu = gson.fromJson(part, GPU.class);					
 					gpu.setIsEmpty(false);
-				}else{
-					gpu.setIsEmpty(true);
-				}
+				}else{gpu.setIsEmpty(true);}
 				gpu.setHardwaresort("gpu");
 				componentsObjects.add(gpu);
 				break;
@@ -81,9 +81,7 @@ public class MatcherMain {
 				if(part != null){
 					ram = gson.fromJson(part, Memory.class);					
 					ram.setIsEmpty(false);
-				}else{
-					ram.setIsEmpty(true);
-				}
+				}else{ram.setIsEmpty(true);}
 				ram.setHardwaresort("memory");
 				componentsObjects.add(ram);
 				break;
@@ -93,7 +91,6 @@ public class MatcherMain {
 					hdd = gson.fromJson(part, HDD.class);					
 					hdd.setIsEmpty(false);
 				}else{hdd.setIsEmpty(true);}
-				
 				hdd.setHardwaresort("hdd");
 				componentsObjects.add(hdd);
 				break;
@@ -130,7 +127,6 @@ public class MatcherMain {
 					mobo = gson.fromJson(part, Motherboard.class);
 					mobo.setIsEmpty(false);
 				}else{mobo.setIsEmpty(true);}
-				
 				mobo.setHardwaresort("motherboard");
 				componentsObjects.add(mobo);
 				break;

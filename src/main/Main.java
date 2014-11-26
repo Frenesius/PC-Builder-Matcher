@@ -114,7 +114,7 @@ public class Main {
 		String OpticalDrive = null;
 		String SoundCard = null;
 		
-		Motherboard = "SKU':'7924-002R, H97M-G43',"
+		Motherboard = "{'SKU':'7924-002R, H97M-G43',"
 				+ "'Laagste prijs':' ',"
 				+ "'Uitvoering':'MSI H97M-G43',"
 				+ "'Beoordeling':' (1 review)',"
@@ -126,8 +126,6 @@ public class Main {
 				+ "'Merk':'MSI',"
 				+ "'Eerste prijsvermelding':'zondag 11 mei 2014',"
 				+ "'Bijzonderheden':'PCI-e 2.0 x16 slot draait in x4 modus.',"
-				+ " u'\\r\\n1 PCI-e 2.0 x1 slot kan tegelijkertijd gebruikt worden',"
-				+ " u'\\r\\nDe SATA5 and SATA6 poorten worden uitgeschakeld indien het M.2 slot in gebruikt is.',"
 				+ "'Socket':'1151',"
 				+ "'Verbinding (USB/FW)':'8x USB 2.0, 6x USB 3.0',"
 				+ "'Raid-modi':'0, 1, 1E, 5, 10',"
@@ -148,7 +146,7 @@ public class Main {
 				+ "'Form Factor':'Micro-ATX (\\xb5ATX)',"
 				+ "'BIOS of UEFI':'UEFI',"
 				+ "'Dual of Single BIOS/UEFI':'Single',"
-				+ "'Audio kanalen':'8 (7.1)'";
+				+ "'Audio kanalen':'8 (7.1)'}";
 
 		a.add(CPU);
 		a.add(GPU);
