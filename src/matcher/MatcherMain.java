@@ -2,7 +2,10 @@ package matcher;
 
 import java.util.ArrayList;
 
+import parsing.FilterString;
+
 import com.google.gson.Gson;
+
 import components.CASE;
 import components.CPU;
 import components.GPU;
@@ -35,13 +38,18 @@ public class MatcherMain {
 		Motherboard mb = new Motherboard();
 		GPU gpu = new GPU();
 		Memory ram = new Memory();
-		
 		mb = (Motherboard) components.get(7);
 		
-		String motherboardSocket = mb.getSocket();
-		String motherboardGeheugenType = mb.getGeheugentype();
-		String motherboardCardInterface = mb.getCardinterface();
-
+		FilterString filter = new FilterString();
+		MatcherMotherboardCompatibility matchMobo = new MatcherMotherboardCompatibility();
+		
+		String EAN = filter.splitByCommas(mb.getEan())[0];									//Ean to select the thing
+		String motherboardSocket = mb.getSocket();					//Staat goed
+		String motherboardGeheugenType = filter.filterStringOnDdrType(mb.getGeheugentype());		//Gefilterd
+		String[] motherboardCardInterface = filter.splitByCommas(mb.getCardinterface()); //Array with card interfaces
+		
+		
+		matchMobo.matchRamBasedOnMobo(motherboardGeheugenType, EAN);
 	}
 
 	public ArrayList getNodesByInput(ArrayList components){

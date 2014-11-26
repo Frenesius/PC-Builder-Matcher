@@ -28,7 +28,7 @@ public class Main {
 	    List list;
 	    ArrayList arr = new ArrayList();
 	    arr = a.getAllNodes(b);
-	    
+	    a.closeNeo4jDatabase(b);
 	    
 		/*Case:
 	    *	1 Krijg een arraylist van mo
@@ -56,7 +56,7 @@ public class Main {
 	     * 3 Matcher
 	     * 	Moet onderdelen matchen
 	     */
-	    matchedComponents.hashCode();
+	    matcher.matchFromMotherboard(matchedComponents);
 	    int asd =1 ;
 	    
 	}
