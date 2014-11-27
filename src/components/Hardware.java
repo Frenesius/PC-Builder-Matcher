@@ -18,11 +18,17 @@ public class Hardware {
 	String aantalcores;
 	String hardwaresort;
 	Boolean isEmpty;
+	Boolean isMatched;
 	
 	
 	
 	
-	
+	public Boolean getIsMatched() {
+		return isMatched;
+	}
+	public void setIsMatched(Boolean isMatched) {
+		this.isMatched = isMatched;
+	}
 	public Boolean getIsEmpty() {
 		return isEmpty;
 	}

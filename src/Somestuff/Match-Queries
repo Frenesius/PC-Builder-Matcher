@@ -1,4 +1,4 @@
-// MATCH A MOBO WITH THE CPU BASED ON SOCKET
+// MATCH A MOBO WITH THE CPU BASED ON SOCKET (Needs optimizing to a single query)
 	MATCH (n)-->(c)-->(h), (x)-->(y)-->(h)
 	WHERE n.EAN = '0884962471586, 4948382686046' AND y.Label = 'MOTHERBOARD' AND x.Socket = n.Socket
 	RETURN n, x
@@ -7,7 +7,11 @@
 //	MATCH A MOBO WITH THE GPU THAT IS SELECTED
 
 	
-
+// MATCH A MEMORY THAT IS COMPATIBLE WITH MOBO
+	MATCH (ram:MEMORY)  
+	WHERE ram.Geheugentype =~ '.*(?i)DDRTYPE.*' 
+	RETURN ram 
+	LIMIT 10;
 
 
 

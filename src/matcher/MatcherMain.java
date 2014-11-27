@@ -43,17 +43,19 @@ public class MatcherMain {
 		FilterString filter = new FilterString();
 		MatcherMotherboardCompatibility matchMobo = new MatcherMotherboardCompatibility();
 		
-		String EAN = filter.splitByCommas(mb.getEan())[0];									//Ean to select the thing
-		String motherboardSocket = mb.getSocket();					//Staat goed
+		String EAN = filter.splitByCommas(mb.getEan())[0];											//Ean to select the thing
+		String motherboardSocket = mb.getSocket();													//Staat goed
 		String motherboardGeheugenType = filter.filterStringOnDdrType(mb.getGeheugentype());		//Gefilterd
-		String[] motherboardCardInterface = filter.splitByCommas(mb.getCardinterface()); //Array with card interfaces
+		String[] temparr = filter.filterWhitespaceToCardInterface(filter.splitByCommas(mb.getCardinterface()));
+		String motherboardCardInterface = temparr[temparr.length-1];
+
+		ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
+		cpu = matchMobo.matchCpuBasedOnMobo(motherboardSocket);
+		gpu = matchMobo.matchGpuBasedOnMobo(motherboardCardInterface);
 		
-		
-		matchMobo.matchRamBasedOnMobo(motherboardGeheugenType, EAN);
 	}
 
 	public ArrayList getNodesByInput(ArrayList components){
-		
 		Gson gson = new Gson();
 		ArrayList componentsObjects = new ArrayList();
 		for(int i = 0; i<components.size(); i++){
