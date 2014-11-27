@@ -57,7 +57,7 @@ public class Neo4jManager {
 		return nodeArr;
 	}
 	
-	public void openConnectionRest(){
+	public void openConnectionRest(){			
 		WebResource resource = Client.create()
 		        .resource(SERVER_ROOT_URI);
 		ClientResponse response = resource.get(ClientResponse.class);

@@ -1,0 +1,23 @@
+//Get newest prices by ean	
+	SELECT ean, shopname, delivery, priceex, priceinc, linkshop, max(timestamp)
+	FROM hardwareprice.hardwareprice
+	WHERE ean = '4716659030010'
+	GROUP BY shopname;
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

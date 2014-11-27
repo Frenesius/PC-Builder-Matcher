@@ -1,5 +1,6 @@
 package main;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,11 +12,11 @@ import databasemanager.Neo4jManager;
 
 public class Main {
 
-	public static void main(String[] args){
+	public static void main(String[] args) throws SQLException{
 		Main main = new Main();
 	    main.testMatcher();
 	}
-	public void testMatcher(){
+	public void testMatcher() throws SQLException{
 		//Connections and objects
 		Main main = new Main();
 		Neo4jManager a = new Neo4jManager();

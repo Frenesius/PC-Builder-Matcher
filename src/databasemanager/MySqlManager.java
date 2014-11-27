@@ -24,15 +24,18 @@ public class MySqlManager {
 		return myConn;
 	}
 	
-	public void executeQueryMySql(Connection mysqlConnection){
-		String query = "SELECT * FROM hardwareprice.hardwareprice;";
+	public ResultSet executeQueryMySql(Connection mysqlConnection, String query){
+		ResultSet c = null;
 		try {
 			Statement myStmt = mysqlConnection.createStatement();
 			myStmt.execute(query);
-			ResultSet c = myStmt.getResultSet();
-			System.out.println(c.toString());
+			c = myStmt.getResultSet();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return c;
 	}
+	
+	
 }

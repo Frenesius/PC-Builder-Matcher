@@ -16,13 +16,48 @@ public class Hardware {
 	String thermaldesignpower;
 	String url;
 	String aantalcores;
+	
 	String hardwaresort;
 	Boolean isEmpty;
 	Boolean isMatched;
 	
-	
-	
-	
+
+	String priceinc;
+	String priceex;
+	String linkshop;
+	String timestamp;
+	String delivery;
+	String shopname;
+	public String getShopname() {
+		return shopname;
+	}
+	public void setShopname(String shopname) {
+		this.shopname = shopname;
+	}
+	public String getPriceinc() {
+		return priceinc;
+	}
+	public void setPriceinc(String priceinc) {
+		this.priceinc = priceinc;
+	}
+	public String getPriceex() {
+		return priceex;
+	}
+	public void setPriceex(String priceex) {
+		this.priceex = priceex;
+	}
+	public String getLinkshop() {
+		return linkshop;
+	}
+	public void setLinkshop(String linkshop) {
+		this.linkshop = linkshop;
+	}
+	public String getTimestamp() {
+		return timestamp;
+	}
+	public void setTimestamp(String timestamp) {
+		this.timestamp = timestamp;
+	}
 	public Boolean getIsMatched() {
 		return isMatched;
 	}
@@ -130,6 +165,12 @@ public class Hardware {
 	}
 	public void setHardwaresort(String hardwaresort) {
 		this.hardwaresort = hardwaresort;
+	}
+	public String getDelivery() {
+		return delivery;
+	}
+	public void setDelivery(String delivery) {
+		this.delivery = delivery;
 	}
 
 	

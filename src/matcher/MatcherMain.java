@@ -1,5 +1,6 @@
 package matcher;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import parsing.FilterString;
@@ -33,7 +34,11 @@ public class MatcherMain {
 	 * arr[8] = Opticaldrive
 	 * arr[9] = Soundcard	
 	 */
-	public void matchFromMotherboard(ArrayList components){
+	public void matchFromMotherboard(ArrayList components) throws SQLException{
+		/*
+		 * ArrayList must contain a motherboard
+		 * Checks and adds
+		 */
 		CPU cpu = new CPU();
 		Motherboard mb = new Motherboard();
 		GPU gpu = new GPU();
@@ -49,10 +54,14 @@ public class MatcherMain {
 		String[] temparr = filter.filterWhitespaceToCardInterface(filter.splitByCommas(mb.getCardinterface()));
 		String motherboardCardInterface = temparr[temparr.length-1];
 
-		ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
-		cpu = matchMobo.matchCpuBasedOnMobo(motherboardSocket);
+		//ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
+		//cpu = matchMobo.matchCpuBasedOnMobo(motherboardSocket);
 		gpu = matchMobo.matchGpuBasedOnMobo(motherboardCardInterface);
 		
+		components.clear();
+		components.add(0, cpu);
+		components.add(1, gpu);
+		components.add(2, ram);
 	}
 
 	public ArrayList getNodesByInput(ArrayList components){
