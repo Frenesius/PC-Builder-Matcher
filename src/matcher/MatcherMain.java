@@ -53,9 +53,11 @@ public class MatcherMain {
 		String motherboardGeheugenType = filter.filterStringOnDdrType(mb.getGeheugentype());		//Gefilterd
 		String[] temparr = filter.filterWhitespaceToCardInterface(filter.splitByCommas(mb.getCardinterface()));
 		String motherboardCardInterface = temparr[temparr.length-1];
-
-		//ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
-		//cpu = matchMobo.matchCpuBasedOnMobo(motherboardSocket);
+//		Thread t1 = new Thread(new Runnable() {public void run() {
+//			ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
+//		}});  
+//		t1.start();
+		cpu = matchMobo.matchCpuBasedOnMobo(motherboardSocket);
 		gpu = matchMobo.matchGpuBasedOnMobo(motherboardCardInterface);
 		
 		components.clear();
