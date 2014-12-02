@@ -21,7 +21,6 @@ import components.Soundcard;
 public class MatcherMain {
 	/*
 	 * When matching always fallback to Motherboard.
-	 * 
 	 * Array with components
 	 * arr[0] = CPU	
 	 * arr[1] = GPU
@@ -34,18 +33,25 @@ public class MatcherMain {
 	 * arr[8] = Opticaldrive
 	 * arr[9] = Soundcard	
 	 */
-	public void matchFromMotherboard(ArrayList components) throws SQLException{
+	public ArrayList matchFromMotherboard(ArrayList components) throws SQLException{
 		/*
 		 * ArrayList must contain a motherboard
 		 * Checks and adds
 		 */
 		CPU cpu = new CPU();
-		Motherboard mb = new Motherboard();
 		GPU gpu = new GPU();
 		Memory ram = new Memory();
+		HDD hdd = new HDD();
+		SSD ssd = new SSD();
+		PSU psu = new PSU();
+		CASE computerCase = new CASE();
+		Motherboard mb = new Motherboard();
+		OpticalDrive opt = new OpticalDrive();
+		Soundcard soundcard = new Soundcard();
+		FilterString filter = new FilterString();
+		
 		mb = (Motherboard) components.get(7);
 		
-		FilterString filter = new FilterString();
 		MatcherMotherboardCompatibility matchMobo = new MatcherMotherboardCompatibility();
 		
 		String EAN = filter.splitByCommas(mb.getEan())[0];											//Ean to select the thing
@@ -53,17 +59,25 @@ public class MatcherMain {
 		String motherboardGeheugenType = filter.filterStringOnDdrType(mb.getGeheugentype());		//Gefilterd
 		String[] temparr = filter.filterWhitespaceToCardInterface(filter.splitByCommas(mb.getCardinterface()));
 		String motherboardCardInterface = temparr[temparr.length-1];
-//		Thread t1 = new Thread(new Runnable() {public void run() {
-//			ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
-//		}});  
-//		t1.start();
+		
+		ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
 		cpu = matchMobo.matchCpuBasedOnMobo(motherboardSocket);
 		gpu = matchMobo.matchGpuBasedOnMobo(motherboardCardInterface);
 		
+		//Fills the List up
 		components.clear();
 		components.add(0, cpu);
 		components.add(1, gpu);
 		components.add(2, ram);
+		components.add(3, hdd);
+		components.add(4, ssd);
+		components.add(5, psu);
+		components.add(6, computerCase);
+		components.add(7, mb);
+		components.add(8, opt);
+		components.add(9, soundcard);
+		
+		return components;
 	}
 
 	public ArrayList getNodesByInput(ArrayList components){

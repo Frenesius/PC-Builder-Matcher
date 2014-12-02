@@ -57,9 +57,10 @@ public class Main {
 	     * 3 Matcher
 	     * 	Moet onderdelen matchen
 	     */
-	    matcher.matchFromMotherboard(matchedComponents);
-	    int asd =1 ;
-	    
+	    ArrayList matchedHardware = new ArrayList();
+	    matchedHardware = matcher.matchFromMotherboard(matchedComponents);
+	    String aasd = "s";
+	    aasd.isEmpty();
 	}
 	public ArrayList inputWebserverCPU(){
 		ArrayList a = new ArrayList();
