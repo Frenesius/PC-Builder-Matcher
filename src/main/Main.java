@@ -26,7 +26,6 @@ public class Main {
 	    
 	    //Lists
 	    
-	    List list;
 	    ArrayList arr = new ArrayList();
 	    arr = a.getAllNodes(b);
 	    a.closeNeo4jDatabase(b);
@@ -59,10 +58,16 @@ public class Main {
 	     */
 	    ArrayList matchedHardware = new ArrayList();
 	    matchedHardware = matcher.matchFromMotherboard(matchedComponents);
+	    
+	    
 	    String aasd = "s";
 	    aasd.isEmpty();
 	}
+	
+	
+	//Ignore below this line
 	public ArrayList inputWebserverCPU(){
+		//Possible input from webserver
 		ArrayList a = new ArrayList();
 		String CPU = null;
 		String GPU = null;
@@ -104,6 +109,7 @@ public class Main {
 		return a;
 	}
 	public ArrayList inputWebserverMotherboard(){
+		//Possible input from webserver
 		ArrayList a = new ArrayList();
 		String CPU = null;
 		String GPU = null;

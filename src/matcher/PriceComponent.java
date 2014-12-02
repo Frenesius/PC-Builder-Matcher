@@ -13,53 +13,41 @@ public class PriceComponent {
 	PriceComponent() throws SQLException{
 		this.mysqlManager = new MySqlManager();
 		this.mysqlConn = mysqlManager.connectDB();
-	}
-	public ResultSet getPricesByComponentEan(String EAN){
-		String query = "SELECT ean, shopname, delivery, priceex, priceinc, linkshop, max(timestamp) "
-					 + "FROM hardwareprice.hardwareprice "
-					 + "WHERE ean = '"+EAN+"' "
-					 + "GROUP BY shopname;";
-		ResultSet rs = this.mysqlManager.executeQueryMySql(this.mysqlConn, query);
-		return rs;
-	}
+		}
+
 	public ArrayList getPricesByComponent(ArrayList component){
 		ArrayList newComponentList = new ArrayList();
 		for(int i = 0;i<component.size();i++){
-			Hardware h = (Hardware) component.get(i);
-			ResultSet rs  = this.getPricesByComponentEan(h.getEan());
+			Hardware hardware = (Hardware) component.get(i);
+			ResultSet rs  = mysqlManager.getPricesByComponentEan(this.mysqlConn, hardware.getEan());
 			try {
 				if(rs.next()){
-					//System.out.println("=============================");
-					h.setEan(rs.getString(rs.findColumn("ean")));
-					h.setShopname(rs.getString(rs.findColumn("shopname")));
-					h.setDelivery(rs.getString(rs.findColumn("delivery")));
-					h.setPriceex(rs.getString(rs.findColumn("priceex")));
-					h.setPriceinc(rs.getString(rs.findColumn("priceinc")));
-					h.setLinkshop(rs.getString(rs.findColumn("linkshop")));
-					h.setTimestamp((rs.getString(rs.findColumn("max(timestamp)"))));
+					hardware.setEan(rs.getString(rs.findColumn("ean")));
+					hardware.setShopname(rs.getString(rs.findColumn("shopname")));
+					hardware.setDelivery(rs.getString(rs.findColumn("delivery")));
+					hardware.setPriceex(rs.getString(rs.findColumn("priceex")));
+					hardware.setPriceinc(rs.getString(rs.findColumn("priceinc")));
+					hardware.setLinkshop(rs.getString(rs.findColumn("linkshop")));
+					hardware.setTimestamp((rs.getString(rs.findColumn("max(timestamp)"))));
 				}
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			newComponentList.add(h);
+			}catch(SQLException e){e.printStackTrace();}
+			newComponentList.add(hardware);
 		}
 		return newComponentList;
 	}
 	public Hardware comparePricesFromComponentArray(ArrayList component){
-		float smallestNumber = 100;
+		float lowstPrice = 100;
 		int cheapestIndex = 0;
 		for(int i = 0; i<component.size();i++){
 			Hardware h = (Hardware) component.get(i);
-			float f = 0;
+			float price = 0;
 			try{
-				f = Float.parseFloat(h.getPriceex());
-				if(f<smallestNumber){
-					smallestNumber = f;
+				price = Float.parseFloat(h.getPriceex());
+				if(price<lowstPrice){
+					lowstPrice = price;
 					cheapestIndex = i;
 				}
-			}catch(Exception e){
-			}
+			}catch(Exception e){continue;}
 		}
 		return (Hardware) component.get(cheapestIndex);
 	}

@@ -33,10 +33,10 @@ public class MatcherMain {
 	 * arr[8] = Opticaldrive
 	 * arr[9] = Soundcard	
 	 */
-	public ArrayList matchFromMotherboard(ArrayList components) throws SQLException{
+	public ArrayList matchFromMotherboard(ArrayList componentsList) throws SQLException{
 		/*
-		 * ArrayList must contain a motherboard
-		 * Checks and adds
+		 * Matches CPU,GPU and RAM when you have Motherboard as input.
+		 * !!Motherboard needs to be on row 7.
 		 */
 		CPU cpu = new CPU();
 		GPU gpu = new GPU();
@@ -45,19 +45,19 @@ public class MatcherMain {
 		SSD ssd = new SSD();
 		PSU psu = new PSU();
 		CASE computerCase = new CASE();
-		Motherboard mb = new Motherboard();
+		Motherboard motherboard = new Motherboard();
 		OpticalDrive opt = new OpticalDrive();
 		Soundcard soundcard = new Soundcard();
 		FilterString filter = new FilterString();
 		
-		mb = (Motherboard) components.get(7);
+		motherboard = (Motherboard) componentsList.get(7);
 		
 		MatcherMotherboardCompatibility matchMobo = new MatcherMotherboardCompatibility();
 		
-		String EAN = filter.splitByCommas(mb.getEan())[0];											//Ean to select the thing
-		String motherboardSocket = mb.getSocket();													//Staat goed
-		String motherboardGeheugenType = filter.filterStringOnDdrType(mb.getGeheugentype());		//Gefilterd
-		String[] temparr = filter.filterWhitespaceToCardInterface(filter.splitByCommas(mb.getCardinterface()));
+		String EAN = filter.splitByCommas(motherboard.getEan())[0];														//Ean to select the thing
+		String motherboardSocket = motherboard.getSocket();																//Staat goed
+		String motherboardGeheugenType = filter.filterStringOnDdrType(motherboard.getGeheugentype());					//Gefilterd
+		String[] temparr = filter.filterWhitespaceToCardInterface(filter.splitByCommas(motherboard.getCardinterface()));
 		String motherboardCardInterface = temparr[temparr.length-1];
 		
 		ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
@@ -65,38 +65,42 @@ public class MatcherMain {
 		gpu = matchMobo.matchGpuBasedOnMobo(motherboardCardInterface);
 		
 		//Fills the List up
-		components.clear();
-		components.add(0, cpu);
-		components.add(1, gpu);
-		components.add(2, ram);
-		components.add(3, hdd);
-		components.add(4, ssd);
-		components.add(5, psu);
-		components.add(6, computerCase);
-		components.add(7, mb);
-		components.add(8, opt);
-		components.add(9, soundcard);
+		componentsList.clear();
+		componentsList.add(0, cpu);
+		componentsList.add(1, gpu);
+		componentsList.add(2, ram);
+		componentsList.add(3, hdd);
+		componentsList.add(4, ssd);
+		componentsList.add(5, psu);
+		componentsList.add(6, computerCase);
+		componentsList.add(7, motherboard);
+		componentsList.add(8, opt);
+		componentsList.add(9, soundcard);
 		
-		return components;
+		return componentsList;
 	}
 
-	public ArrayList getNodesByInput(ArrayList components){
+	public ArrayList getNodesByInput(ArrayList componentsList){
+		/* 
+		 * Gets the JSON file from the web server input.
+		 * Parses the JSON to objects.
+		 */
 		Gson gson = new Gson();
 		ArrayList componentsObjects = new ArrayList();
-		for(int i = 0; i<components.size(); i++){
-			String part = (String) components.get(i);
-			if(part != null)
-				part = part.toLowerCase();
+		for(int i = 0; i<componentsList.size(); i++){
+			String componentsJSON = (String) componentsList.get(i);
+			if(componentsJSON != null)
+				componentsJSON = componentsJSON.toLowerCase();
 				try{
-					part = part.replaceAll("\\s","").toLowerCase();			
-					part = part.replaceAll("\\(moederbord\\)","").toLowerCase();
+					componentsJSON = componentsJSON.replaceAll("\\s","").toLowerCase();			
+					componentsJSON = componentsJSON.replaceAll("\\(moederbord\\)","").toLowerCase();
 				}catch(Exception e ){}
 				
 			switch(i){
 			case 0:	//CPU
 				CPU cpu = new CPU();
-				if(part != null){
-					cpu = gson.fromJson(part, CPU.class);					
+				if(componentsJSON != null){
+					cpu = gson.fromJson(componentsJSON, CPU.class);					
 					cpu.setIsEmpty(false);
 				}else{cpu.setIsEmpty(true);}
 				cpu.setHardwaresort("cpu");
@@ -104,8 +108,8 @@ public class MatcherMain {
 				break;
 			case 1:	//GPU
 				GPU gpu = new GPU();
-				if(part != null){
-					gpu = gson.fromJson(part, GPU.class);					
+				if(componentsJSON != null){
+					gpu = gson.fromJson(componentsJSON, GPU.class);					
 					gpu.setIsEmpty(false);
 				}else{gpu.setIsEmpty(true);}
 				gpu.setHardwaresort("gpu");
@@ -113,8 +117,8 @@ public class MatcherMain {
 				break;
 			case 2:	//MEMORY
 				Memory ram = new Memory();
-				if(part != null){
-					ram = gson.fromJson(part, Memory.class);					
+				if(componentsJSON != null){
+					ram = gson.fromJson(componentsJSON, Memory.class);					
 					ram.setIsEmpty(false);
 				}else{ram.setIsEmpty(true);}
 				ram.setHardwaresort("memory");
@@ -122,8 +126,8 @@ public class MatcherMain {
 				break;
 			case 3:	//HDD
 				HDD hdd = new HDD();
-				if(part != null){
-					hdd = gson.fromJson(part, HDD.class);					
+				if(componentsJSON != null){
+					hdd = gson.fromJson(componentsJSON, HDD.class);					
 					hdd.setIsEmpty(false);
 				}else{hdd.setIsEmpty(true);}
 				hdd.setHardwaresort("hdd");
@@ -131,8 +135,8 @@ public class MatcherMain {
 				break;
 			case 4:	//SSD
 				SSD ssd = new SSD();
-				if(part != null){
-					ssd = gson.fromJson(part, SSD.class);					
+				if(componentsJSON != null){
+					ssd = gson.fromJson(componentsJSON, SSD.class);					
 					ssd.setIsEmpty(false);
 				}else{ssd.setIsEmpty(true);}
 				ssd.setHardwaresort("ssd");
@@ -140,8 +144,8 @@ public class MatcherMain {
 				break;
 			case 5:	//PSU
 				PSU psu = new PSU();
-				if(part != null){
-					psu = gson.fromJson(part, PSU.class);
+				if(componentsJSON != null){
+					psu = gson.fromJson(componentsJSON, PSU.class);
 					psu.setIsEmpty(false);
 				}else{psu.setIsEmpty(true);}				
 				psu.setHardwaresort("psu");
@@ -149,26 +153,26 @@ public class MatcherMain {
 				break;
 			case 6:	//CASE
 				CASE casepc = new CASE();
-				if(part != null){
-					casepc = gson.fromJson(part, CASE.class);
+				if(componentsJSON != null){
+					casepc = gson.fromJson(componentsJSON, CASE.class);
 					casepc.setIsEmpty(false);
 				}else{casepc.setIsEmpty(true);}
 				casepc.setHardwaresort("case");
 				componentsObjects.add(casepc);
 				break;
 			case 7:	//Motherboard
-				Motherboard mobo = new Motherboard();
-				if(part != null){
-					mobo = gson.fromJson(part, Motherboard.class);
-					mobo.setIsEmpty(false);
-				}else{mobo.setIsEmpty(true);}
-				mobo.setHardwaresort("motherboard");
-				componentsObjects.add(mobo);
+				Motherboard motherboard = new Motherboard();
+				if(componentsJSON != null){
+					motherboard = gson.fromJson(componentsJSON, Motherboard.class);
+					motherboard.setIsEmpty(false);
+				}else{motherboard.setIsEmpty(true);}
+				motherboard.setHardwaresort("motherboard");
+				componentsObjects.add(motherboard);
 				break;
 			case 8:	//OpticalDrive
 				OpticalDrive opt = new OpticalDrive();
-				if(part != null){
-					opt = gson.fromJson(part, OpticalDrive.class);
+				if(componentsJSON != null){
+					opt = gson.fromJson(componentsJSON, OpticalDrive.class);
 					opt.setIsEmpty(false);
 				}else{opt.setIsEmpty(true);}
 				opt.setHardwaresort("opticaldrive");
@@ -176,8 +180,8 @@ public class MatcherMain {
 				break;
 			case 9:	//Soundcard
 				Soundcard soundcard = new Soundcard();
-				if(part != null){
-					soundcard = gson.fromJson(part, Soundcard.class);
+				if(componentsJSON != null){
+					soundcard = gson.fromJson(componentsJSON, Soundcard.class);
 					soundcard.setIsEmpty(false);
 				}else{soundcard.setIsEmpty(true);}
 				soundcard.setHardwaresort("soundcard");
