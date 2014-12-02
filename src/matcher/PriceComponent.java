@@ -4,17 +4,29 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.neo4j.graphdb.GraphDatabaseService;
+
 import components.Hardware;
+
 import databasemanager.MySqlManager;
+import databasemanager.Neo4jManager;
 
 public class PriceComponent {
 	MySqlManager mysqlManager;
 	Connection mysqlConn;
+	Neo4jManager neo4jManager;
+	
 	PriceComponent() throws SQLException{
 		this.mysqlManager = new MySqlManager();
 		this.mysqlConn = mysqlManager.connectDB();
-		}
-
+		this.neo4jManager = new Neo4jManager();
+	}
+	public Hardware getCheapestMotherboard(GraphDatabaseService db, String cypherQuery){
+		ArrayList tempArray = this.neo4jManager.executeQueryNeo4j(db, cypherQuery);
+		tempArray = this.getPricesByComponent(tempArray);
+		Hardware cheapestHardware = this.comparePricesFromComponentArray(tempArray);
+		return cheapestHardware;
+	}
 	public ArrayList getPricesByComponent(ArrayList component){
 		ArrayList newComponentList = new ArrayList();
 		for(int i = 0;i<component.size();i++){
