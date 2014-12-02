@@ -33,6 +33,8 @@ public class MatcherMain {
 	 * arr[8] = Opticaldrive
 	 * arr[9] = Soundcard	
 	 */
+	FilterString filter = new FilterString();
+	
 	public ArrayList matchFromMotherboard(ArrayList componentsList) throws SQLException{
 		/*
 		 * Matches CPU,GPU and RAM when you have Motherboard as input.
@@ -48,16 +50,16 @@ public class MatcherMain {
 		Motherboard motherboard = new Motherboard();
 		OpticalDrive opt = new OpticalDrive();
 		Soundcard soundcard = new Soundcard();
-		FilterString filter = new FilterString();
+		
 		
 		motherboard = (Motherboard) componentsList.get(7);
 		
 		MatcherMotherboardCompatibility matchMobo = new MatcherMotherboardCompatibility();
 		
-		String EAN = filter.splitByCommas(motherboard.getEan())[0];														//Ean to select the thing
+		String EAN = this.filter.splitByCommas(motherboard.getEan())[0];														//Ean to select the thing
 		String motherboardSocket = motherboard.getSocket();																//Staat goed
 		String motherboardGeheugenType = filter.filterStringOnDdrType(motherboard.getGeheugentype());					//Gefilterd
-		String[] temparr = filter.filterWhitespaceToCardInterface(filter.splitByCommas(motherboard.getCardinterface()));
+		String[] temparr = this.filter.filterWhitespaceToCardInterface(this.filter.splitByCommas(motherboard.getCardinterface()));
 		String motherboardCardInterface = temparr[temparr.length-1];
 		
 		ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
@@ -79,8 +81,68 @@ public class MatcherMain {
 		
 		return componentsList;
 	}
+//===========================================================
+	public void matchMoboFromCPU(ArrayList componentsList){
+		CPU cpu = (CPU) componentsList.get(0);
+		
+		String cpuSocket = cpu.getSocket();
+	}
+	public void matchMoboFromGPU(ArrayList componentsList){
+		GPU gpu = (GPU) componentsList.get(1);
+		Memory ram = (Memory) componentsList.get(2);
+		
+		String[] temparr = this.filter.filterWhitespaceToCardInterface(this.filter.splitByCommas(gpu.getCardinterfacevideo()));
+		
+		String gpuSlot = temparr[temparr.length-1];
+		String ramType = filter.filterStringOnDdrType(ram.getGeheugentype());
+	}
+	public void matchMoboFromRAM(ArrayList componentsList){
+		Memory ram = (Memory) componentsList.get(2);
+	
+		String ramType = filter.filterStringOnDdrType(ram.getGeheugentype());
+	}
 
-	public ArrayList getNodesByInput(ArrayList componentsList){
+	public void matchMoboFromCPUandGPU(ArrayList componentsList){
+		CPU cpu = (CPU) componentsList.get(0);
+		GPU gpu = (GPU) componentsList.get(1);
+		
+		String[] temparr = this.filter.filterWhitespaceToCardInterface(this.filter.splitByCommas(gpu.getCardinterfacevideo()));
+		
+		String gpuSlot = temparr[temparr.length-1];
+		String cpuSocket = cpu.getSocket();
+		
+	}
+	public void matchMoboFromCPUandRAM(ArrayList componentsList){
+		CPU cpu = (CPU) componentsList.get(0);
+		Memory ram = (Memory) componentsList.get(2);
+		
+		String cpuSocket = cpu.getSocket();
+		String ramType = filter.filterStringOnDdrType(ram.getGeheugentype());
+	}
+	public void matchMoboFromCPUandGPUandRAM(ArrayList componentsList){
+		CPU cpu = (CPU) componentsList.get(0);
+		GPU gpu = (GPU) componentsList.get(1);
+		Memory ram = (Memory) componentsList.get(2);
+	
+		String[] temparr = this.filter.filterWhitespaceToCardInterface(this.filter.splitByCommas(gpu.getCardinterfacevideo()));
+		
+		String cpuSocket = cpu.getSocket();
+		String gpuSlot = temparr[temparr.length-1];
+		String ramType = filter.filterStringOnDdrType(ram.getGeheugentype());
+	}
+
+	public void matchMoboFromGPUandRAM(ArrayList componentsList){
+		GPU gpu = (GPU) componentsList.get(1);
+		Memory ram = (Memory) componentsList.get(2);
+		
+		String[] temparr = this.filter.filterWhitespaceToCardInterface(this.filter.splitByCommas(gpu.getCardinterfacevideo()));
+		
+		String gpuSlot = temparr[temparr.length-1];
+		String ramType = filter.filterStringOnDdrType(ram.getGeheugentype());
+	}
+//===========================================================
+	
+	public ArrayList getHardwareByInput(ArrayList componentsList){
 		/* 
 		 * Gets the JSON file from the web server input.
 		 * Parses the JSON to objects.
@@ -191,9 +253,6 @@ public class MatcherMain {
 		}
 		return componentsObjects;
 	}
-	
 	public void niks(){}
-
-
 }
 

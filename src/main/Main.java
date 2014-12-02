@@ -50,7 +50,7 @@ public class Main {
 	    /*	2 Haalt op wat meegegeven is en parsed het in objecten. 
 	    *	null betekend dat onderdeel niet meegegeven is
 	    */
-	    ArrayList matchedComponents = matcher.getNodesByInput(webInput);
+	    ArrayList matchedComponents = matcher.getHardwareByInput(webInput);
 	    
 	    /*
 	     * 3 Matcher
@@ -58,8 +58,6 @@ public class Main {
 	     */
 	    ArrayList matchedHardware = new ArrayList();
 	    matchedHardware = matcher.matchFromMotherboard(matchedComponents);
-	    
-	    
 	    String aasd = "s";
 	    aasd.isEmpty();
 	}

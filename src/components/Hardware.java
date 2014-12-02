@@ -9,42 +9,49 @@ public class Hardware {
 	String eersteprijsvermelding;
 	String merk;
 	String uitvoering;
-	String snelheid;
-	String cpucachelevel3;
-	String socket;
-	String procestechnologie;
-	String thermaldesignpower;
 	String url;
 	String aantalcores;
 	
+	String shopname;
+	String delivery;
+	String priceex;
+	String priceinc;
+	String linkshop;
+	String timestamp;
 	String hardwaresort;
+	
 	Boolean isEmpty;
 	Boolean isMatched;
 	
-
-	String priceinc;
-	String priceex;
-	String linkshop;
-	String timestamp;
-	String delivery;
-	String shopname;
+	public Boolean getIsMatched() {
+		return isMatched;
+	}
+	public void setIsMatched(Boolean isMatched) {
+		this.isMatched = isMatched;
+	}
 	public String getShopname() {
 		return shopname;
 	}
 	public void setShopname(String shopname) {
 		this.shopname = shopname;
 	}
-	public String getPriceinc() {
-		return priceinc;
+	public String getDelivery() {
+		return delivery;
 	}
-	public void setPriceinc(String priceinc) {
-		this.priceinc = priceinc;
+	public void setDelivery(String delivery) {
+		this.delivery = delivery;
 	}
 	public String getPriceex() {
 		return priceex;
 	}
 	public void setPriceex(String priceex) {
 		this.priceex = priceex;
+	}
+	public String getPriceinc() {
+		return priceinc;
+	}
+	public void setPriceinc(String priceinc) {
+		this.priceinc = priceinc;
 	}
 	public String getLinkshop() {
 		return linkshop;
@@ -57,18 +64,6 @@ public class Hardware {
 	}
 	public void setTimestamp(String timestamp) {
 		this.timestamp = timestamp;
-	}
-	public Boolean getIsMatched() {
-		return isMatched;
-	}
-	public void setIsMatched(Boolean isMatched) {
-		this.isMatched = isMatched;
-	}
-	public Boolean getIsEmpty() {
-		return isEmpty;
-	}
-	public void setIsEmpty(Boolean isEmpty) {
-		this.isEmpty = isEmpty;
 	}
 	public String getSku() {
 		return sku;
@@ -118,36 +113,6 @@ public class Hardware {
 	public void setUitvoering(String uitvoering) {
 		this.uitvoering = uitvoering;
 	}
-	public String getSnelheid() {
-		return snelheid;
-	}
-	public void setSnelheid(String snelheid) {
-		this.snelheid = snelheid;
-	}
-	public String getCpucachelevel3() {
-		return cpucachelevel3;
-	}
-	public void setCpucachelevel3(String cpucachelevel3) {
-		this.cpucachelevel3 = cpucachelevel3;
-	}
-	public String getSocket() {
-		return socket;
-	}
-	public void setSocket(String socket) {
-		this.socket = socket;
-	}
-	public String getProcestechnologie() {
-		return procestechnologie;
-	}
-	public void setProcestechnologie(String procestechnologie) {
-		this.procestechnologie = procestechnologie;
-	}
-	public String getThermaldesignpower() {
-		return thermaldesignpower;
-	}
-	public void setThermaldesignpower(String thermaldesignpower) {
-		this.thermaldesignpower = thermaldesignpower;
-	}
 	public String getUrl() {
 		return url;
 	}
@@ -166,12 +131,11 @@ public class Hardware {
 	public void setHardwaresort(String hardwaresort) {
 		this.hardwaresort = hardwaresort;
 	}
-	public String getDelivery() {
-		return delivery;
+	public Boolean getIsEmpty() {
+		return isEmpty;
 	}
-	public void setDelivery(String delivery) {
-		this.delivery = delivery;
+	public void setIsEmpty(Boolean isEmpty) {
+		this.isEmpty = isEmpty;
 	}
-
 	
 }
