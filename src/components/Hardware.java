@@ -10,7 +10,7 @@ public class Hardware {
 	String merk;
 	String uitvoering;
 	String url;
-	String aantalcores;
+
 	
 	String shopname;
 	String delivery;
@@ -118,12 +118,6 @@ public class Hardware {
 	}
 	public void setUrl(String url) {
 		this.url = url;
-	}
-	public String getAantalcores() {
-		return aantalcores;
-	}
-	public void setAantalcores(String aantalcores) {
-		this.aantalcores = aantalcores;
 	}
 	public String getHardwaresort() {
 		return hardwaresort;

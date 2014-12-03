@@ -36,6 +36,10 @@ public class MatcherMotherboardCompatibility {
 		String query = "MATCH (n:GRAPHICSCARD) "
 				     + "WHERE n.`Card Interface (Video)` =~ '.*(?i)"+motherboardCardInterface+".*' "
 					 + "RETURN n;";
+		
+		
+		
+		
 		ArrayList matches = this.neo4j.executeQueryNeo4j(this.db, query);
 		if(matches.size()>0){
 			matches = priceComponent.getPricesByComponent(parseHw.parseQueryToGPUObject(this.db, matches));

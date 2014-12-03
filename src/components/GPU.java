@@ -8,7 +8,7 @@ public class GPU extends Hardware{
 	String openglversie;
 	String typekoeling;
 	String aantalslots;
-	String cardinterfacevideo;;			//origineel Card Interface (Video)
+	String cardinterfacevideo;			//origineel Card Interface (Video)
 	String geheugentypevideokaarten;	//origineel Geheugen Type (Videokaarten)
 	String verkoopstatus;
 	String aantalpinsvideokaarten;		// origineel Aantal pins (videokaarten)

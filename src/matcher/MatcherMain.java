@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import parsing.FilterString;
 
 import com.google.gson.Gson;
-
 import components.CASE;
 import components.CPU;
 import components.GPU;
 import components.HDD;
+import components.Hardware;
 import components.Memory;
 import components.Motherboard;
 import components.OpticalDrive;
@@ -81,6 +81,86 @@ public class MatcherMain {
 		
 		return componentsList;
 	}
+//============================================MATCHER TO MOBO	
+	
+	public ArrayList determineSelectedComponents(ArrayList components){
+		FilterString filter = new FilterString();
+		ArrayList selectedComponents = new ArrayList();
+		for(int i = 0; i<components.size();i++){
+			Hardware h = (Hardware) components.get(i);
+			if(h.getIsEmpty() == false){
+				selectedComponents.add(h);
+			}
+		}
+		String a = "";		//Debug
+		a.toCharArray();	//Debug
+		return selectedComponents;
+	}
+	
+	public String createQuery(ArrayList matchedComponents){
+		String matchMoboQuery = "";
+		
+		String matchCypher = "MATCH (n:MOTHERBOARD) ";
+		matchMoboQuery += matchCypher;
+		
+		for(int i = 0; i<matchedComponents.size(); i++){
+			System.out.print(i+"/"+matchedComponents.size());
+			String tempQuery = "";
+			Hardware h = (Hardware) matchedComponents.get(i);
+			
+			if(i == 0) tempQuery+= "WHERE ";
+			else tempQuery+= "AND ";
+			
+			if(h instanceof Motherboard)
+				return "MOBO";
+			if(h instanceof CPU){
+				System.out.println("CPU FOUND");
+				String cpuSocket = ((CPU) h).getSocket();
+				tempQuery += "n.Socket =~ '.*"+cpuSocket+".*' ";
+			}
+			if(h instanceof GPU){
+				System.out.println("GPU FOUND");
+				String cardInterface = ((GPU) h).getCardinterfacevideo();
+				String[] tempArr = filter.filterWhitespaceToCardInterface(filter.splitByCommas(cardInterface));
+				cardInterface = tempArr[tempArr.length-1];
+				tempQuery += "n.`Card Interface (moederbord)` =~ '.*(?i)"+cardInterface+".*' ";
+			}
+			if(h instanceof Memory){ //Parsing
+				System.out.println("RAM FOUND");
+				String ddrType = filter.filterStringOnDdrType(((Memory) h).getGeheugentype());
+				tempQuery += "n.`Geheugentype (moederbord)` =~ '.*(?i)"+ddrType+".*'";
+				//
+			}
+			matchMoboQuery+= tempQuery;
+			
+		}
+		
+		
+		
+		String returnCypher = "RETURN n;";
+		matchMoboQuery += returnCypher;
+		System.out.println(matchMoboQuery);
+		return matchMoboQuery;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 //===========================================================
 	public void matchMoboFromCPU(ArrayList componentsList){
 		CPU cpu = (CPU) componentsList.get(0);
@@ -156,6 +236,8 @@ public class MatcherMain {
 				try{
 					componentsJSON = componentsJSON.replaceAll("\\s","").toLowerCase();			
 					componentsJSON = componentsJSON.replaceAll("\\(moederbord\\)","").toLowerCase();
+					componentsJSON = componentsJSON.replaceAll("\\(","").toLowerCase();
+					componentsJSON = componentsJSON.replaceAll("\\)","").toLowerCase();
 				}catch(Exception e ){}
 				
 			switch(i){
