@@ -9,6 +9,7 @@ import org.neo4j.kernel.impl.core.NodeProxy;
 import components.CPU;
 import components.GPU;
 import components.Memory;
+import components.Motherboard;
 
 public class ParseHardware {
 	
@@ -49,6 +50,29 @@ public class ParseHardware {
 				cpu.setIsMatched(false);
 			}finally {
 				componentsArray.add(cpu);
+				tx.close();}
+		}
+		return componentsArray;
+	}
+	public ArrayList parseQueryToMotherboardObject(GraphDatabaseService db, ArrayList components){
+		ArrayList componentsArray = new ArrayList();
+		for(int i = 0; i<components.size();i++){
+			Motherboard mb = new Motherboard();
+			Transaction tx =  db.beginTx();
+			try{
+				NodeProxy moboNode = (NodeProxy) components.get(i);
+				mb.setEan(moboNode.getProperty("EAN").toString());
+				mb.setGeheugentype(moboNode.getProperty("Geheugentype (moederbord)").toString());
+				mb.setSocket(moboNode.getProperty("Socket").toString());
+				mb.setCardinterface(moboNode.getProperty("Card Interface (moederbord)").toString());
+				mb.setIsEmpty(false);
+				mb.setIsMatched(true);				
+				tx.success();
+			}catch(Exception e){
+				mb.setIsEmpty(true);
+				mb.setIsMatched(false);
+			}finally {
+				componentsArray.add(mb);
 				tx.close();}
 		}
 		return componentsArray;

@@ -3,88 +3,55 @@ package main;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import matcher.FindComponents;
 import matcher.MatcherMain;
+import matcher.MatcherMotherboardCompatibility;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 
-import components.Hardware;
+import components.Motherboard;
 import components.WebInput;
 
 import databasemanager.Neo4jManager;
 
 public class PcBuilder {
 	
-	
+	MatcherMain matcher = new MatcherMain();
 	//Starts to run the program
 	public void run() throws SQLException{
 		//Connections and objects
-		Main main = new Main();
-		Neo4jManager a = new Neo4jManager();
-	    GraphDatabaseService b;
-	    MatcherMain matcher = new MatcherMain();
-	    b = a.openNeo4jDatabase();
 	    WebInput webinput = new WebInput();
-	    
-	    //Lists
-	    
-	    ArrayList arr = new ArrayList();
-//	    arr = a.getAllNodes(b);
-	    a.closeNeo4jDatabase(b);
-	    
-		/*Case:
-	    *	1 Krijg een arraylist van mo
-	    *	2 Parse arraylist in onderdelen
-	    *	3 Check compatibility
-	    *	4 Maak nieuwe list met onderdelen
-	    *
-	    *
-	    */
-	    
-	    /*
-	     * 1 Is de input van mo
-	     * Kijgt het in form van:
-	     * null voor not selected.
-	     * JSON voor geselecteerde onderdelen.
-	     */
-	    ArrayList webInput = new ArrayList();	 
-	    webInput = webinput.inputWebserverMotherboard();
-	    /*	2 Haalt op wat meegegeven is en parsed het in objecten. 
-	    *	null betekend dat onderdeel niet meegegeven is
-	    */
-//	    ArrayList matchedComponents = matcher.getHardwareByInput(webInput);
-	    
-	    /*
-	     * 3 Matcher
-	     * 	Moet onderdelen matchen
-	     */
-//	    ArrayList matchedHardware = new ArrayList();
-//	    matchedHardware = matcher.matchFromMotherboard(matchedComponents);
-
-	  
-	    
 	    //Haalt alle onderdelen op gebasseert op de mobo.
-	    ArrayList matchedHardware = matcher.matchFromMotherboard(     matcher.getHardwareByInput(webinput.inputWebserverMotherboard()));
-
+	    this.fullCheck(matcher.getHardwareByInput(webinput.inputWebserverMatchToMobo()));
 	    
-	    	}	
-	public void fullCheck(){
-		//Connections and objects
-		Main main = new Main();
-		Neo4jManager a = new Neo4jManager();
-	    GraphDatabaseService b;
-	    MatcherMain matcher = new MatcherMain();
-	    b = a.openNeo4jDatabase();
-	    WebInput webinput = new WebInput();
+	}	
+	public ArrayList fullCheck(ArrayList componentsInput) throws SQLException{
+		/*
+		 * Does the full check and gives back an compatible and cheapest Hardware in the form of an ArrayList.
+		 * 
+		 */
+		FindComponents findComponents = new FindComponents();
+	    MatcherMotherboardCompatibility matchMobo = matcher.matchMobo;
 	    
-		ArrayList matchedComponents = matcher.determineSelectedComponents(matcher.getHardwareByInput(webinput.inputWebserverMatchToMobo()));
+	    ArrayList finishedComponents = new ArrayList();
+	    ArrayList tempComponents = new ArrayList();
+	    
+		ArrayList matchedComponents = matcher.determineSelectedComponents(componentsInput);
 	    String result = matcher.createQuery(matchedComponents);
-	    if(result == "MOBO"){
-	    	//Mobo matchen
-	    	//Get mobo, check met instance of
-	    	//matchFromMotherboard();
-	    }
-	}
-	
-	//Ignore below this line
-
+	    Motherboard mb = new Motherboard();
+	    //If there is a MOBO in the list match everything from motherboard
+	    if(result == "MOBO")
+	    	mb = findComponents.getMotherboardFromArrayList(matchedComponents);
+	    else
+	    	mb = matchMobo.matchMotherboard(result);
+	    
+	    tempComponents = matcher.matchFromMotherboard(mb);
+    	//Remove the stuff you got as an input
+    	//i.e. This matches and give back CPU,and if CPU already selected. Replace the selected CPU
+	    
+	    
+	    
+	    
+	    return finishedComponents;	
+	}	
 }

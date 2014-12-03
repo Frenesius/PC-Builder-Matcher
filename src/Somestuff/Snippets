@@ -38,3 +38,33 @@ No idea what this does, but old code.
 }	
 
 =======================================================
+
+		/*Case:
+	    *	1 Krijg een arraylist van mo
+	    *	2 Parse arraylist in onderdelen
+	    *	3 Check compatibility
+	    *	4 Maak nieuwe list met onderdelen
+	    *
+	    *
+	    */
+	    
+	    /*
+	     * 1 Is de input van mo
+	     * Kijgt het in form van:
+	     * null voor not selected.
+	     * JSON voor geselecteerde onderdelen.
+	     */
+//	    ArrayList webInput = new ArrayList();	 
+//	    webInput = webinput.inputWebserverMotherboard();
+	    /*	2 Haalt op wat meegegeven is en parsed het in objecten. 
+	    *	null betekend dat onderdeel niet meegegeven is
+	    */
+//	    ArrayList matchedComponents = matcher.getHardwareByInput(webInput);
+	    
+	    /*
+	     * 3 Matcher
+	     * 	Moet onderdelen matchen
+	     */
+//	    ArrayList matchedHardware = new ArrayList();
+//	    matchedHardware = matcher.matchFromMotherboard(matchedComponents);
+==============================================================

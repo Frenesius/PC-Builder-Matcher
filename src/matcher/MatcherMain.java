@@ -34,6 +34,7 @@ public class MatcherMain {
 	 * arr[9] = Soundcard	
 	 */
 	FilterString filter = new FilterString();
+	public static MatcherMotherboardCompatibility matchMobo = new MatcherMotherboardCompatibility();
 	
 	public ArrayList matchFromMotherboard(ArrayList componentsList) throws SQLException{
 		/*
@@ -51,10 +52,48 @@ public class MatcherMain {
 		OpticalDrive opt = new OpticalDrive();
 		Soundcard soundcard = new Soundcard();
 		
-		
 		motherboard = (Motherboard) componentsList.get(7);
 		
-		MatcherMotherboardCompatibility matchMobo = new MatcherMotherboardCompatibility();
+		String EAN = this.filter.splitByCommas(motherboard.getEan())[0];														//Ean to select the thing
+		String motherboardSocket = motherboard.getSocket();																//Staat goed
+		String motherboardGeheugenType = filter.filterStringOnDdrType(motherboard.getGeheugentype());					//Gefilterd
+		String[] temparr = this.filter.filterWhitespaceToCardInterface(this.filter.splitByCommas(motherboard.getCardinterface()));
+		String motherboardCardInterface = temparr[temparr.length-1];
+		
+		ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
+		cpu = matchMobo.matchCpuBasedOnMobo(motherboardSocket);
+		gpu = matchMobo.matchGpuBasedOnMobo(motherboardCardInterface);
+		
+		//Fills the List up
+		componentsList.clear();
+		componentsList.add(0, cpu);
+		componentsList.add(1, gpu);
+		componentsList.add(2, ram);
+		componentsList.add(3, hdd);
+		componentsList.add(4, ssd);
+		componentsList.add(5, psu);
+		componentsList.add(6, computerCase);
+		componentsList.add(7, motherboard);
+		componentsList.add(8, opt);
+		componentsList.add(9, soundcard);
+		
+		return componentsList;
+	}
+	public ArrayList matchFromMotherboard(Motherboard motherboard) throws SQLException{
+		/*
+		 * Matches CPU,GPU and RAM when you have Motherboard as input.
+		 * !!Motherboard needs to be on row 7.
+		 */
+		ArrayList componentsList = new ArrayList();
+		CPU cpu = new CPU();
+		GPU gpu = new GPU();
+		Memory ram = new Memory();
+		HDD hdd = new HDD();
+		SSD ssd = new SSD();
+		PSU psu = new PSU();
+		CASE computerCase = new CASE();
+		OpticalDrive opt = new OpticalDrive();
+		Soundcard soundcard = new Soundcard();
 		
 		String EAN = this.filter.splitByCommas(motherboard.getEan())[0];														//Ean to select the thing
 		String motherboardSocket = motherboard.getSocket();																//Staat goed
@@ -88,140 +127,52 @@ public class MatcherMain {
 		ArrayList selectedComponents = new ArrayList();
 		for(int i = 0; i<components.size();i++){
 			Hardware h = (Hardware) components.get(i);
-			if(h.getIsEmpty() == false){
+			if(h.getIsEmpty() == false)
 				selectedComponents.add(h);
-			}
 		}
-		String a = "";		//Debug
-		a.toCharArray();	//Debug
 		return selectedComponents;
 	}
 	
 	public String createQuery(ArrayList matchedComponents){
 		String matchMoboQuery = "";
-		
 		String matchCypher = "MATCH (n:MOTHERBOARD) ";
 		matchMoboQuery += matchCypher;
 		
 		for(int i = 0; i<matchedComponents.size(); i++){
 			System.out.print(i+"/"+matchedComponents.size());
 			String tempQuery = "";
-			Hardware h = (Hardware) matchedComponents.get(i);
-			
+			Hardware componentHardware = (Hardware) matchedComponents.get(i);
 			if(i == 0) tempQuery+= "WHERE ";
 			else tempQuery+= "AND ";
 			
-			if(h instanceof Motherboard)
+			if(componentHardware instanceof Motherboard)
 				return "MOBO";
-			if(h instanceof CPU){
+			if(componentHardware instanceof CPU){
 				System.out.println("CPU FOUND");
-				String cpuSocket = ((CPU) h).getSocket();
+				String cpuSocket = ((CPU) componentHardware).getSocket();
 				tempQuery += "n.Socket =~ '.*"+cpuSocket+".*' ";
 			}
-			if(h instanceof GPU){
+			if(componentHardware instanceof GPU){
 				System.out.println("GPU FOUND");
-				String cardInterface = ((GPU) h).getCardinterfacevideo();
+				String cardInterface = ((GPU) componentHardware).getCardinterfacevideo();
 				String[] tempArr = filter.filterWhitespaceToCardInterface(filter.splitByCommas(cardInterface));
 				cardInterface = tempArr[tempArr.length-1];
 				tempQuery += "n.`Card Interface (moederbord)` =~ '.*(?i)"+cardInterface+".*' ";
 			}
-			if(h instanceof Memory){ //Parsing
+			if(componentHardware instanceof Memory){ //Parsing
 				System.out.println("RAM FOUND");
-				String ddrType = filter.filterStringOnDdrType(((Memory) h).getGeheugentype());
+				String ddrType = filter.filterStringOnDdrType(((Memory) componentHardware).getGeheugentype());
 				tempQuery += "n.`Geheugentype (moederbord)` =~ '.*(?i)"+ddrType+".*'";
-				//
 			}
 			matchMoboQuery+= tempQuery;
-			
 		}
-		
-		
-		
 		String returnCypher = "RETURN n;";
 		matchMoboQuery += returnCypher;
-		System.out.println(matchMoboQuery);
-		return matchMoboQuery;
 		
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		return matchMoboQuery;	
+	}	
 	
 //===========================================================
-	public void matchMoboFromCPU(ArrayList componentsList){
-		CPU cpu = (CPU) componentsList.get(0);
-		
-		String cpuSocket = cpu.getSocket();
-	}
-	public void matchMoboFromGPU(ArrayList componentsList){
-		GPU gpu = (GPU) componentsList.get(1);
-		Memory ram = (Memory) componentsList.get(2);
-		
-		String[] temparr = this.filter.filterWhitespaceToCardInterface(this.filter.splitByCommas(gpu.getCardinterfacevideo()));
-		
-		String gpuSlot = temparr[temparr.length-1];
-		String ramType = filter.filterStringOnDdrType(ram.getGeheugentype());
-	}
-	public void matchMoboFromRAM(ArrayList componentsList){
-		Memory ram = (Memory) componentsList.get(2);
-	
-		String ramType = filter.filterStringOnDdrType(ram.getGeheugentype());
-	}
-
-	public void matchMoboFromCPUandGPU(ArrayList componentsList){
-		CPU cpu = (CPU) componentsList.get(0);
-		GPU gpu = (GPU) componentsList.get(1);
-		
-		String[] temparr = this.filter.filterWhitespaceToCardInterface(this.filter.splitByCommas(gpu.getCardinterfacevideo()));
-		
-		String gpuSlot = temparr[temparr.length-1];
-		String cpuSocket = cpu.getSocket();
-		
-	}
-	public void matchMoboFromCPUandRAM(ArrayList componentsList){
-		CPU cpu = (CPU) componentsList.get(0);
-		Memory ram = (Memory) componentsList.get(2);
-		
-		String cpuSocket = cpu.getSocket();
-		String ramType = filter.filterStringOnDdrType(ram.getGeheugentype());
-	}
-	public void matchMoboFromCPUandGPUandRAM(ArrayList componentsList){
-		CPU cpu = (CPU) componentsList.get(0);
-		GPU gpu = (GPU) componentsList.get(1);
-		Memory ram = (Memory) componentsList.get(2);
-	
-		String[] temparr = this.filter.filterWhitespaceToCardInterface(this.filter.splitByCommas(gpu.getCardinterfacevideo()));
-		
-		String cpuSocket = cpu.getSocket();
-		String gpuSlot = temparr[temparr.length-1];
-		String ramType = filter.filterStringOnDdrType(ram.getGeheugentype());
-	}
-
-	public void matchMoboFromGPUandRAM(ArrayList componentsList){
-		GPU gpu = (GPU) componentsList.get(1);
-		Memory ram = (Memory) componentsList.get(2);
-		
-		String[] temparr = this.filter.filterWhitespaceToCardInterface(this.filter.splitByCommas(gpu.getCardinterfacevideo()));
-		
-		String gpuSlot = temparr[temparr.length-1];
-		String ramType = filter.filterStringOnDdrType(ram.getGeheugentype());
-	}
-//===========================================================
-	
 	public ArrayList getHardwareByInput(ArrayList componentsList){
 		/* 
 		 * Gets the JSON file from the web server input.
