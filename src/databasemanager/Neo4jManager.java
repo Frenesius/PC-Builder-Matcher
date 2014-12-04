@@ -86,7 +86,7 @@ public class Neo4jManager {
     	/*
     	 * Gets all Nodes in the Neo4j Database and gives it back in an ArrayList.
     	 */
-        ArrayList<Node> nodes = new ArrayList<>();
+        ArrayList<Node> nodes = new ArrayList<Node>();
         try (Transaction tx = graphDb.beginTx()){
             for (Node node : GlobalGraphOperations.at( graphDb ).getAllNodes()){
                 nodes.add(node);
