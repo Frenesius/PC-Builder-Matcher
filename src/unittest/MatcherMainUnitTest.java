@@ -1,8 +1,10 @@
 package unittest;
 
+import org.junit.Test;
+
 import matcher.MatcherMain;
 
-import org.junit.Test;
+
 
 public class MatcherMainUnitTest  {
 	@Test
