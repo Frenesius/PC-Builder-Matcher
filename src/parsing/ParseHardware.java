@@ -97,4 +97,5 @@ public class ParseHardware {
 		}
 		return componentsArray;
 	}
+	
 }

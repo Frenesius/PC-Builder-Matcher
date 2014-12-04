@@ -68,3 +68,63 @@ No idea what this does, but old code.
 //	    ArrayList matchedHardware = new ArrayList();
 //	    matchedHardware = matcher.matchFromMotherboard(matchedComponents);
 ==============================================================
+			switch(i){
+			case 0:
+				CPU cpu = (CPU) userSelectedComponents.get(i);
+				if(!cpu.getIsEmpty())
+					System.out.println("Full");
+				break;
+			case 1:
+				GPU gpu = (GPU) userSelectedComponents.get(i);
+
+				System.out.println("Full");
+				break;
+			case 2:
+				Memory ram = (Memory) userSelectedComponents.get(i);
+
+				System.out.println("Full");
+				break;
+			case 3:
+				HDD hdd = (HDD) userSelectedComponents.get(i);
+
+				System.out.println("Full");
+				break;
+			case 4:
+				SSD ssd = (SSD) userSelectedComponents.get(i);
+
+				System.out.println("Full");
+				break;
+			case 5:
+				PSU psu = (PSU) userSelectedComponents.get(i);
+
+				System.out.println("Full");
+				break;
+			case 6:
+				CASE pcCase = (CASE) userSelectedComponents.get(i);
+
+				System.out.println("Full");
+				break;
+			case 7:
+				Motherboard mb = (Motherboard) userSelectedComponents.get(i);
+
+				System.out.println("Full");
+				break;
+			case 8:
+				OpticalDrive opt = (OpticalDrive) userSelectedComponents.get(i);
+
+				System.out.println("Full");
+				break;
+			case 9:
+				Soundcard soundcard = (Soundcard) userSelectedComponents.get(i);
+
+				System.out.println("Full");
+				break;
+			}
+=============================================================================================
+
+
+
+
+
+
+

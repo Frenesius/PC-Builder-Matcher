@@ -6,6 +6,6 @@ public class Main {
 
 	public static void main(String[] args) throws SQLException{
 	    PcBuilder builder = new PcBuilder();
-	    builder.run();
+	    builder.start();
 	}
 }	

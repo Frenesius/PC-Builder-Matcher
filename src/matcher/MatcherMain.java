@@ -60,6 +60,12 @@ public class MatcherMain {
 		String[] temparr = this.filter.filterWhitespaceToCardInterface(this.filter.splitByCommas(motherboard.getCardinterface()));
 		String motherboardCardInterface = temparr[temparr.length-1];
 		
+		//Multithread 
+		Thread t = new Thread(new Runnable() {public void run(){
+			
+			
+	    }});
+		
 		ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
 		cpu = matchMobo.matchCpuBasedOnMobo(motherboardSocket);
 		gpu = matchMobo.matchGpuBasedOnMobo(motherboardCardInterface);
@@ -101,6 +107,7 @@ public class MatcherMain {
 		String[] temparr = this.filter.filterWhitespaceToCardInterface(this.filter.splitByCommas(motherboard.getCardinterface()));
 		String motherboardCardInterface = temparr[temparr.length-1];
 		
+		//Multithread
 		ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
 		cpu = matchMobo.matchCpuBasedOnMobo(motherboardSocket);
 		gpu = matchMobo.matchGpuBasedOnMobo(motherboardCardInterface);
