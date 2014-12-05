@@ -60,6 +60,7 @@ public class WebInputTest {
 		}
 		assertEquals(false, mb.getIsEmpty());			//The object motherboard can not be empty, so the check will be isEmpty in the form of an boolean.
 		
+		 
 		
 	}
 	@Test
