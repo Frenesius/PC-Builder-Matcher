@@ -34,7 +34,11 @@ public class Neo4jManager {
 		/*
 		 * Neo4j connection. Gives GraphDatabaseService back.
 		 */
+		
+		GraphDatabaseService start = new GraphDatabaseFactory().newEmbeddedDatabase(DB_PATH); 
+		start.shutdown();
 		GraphDatabaseService graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(DB_PATH); 
+		
 		return graphDb;
 	}
 	

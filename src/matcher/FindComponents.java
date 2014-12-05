@@ -2,17 +2,10 @@ package matcher;
 
 import java.util.ArrayList;
 
-import components.CASE;
+import parsing.ParseHardware;
 import components.CPU;
-import components.GPU;
-import components.HDD;
 import components.Hardware;
-import components.Memory;
 import components.Motherboard;
-import components.OpticalDrive;
-import components.PSU;
-import components.SSD;
-import components.Soundcard;
 
 public class FindComponents {
 	public Motherboard getMotherboardFromArrayList(ArrayList components){
@@ -40,15 +33,19 @@ public class FindComponents {
 		 */
 		ArrayList newList = new ArrayList();
 		
-		for(int i = 0; i<matchedComponents.size();i++){
-			Hardware hw = new Hardware();
-			try{
-				hw = (Hardware) matchedComponents.get(i);
-			}catch(Exception e){}
-			
-			
-		}
+//		for(int i = 0; i<matchedComponents.size();i++){
+//			Hardware compare = null;
+//			try{compare = (Hardware) userSelectedComponents.get(i);}catch(Exception e){newList.add(matchedComponents.get(i));}
+//			for(int a = 0; a<matchedComponents.size();a++){
+//				Hardware old = (Hardware) matchedComponents.get(a);
+//				if(ParseHardware.isASubClass(compare.getClass(), old)){
+//					newList.add(compare);
+//				}
+//			}
+//		}
 		return newList;
 		
+		
+	
 	}
 }

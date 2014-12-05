@@ -61,10 +61,7 @@ public class MatcherMain {
 		String motherboardCardInterface = temparr[temparr.length-1];
 		
 		//Multithread 
-		Thread t = new Thread(new Runnable() {public void run(){
-			
-			
-	    }});
+		//Thread t = new Thread(new Runnable() {public void run(){}});
 		
 		ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
 		cpu = matchMobo.matchCpuBasedOnMobo(motherboardSocket);
@@ -146,7 +143,6 @@ public class MatcherMain {
 		matchMoboQuery += matchCypher;
 		
 		for(int i = 0; i<matchedComponents.size(); i++){
-			System.out.print(i+"/"+matchedComponents.size());
 			String tempQuery = "";
 			Hardware componentHardware = (Hardware) matchedComponents.get(i);
 			if(i == 0) tempQuery+= "WHERE ";
@@ -155,19 +151,16 @@ public class MatcherMain {
 			if(componentHardware instanceof Motherboard)
 				return "MOBO";
 			if(componentHardware instanceof CPU){
-				System.out.println("CPU FOUND");
 				String cpuSocket = ((CPU) componentHardware).getSocket();
 				tempQuery += "n.Socket =~ '.*"+cpuSocket+".*' ";
 			}
 			if(componentHardware instanceof GPU){
-				System.out.println("GPU FOUND");
 				String cardInterface = ((GPU) componentHardware).getCardinterfacevideo();
 				String[] tempArr = filter.filterWhitespaceToCardInterface(filter.splitByCommas(cardInterface));
 				cardInterface = tempArr[tempArr.length-1];
 				tempQuery += "n.`Card Interface (moederbord)` =~ '.*(?i)"+cardInterface+".*' ";
 			}
 			if(componentHardware instanceof Memory){ //Parsing
-				System.out.println("RAM FOUND");
 				String ddrType = filter.filterStringOnDdrType(((Memory) componentHardware).getGeheugentype());
 				tempQuery += "n.`Geheugentype (moederbord)` =~ '.*(?i)"+ddrType+".*'";
 			}

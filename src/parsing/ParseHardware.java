@@ -61,10 +61,10 @@ public class ParseHardware {
 			Transaction tx =  db.beginTx();
 			try{
 				NodeProxy moboNode = (NodeProxy) components.get(i);
-				mb.setEan(moboNode.getProperty("EAN").toString());
-				mb.setGeheugentype(moboNode.getProperty("Geheugentype (moederbord)").toString());
-				mb.setSocket(moboNode.getProperty("Socket").toString());
-				mb.setCardinterface(moboNode.getProperty("Card Interface (moederbord)").toString());
+				mb.setEan(moboNode.getProperty("EAN").toString().toLowerCase());
+				mb.setGeheugentype(moboNode.getProperty("Geheugentype (moederbord)").toString().toLowerCase());
+				mb.setSocket(moboNode.getProperty("Socket").toString().toLowerCase());
+				mb.setCardinterface(moboNode.getProperty("Card Interface (moederbord)").toString().toLowerCase());
 				mb.setIsEmpty(false);
 				mb.setIsMatched(true);				
 				tx.success();
@@ -97,5 +97,8 @@ public class ParseHardware {
 		}
 		return componentsArray;
 	}
-	
+	public static boolean isASubClass(Class classTypeWeWant, Object objectWeHave) {
+
+	    return classTypeWeWant.isAssignableFrom(objectWeHave.getClass());
+	}
 }
