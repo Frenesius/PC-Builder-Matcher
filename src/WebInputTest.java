@@ -60,6 +60,7 @@ public class WebInputTest {
 		}
 		assertEquals(false, mb.getIsEmpty());			//The object motherboard can not be empty, so the check will be isEmpty in the form of an boolean.
 		
+		
 	}
 	@Test
 	public void matchHardwareFromMotherboardTest() throws SQLException {
@@ -73,10 +74,5 @@ public class WebInputTest {
 		ArrayList tempComponents = matcher.matchFromMotherboard(mb);
 		assertEquals(true, tempComponents != null);			//If the query is executed wrong, the arraylist is empty
 	}
-	
-	
-	
-	
-	
-	
+		
 }
