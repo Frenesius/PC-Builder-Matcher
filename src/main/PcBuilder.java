@@ -51,7 +51,7 @@ public class PcBuilder {
     	//i.e. This matches and give back CPU,and if CPU already selected. Replace the selected CPU
 	    finishedComponents = findComponents.mergeComponentsArrayList(selectedComponents, tempComponents); //Not complete
 	    String debuga = "a";
-	    debuga.toLowerCase();
+
 	    return finishedComponents;	
 	}
 

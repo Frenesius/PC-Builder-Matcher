@@ -127,7 +127,6 @@ public class MatcherMain {
 //============================================MATCHER TO MOBO	
 	
 	public ArrayList determineSelectedComponents(ArrayList components){
-		FilterString filter = new FilterString();
 		ArrayList selectedComponents = new ArrayList();
 		for(int i = 0; i<components.size();i++){
 			Hardware h = (Hardware) components.get(i);

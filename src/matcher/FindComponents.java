@@ -8,6 +8,9 @@ import components.Hardware;
 import components.Motherboard;
 
 public class FindComponents {
+	
+	ParseHardware parseHw = new ParseHardware();
+	
 	public Motherboard getMotherboardFromArrayList(ArrayList components){
 		Motherboard mb = new Motherboard();
 		for(int i = 0; i<components.size();i++){
@@ -31,21 +34,16 @@ public class FindComponents {
 		 * arr[8] = Opticaldrive
 		 * arr[9] = Soundcard	
 		 */
+		
 		ArrayList newList = new ArrayList();
-		
-//		for(int i = 0; i<matchedComponents.size();i++){
-//			Hardware compare = null;
-//			try{compare = (Hardware) userSelectedComponents.get(i);}catch(Exception e){newList.add(matchedComponents.get(i));}
-//			for(int a = 0; a<matchedComponents.size();a++){
-//				Hardware old = (Hardware) matchedComponents.get(a);
-//				if(ParseHardware.isASubClass(compare.getClass(), old)){
-//					newList.add(compare);
-//				}
-//			}
-//		}
+		for(int a = 0; a<userSelectedComponents.size(); a++){
+			Hardware hw = (Hardware) userSelectedComponents.get(a);
+			for(int i = 0; i<matchedComponents.size();i++){
+				if(parseHw.isASubClass(hw.getClass(), matchedComponents.get(i))){
+					System.out.println(i + a);
+				}
+			}
+		}
 		return newList;
-		
-		
-	
 	}
 }

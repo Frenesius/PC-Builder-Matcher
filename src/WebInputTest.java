@@ -58,10 +58,8 @@ public class WebInputTest {
 	    	mb = matchMobo.matchMotherboard(query);
 			assertEquals(true, mb.getIsMatched());		//If the mobo goes trought the matchMotherboard() method, the isMatched will be true.
 		}
+		
 		assertEquals(false, mb.getIsEmpty());			//The object motherboard can not be empty, so the check will be isEmpty in the form of an boolean.
-		
-		 
-		
 	}
 	@Test
 	public void matchHardwareFromMotherboardTest() throws SQLException {
@@ -73,7 +71,7 @@ public class WebInputTest {
 	    else
 	    	mb = matchMobo.matchMotherboard(query);
 		ArrayList tempComponents = matcher.matchFromMotherboard(mb);
-		assertEquals(true, tempComponents != null);			//If the query is executed wrong, the arraylist is empty
-	}
 		
+		assertEquals(true, tempComponents != null);			//If the query is executed wrong, the arraylist is empty
+	}		
 }
