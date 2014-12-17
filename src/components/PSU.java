@@ -13,7 +13,7 @@ public class PSU extends Hardware{
 	String aantalmolexaansluitingen;
 	String aantalventilatoren;
 	String diepte;
-	String diameterventilator;
+	String diameterventilator; //
 	String voedingtype;
 	String stroomspanningbeveiliging;
 	String aantal62pinsaansluitingen;	// origineel Aantal 6+2-pins aansluitingen
