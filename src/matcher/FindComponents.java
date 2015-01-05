@@ -10,7 +10,11 @@ import components.Motherboard;
 public class FindComponents {
 	
 	ParseHardware parseHw = new ParseHardware();
-	
+	   /**
+	   * This method is used to get a Motherboard from an ArrayList.
+	   * @param ArrayList ArrayList with the components.
+	   * @return Motherboard Returns an motherboard from the ArrayList.
+	   */
 	public Motherboard getMotherboardFromArrayList(ArrayList components){
 		Motherboard mb = new Motherboard();
 		for(int i = 0; i<components.size();i++){
@@ -19,9 +23,15 @@ public class FindComponents {
 		}
 		return mb;
 	}
-	public ArrayList mergeComponentsArrayList(ArrayList userSelectedComponents, ArrayList matchedComponents){
+	/**
+	   * This method is used to merge the two ArrayLists. One with the selected components and one with matched.
+	   * @param ArrayList ArrayList with the user selected components.
+	   * @param ArrayList ArrayList with the matched components.
+	   * @return ArrayList Returns a merged ArrayList.
+	   */
+	public ArrayList mergeComponentsArrayList(ArrayList userSelectedComponents, ArrayList matchedComponents){ 
 		/*
-		 * When matching always fallback to Motherboard.
+		 * userSelectedComponents goes before matchedComponents
 		 * Array with components
 		 * arr[0] = CPU	
 		 * arr[1] = GPU
@@ -34,14 +44,17 @@ public class FindComponents {
 		 * arr[8] = Opticaldrive
 		 * arr[9] = Soundcard	
 		 */
-		
 		ArrayList newList = new ArrayList();
 		for(int a = 0; a<userSelectedComponents.size(); a++){
-			Hardware hw = (Hardware) userSelectedComponents.get(a);
+			Hardware userSelectedHw = (Hardware) userSelectedComponents.get(a);
 			for(int i = 0; i<matchedComponents.size();i++){
-				if(parseHw.isASubClass(hw.getClass(), matchedComponents.get(i))){
-					System.out.println(i + a);
-				}
+				Hardware matchedHw;
+				matchedHw = (Hardware) matchedComponents.get(i);
+				
+				try{
+				if(ParseHardware.isASubClass(userSelectedHw.getClass(), matchedHw))
+					System.out.print(i);
+				}catch(Exception e){System.out.println("null found");	}
 			}
 		}
 		return newList;

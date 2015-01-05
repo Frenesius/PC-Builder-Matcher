@@ -11,7 +11,7 @@ import components.GPU;
 import components.Memory;
 import components.Motherboard;
 
-public class ParseHardware {
+public class ParseHardware {		//Needs optimizing.
 	
 	public ArrayList parseQueryToGPUObject(GraphDatabaseService db, ArrayList components){
 		ArrayList componentsArray = new ArrayList();
@@ -98,7 +98,6 @@ public class ParseHardware {
 		return componentsArray;
 	}
 	public static boolean isASubClass(Class classTypeWeWant, Object objectWeHave) {
-
 	    return classTypeWeWant.isAssignableFrom(objectWeHave.getClass());
 	}
 }

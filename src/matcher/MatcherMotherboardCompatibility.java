@@ -30,7 +30,11 @@ public class MatcherMotherboardCompatibility {
 		}
 		this.parseHw = new ParseHardware();
 	}
-	
+	/**
+	   * This method is used to match a GPU Object from the Neo4j Database.
+	   * @param String String of the Motherboard Card Interface to match a GPU.
+	   * @return GPU Returns a GPU Object.
+	   */
 	public GPU matchGpuBasedOnMobo(String motherboardCardInterface){
 		/*USE THIS FOR THE OTHER HARDWARE
 		 * [x] Selects the GPU that is compatible with the mobo from Neo4j
@@ -50,7 +54,11 @@ public class MatcherMotherboardCompatibility {
 		
 		return gpu;
 	}
-	
+	/**
+	   * This method is used to match a Memory Object from the Neo4j Database.
+	   * @param String String of the Motherboard Memory Type to match a Memory.
+	   * @return Memory Returns a Memory Object.
+	   */
 	public Memory matchRamBasedOnMobo(String motherboardGeheugenType){
 		Memory ram = new Memory();
 		String query = "MATCH (n:MEMORY) "
@@ -64,6 +72,11 @@ public class MatcherMotherboardCompatibility {
 		
 		return ram;
 	}
+	/**
+	   * This method is used to match a CPU Object from the Neo4j Database. Needs a Motherboard socket for compatibility.
+	   * @param String String of the Motherboard Socket to match a CPU.
+	   * @return CPU Returns a CPU Object.
+	   */
 	public CPU matchCpuBasedOnMobo(String motherboardSocket){
 		CPU cpu = new CPU(); //TODO Remove the new
 		String query = "MATCH (n:PROCESSOR) "
@@ -77,6 +90,11 @@ public class MatcherMotherboardCompatibility {
 		
 		return cpu;
 	}
+	/**
+	   * This method is used to match a Motherboard Object from the Neo4j Database.
+	   * @param String String of the Query to match a Motherboard.
+	   * @return Motherboard Returns a Motherboard Object.
+	   */
 	public Motherboard matchMotherboard(String matchMoboQuery){
 		Motherboard mb = new Motherboard();
 		ArrayList matches = this.neo4j.executeQueryNeo4j(this.db, matchMoboQuery);		
@@ -85,6 +103,4 @@ public class MatcherMotherboardCompatibility {
 			mb = (Motherboard) priceComponent.comparePricesFromComponentArray(matches);
 		}return mb;
 	}	
-	
-
 }

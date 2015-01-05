@@ -22,7 +22,11 @@ public class PcBuilder {
 	    //Haalt alle onderdelen op gebasseert op de mobo.
 	    this.fullCheck(matcher.getHardwareByInput(webinput.inputWebserverMatchToMobo()));  
 	}
-	
+	/**
+	   * This method is used to do a fully matching.
+	   * @param ArrayList ArrayList with JSON Strings.
+	   * @return ArrayList Returns the result of the checking.
+	   */
 	public ArrayList fullCheck(ArrayList componentsInput) throws SQLException{
 		/*
 		 * Does the full check and gives back an compatible and cheapest Hardware in the form of an ArrayList.

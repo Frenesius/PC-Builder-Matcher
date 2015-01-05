@@ -35,7 +35,11 @@ public class MatcherMain {
 	 */
 	FilterString filter = new FilterString();
 	public static MatcherMotherboardCompatibility matchMobo = new MatcherMotherboardCompatibility();
-	
+	/**
+	   * This method is used to match components when we have a ArrayList with a Motherboard.
+	   * @param ArrayList ArrayList with the components (Motherboard needs to be in it).
+	   * @return ArrayList Returns a matched components ArrayList.
+	   */
 	public ArrayList matchFromMotherboard(ArrayList componentsList) throws SQLException{
 		/*
 		 * Matches CPU,GPU and RAM when you have Motherboard as input.
@@ -82,6 +86,11 @@ public class MatcherMain {
 		
 		return componentsList;
 	}
+	/**
+	   * This method is used to match components when we have a Motherboard.
+	   * @param Motherboard Motherboard object that we want to use to match other hardware.
+	   * @return ArrayList Returns a matched components ArrayList.
+	   */
 	public ArrayList matchFromMotherboard(Motherboard motherboard) throws SQLException{
 		/*
 		 * Matches CPU,GPU and RAM when you have Motherboard as input.
@@ -125,7 +134,11 @@ public class MatcherMain {
 		return componentsList;
 	}
 //============================================MATCHER TO MOBO	
-	
+	/**
+	   * Determines if a component is selected or not.
+	   * @param ArrayList ArrayList with components.
+	   * @return ArrayList Returns a ArrayList with components that are not empty.
+	   */
 	public ArrayList determineSelectedComponents(ArrayList components){
 		ArrayList selectedComponents = new ArrayList();
 		for(int i = 0; i<components.size();i++){
@@ -135,7 +148,11 @@ public class MatcherMain {
 		}
 		return selectedComponents;
 	}
-	
+	/**
+	   * Creates a query to get the Motherboard matching the compatible Hardware.
+	   * @param ArrayList ArrayList with the matched components.
+	   * @return String Query to get the Motherboard from Neo4jDatabase.
+	   */
 	public String createQuery(ArrayList matchedComponents){
 		String matchMoboQuery = "";
 		String matchCypher = "MATCH (n:MOTHERBOARD) ";
@@ -172,6 +189,11 @@ public class MatcherMain {
 	}	
 	
 //===========================================================
+	/**
+	   * This method parses JSON strings to Objects.
+	   * @param ArrayList ArrayList with the components.
+	   * @return ArrayList Returns a Hardware Object ArrayList.
+	   */
 	public ArrayList getHardwareByInput(ArrayList componentsList){
 		/* 
 		 * Gets the JSON file from the web server input.
