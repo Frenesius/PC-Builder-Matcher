@@ -12,9 +12,9 @@ import components.Motherboard;
 import components.WebInput;
 
 public class PcBuilder {
-	
-	MatcherMain matcher = new MatcherMain();
-	ParseHardware parseHw = new ParseHardware();
+
+	private MatcherMain matcher = new MatcherMain();
+	private ParseHardware parseHw = new ParseHardware();
 	//Starts to run the program
 	public void start() throws SQLException{
 		//Connections and objects
@@ -24,7 +24,7 @@ public class PcBuilder {
 	}
 	/**
 	   * This method is used to do a fully matching.
-	   * @param ArrayList ArrayList with JSON Strings.
+	   * @param componentsInput ArrayList with JSON Strings.
 	   * @return ArrayList Returns the result of the checking.
 	   */
 	public ArrayList fullCheck(ArrayList componentsInput) throws SQLException{
@@ -45,7 +45,7 @@ public class PcBuilder {
 	    String result = matcher.createQuery(matchedComponents);
 	    
 	    //If there is a MOBO in the list match everything from motherboard
-	    if(result == "MOBO")
+	    if(result.equals("MOBO"))
 	    	mb = findComponents.getMotherboardFromArrayList(matchedComponents);
 	    else
 	    	mb = matchMobo.matchMotherboard(result);

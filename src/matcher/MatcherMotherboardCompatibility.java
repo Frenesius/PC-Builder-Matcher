@@ -14,10 +14,12 @@ import components.Motherboard;
 import databasemanager.Neo4jManager;
 
 public class MatcherMotherboardCompatibility {
-	Neo4jManager neo4j;
-	GraphDatabaseService db;
-	PriceComponent priceComponent;
-	ParseHardware parseHw;
+	private Neo4jManager neo4j;
+	private GraphDatabaseService db;
+	private PriceComponent priceComponent;
+	private ParseHardware parseHw;
+	private Thread t;
+	private String threadName;
 	
 	public MatcherMotherboardCompatibility(){
 		this.neo4j = new Neo4jManager();
@@ -32,7 +34,7 @@ public class MatcherMotherboardCompatibility {
 	}
 	/**
 	   * This method is used to match a GPU Object from the Neo4j Database.
-	   * @param String String of the Motherboard Card Interface to match a GPU.
+	   * @param motherboardCardInterface String of the Motherboard Card Interface to match a GPU.
 	   * @return GPU Returns a GPU Object.
 	   */
 	public GPU matchGpuBasedOnMobo(String motherboardCardInterface){
@@ -56,9 +58,10 @@ public class MatcherMotherboardCompatibility {
 	}
 	/**
 	   * This method is used to match a Memory Object from the Neo4j Database.
-	   * @param String String of the Motherboard Memory Type to match a Memory.
+	   * @param motherboardGeheugenType String of the Motherboard Memory Type to match a Memory.
 	   * @return Memory Returns a Memory Object.
 	   */
+	
 	public Memory matchRamBasedOnMobo(String motherboardGeheugenType){
 		Memory ram = new Memory();
 		String query = "MATCH (n:MEMORY) "
@@ -74,7 +77,7 @@ public class MatcherMotherboardCompatibility {
 	}
 	/**
 	   * This method is used to match a CPU Object from the Neo4j Database. Needs a Motherboard socket for compatibility.
-	   * @param String String of the Motherboard Socket to match a CPU.
+	   * @param motherboardSocket String of the Motherboard Socket to match a CPU.
 	   * @return CPU Returns a CPU Object.
 	   */
 	public CPU matchCpuBasedOnMobo(String motherboardSocket){
@@ -92,7 +95,7 @@ public class MatcherMotherboardCompatibility {
 	}
 	/**
 	   * This method is used to match a Motherboard Object from the Neo4j Database.
-	   * @param String String of the Query to match a Motherboard.
+	   * @param matchMoboQuery String of the Query to match a Motherboard.
 	   * @return Motherboard Returns a Motherboard Object.
 	   */
 	public Motherboard matchMotherboard(String matchMoboQuery){
@@ -102,5 +105,6 @@ public class MatcherMotherboardCompatibility {
 			matches = priceComponent.getPricesByComponent(parseHw.parseQueryToMotherboardObject(this.db, matches));
 			mb = (Motherboard) priceComponent.comparePricesFromComponentArray(matches);
 		}return mb;
-	}	
+	}
+	
 }

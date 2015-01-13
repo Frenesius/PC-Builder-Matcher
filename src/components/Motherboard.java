@@ -1,29 +1,29 @@
 package components;
 
 public class Motherboard extends Hardware{
-	String cardinterface;	// origineel Card Interface (moederbord)
-	String linkinterface;
-	String videouit;
-	String serie;
-	String verbindingusbfw; //origineel Verbinding (USB/FW)
-	String raidmodi;			// origineel Raid-modi
-	String audiouitgangen;
-	String geheugentype; // origineel Geheugentype (moederbord)
-	String verbindingethernet; //origineel verbinding (ethernet)
-	String moederbordchipset;
-	String netwerkchip;
-	String verbindingoverige; // origineel verbinding (overige)
-	String maximumgeheugengrootte;
-	String Aantalpciex16slots; //origineel Aantal PCI-e x16 slots
-	String bluetoothaanwezig;
-	String audiochip;
-	String hardeschijfbusintern;  // origineel Hardeschijf bus (intern)
-	String aantalsockets;
-	String formfactor;
-	String biosuefi;			// origineel BIOS of UEFI
-	String dualofsinglebiosuefi;	// origineel Dual of Single BIOS/UEFI	
-	String audiokanalen;
-	String socket;
+	private String cardinterface;	// origineel Card Interface (moederbord)
+	private String linkinterface;
+	private String videouit;
+	private String serie;
+	private String verbindingusbfw; //origineel Verbinding (USB/FW)
+	private String raidmodi;			// origineel Raid-modi
+	private String audiouitgangen;
+	private String geheugentype; // origineel Geheugentype (moederbord)
+	private String verbindingethernet; //origineel verbinding (ethernet)
+	private String moederbordchipset;
+	private String netwerkchip;
+	private String verbindingoverige; // origineel verbinding (overige)
+	private String maximumgeheugengrootte;
+	private String aantalpciex16slots; //origineel Aantal PCI-e x16 slots		CHANGED THIS, WATCHOUT FOR BUGS
+	private String bluetoothaanwezig;
+	private String audiochip;
+	private String hardeschijfbusintern;  // origineel Hardeschijf bus (intern)
+	private String aantalsockets;
+	private String formfactor;
+	private String biosuefi;			// origineel BIOS of UEFI
+	private String dualofsinglebiosuefi;	// origineel Dual of Single BIOS/UEFI
+	private String audiokanalen;
+	private String socket;
 	
 	public String getAantalsockets() {
 		return aantalsockets;
@@ -116,10 +116,10 @@ public class Motherboard extends Hardware{
 		this.maximumgeheugengrootte = maximumgeheugengrootte;
 	}
 	public String getAantalpciex16slots() {
-		return Aantalpciex16slots;
+		return aantalpciex16slots;
 	}
 	public void setAantalpciex16slots(String aantalpciex16slots) {
-		Aantalpciex16slots = aantalpciex16slots;
+		aantalpciex16slots = aantalpciex16slots;
 	}
 	public String getBluetoothaanwezig() {
 		return bluetoothaanwezig;

@@ -1,17 +1,17 @@
 package components;
 
 public class Memory extends Hardware{
-	String geheugengrootte;
-	String fabrieksgarantie;
-	String geheugenspecificatie;
-	String serie;
-	String lowvoltageddr;
-	String modulegrootte;
-	String aantal;
-	String geheugencaslatency;
-	String geheugentype;
-	String prijspergbgeheugen;			// origineel Prijs per GB (geheugen)
-	String spanning;
+	private String geheugengrootte;
+	private String fabrieksgarantie;
+	private String geheugenspecificatie;
+	private String serie;
+	private String lowvoltageddr;
+	private String modulegrootte;
+	private String aantal;
+	private String geheugencaslatency;
+	private String geheugentype;
+	private String prijspergbgeheugen;			// origineel Prijs per GB (geheugen)
+	private String spanning;
 	
 	public String getGeheugengrootte() {
 		return geheugengrootte;

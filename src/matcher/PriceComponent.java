@@ -12,9 +12,9 @@ import databasemanager.MySqlManager;
 import databasemanager.Neo4jManager;
 
 public class PriceComponent {
-	MySqlManager mysqlManager;
-	Connection mysqlConn;
-	Neo4jManager neo4jManager;
+	private MySqlManager mysqlManager;
+	private Connection mysqlConn;
+	private Neo4jManager neo4jManager;
 	
 	PriceComponent() throws SQLException{
 		this.mysqlManager = new MySqlManager();
@@ -24,8 +24,7 @@ public class PriceComponent {
 	public Hardware getCheapestMotherboard(GraphDatabaseService db, String cypherQuery){
 		ArrayList tempArray = this.neo4jManager.executeQueryNeo4j(db, cypherQuery);
 		tempArray = this.getPricesByComponent(tempArray);
-		Hardware cheapestHardware = this.comparePricesFromComponentArray(tempArray);
-		return cheapestHardware;
+		return this.comparePricesFromComponentArray(tempArray);
 	}
 	public ArrayList getPricesByComponent(ArrayList component){
 		ArrayList newComponentList = new ArrayList();
@@ -70,6 +69,5 @@ public class PriceComponent {
 				smallestNumber = priceList[i];
 		}
 	}
-
 } 
 

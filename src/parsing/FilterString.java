@@ -26,8 +26,7 @@ public class FilterString {
 		 * i.e. The EAN number has 3 numbers in them
 		 * This will extract those 3 numbers.
 		 */
-		String[] output = input.split(",");
-		return output;
+		return input.split(",");
 	}
 	public String[] filterWhitespaceToCardInterface(String[] arrayCardInterface){
 		/*

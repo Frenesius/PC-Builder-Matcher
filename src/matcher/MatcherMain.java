@@ -2,10 +2,20 @@ package matcher;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import parsing.FilterString;
+import threads.CpuThread;
+import threads.GpuThread;
+import threads.RamThread;
 
 import com.google.gson.Gson;
+
 import components.CASE;
 import components.CPU;
 import components.GPU;
@@ -18,7 +28,7 @@ import components.PSU;
 import components.SSD;
 import components.Soundcard;
 
-public class MatcherMain {
+public class MatcherMain{
 	/*
 	 * When matching always fallback to Motherboard.
 	 * Array with components
@@ -33,7 +43,7 @@ public class MatcherMain {
 	 * arr[8] = Opticaldrive
 	 * arr[9] = Soundcard	
 	 */
-	FilterString filter = new FilterString();
+	private FilterString filter = new FilterString();
 	public static MatcherMotherboardCompatibility matchMobo = new MatcherMotherboardCompatibility();
 	/**
 	   * This method is used to match components when we have a ArrayList with a Motherboard.
@@ -66,10 +76,14 @@ public class MatcherMain {
 		
 		//Multithread 
 		//Thread t = new Thread(new Runnable() {public void run(){}});
-		
+		//t.start();
+
+//======//===============================
 		ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
 		cpu = matchMobo.matchCpuBasedOnMobo(motherboardSocket);
 		gpu = matchMobo.matchGpuBasedOnMobo(motherboardCardInterface);
+
+//======//===============================
 		
 		//Fills the List up
 		componentsList.clear();
@@ -88,9 +102,52 @@ public class MatcherMain {
 	}
 	/**
 	   * This method is used to match components when we have a Motherboard.
-	   * @param Motherboard Motherboard object that we want to use to match other hardware.
+	   * @param motherboardSocket Socket of the Motherboard. Needed to match a CPU.
+	   * @param motherboardCardInterface Card interface of the Motherboard. Needed to match a GPU.
+	   * @param motherboardGeheugenType Memory type (DDR type). Needed to match a RAM.
 	   * @return ArrayList Returns a matched components ArrayList.
 	   */
+	private ArrayList getHardware(String motherboardSocket, String motherboardCardInterface, String motherboardGeheugenType){
+		ArrayList hardware = new ArrayList();
+		CPU cpu = new CPU();
+		GPU gpu = new GPU();
+		Memory ram = new Memory();
+		
+		long startTime = System.currentTimeMillis();
+
+		ExecutorService executor = Executors.newFixedThreadPool(3);
+	    List<Future<Hardware>> list = new ArrayList<Future<Hardware>>();
+	   
+	    Callable<Hardware> cpuWorker = new CpuThread(motherboardSocket);
+	    Callable<Hardware> gpuWorker = new GpuThread(motherboardCardInterface);
+	    Callable<Hardware> ramWorker = new RamThread(motherboardGeheugenType);
+	    
+	    Future<Hardware> submit = executor.submit(cpuWorker);
+	    Future<Hardware> submit1 = executor.submit(gpuWorker);
+	    Future<Hardware> submit2 = executor.submit(ramWorker);
+	    
+	    list.add(submit);
+	    list.add(submit1);
+	    list.add(submit2);
+	    
+	    // now retrieve the result
+	    for (Future<Hardware> future : list) {
+	      try {
+	        hardware.add(future.get());
+	      } catch (InterruptedException e) {
+	        e.printStackTrace();
+	      } catch (ExecutionException e) {
+	        e.printStackTrace();
+	      }
+	    }
+	    
+	    System.out.print("\nDone");
+	    executor.shutdown();		
+	    long endTime   = System.currentTimeMillis();
+		long totalTime = endTime - startTime;
+		System.out.println("getHardware() Time: " +totalTime);
+		return hardware;
+	}
 	public ArrayList matchFromMotherboard(Motherboard motherboard) throws SQLException{
 		/*
 		 * Matches CPU,GPU and RAM when you have Motherboard as input.
@@ -114,9 +171,11 @@ public class MatcherMain {
 		String motherboardCardInterface = temparr[temparr.length-1];
 		
 		//Multithread
-		ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
-		cpu = matchMobo.matchCpuBasedOnMobo(motherboardSocket);
-		gpu = matchMobo.matchGpuBasedOnMobo(motherboardCardInterface);
+	
+		//ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
+		//cpu = matchMobo.matchCpuBasedOnMobo(motherboardSocket);
+		//gpu = matchMobo.matchGpuBasedOnMobo(motherboardCardInterface);
+		ArrayList result = this.getHardware(motherboardSocket, motherboardCardInterface, motherboardGeheugenType);
 		
 		//Fills the List up
 		componentsList.clear();
@@ -133,24 +192,25 @@ public class MatcherMain {
 		
 		return componentsList;
 	}
+	
 //============================================MATCHER TO MOBO	
 	/**
 	   * Determines if a component is selected or not.
-	   * @param ArrayList ArrayList with components.
+	   * @param components ArrayList with components.
 	   * @return ArrayList Returns a ArrayList with components that are not empty.
 	   */
 	public ArrayList determineSelectedComponents(ArrayList components){
 		ArrayList selectedComponents = new ArrayList();
 		for(int i = 0; i<components.size();i++){
 			Hardware h = (Hardware) components.get(i);
-			if(h.getIsEmpty() == false)
+			if(!h.getIsEmpty())
 				selectedComponents.add(h);
 		}
 		return selectedComponents;
 	}
 	/**
 	   * Creates a query to get the Motherboard matching the compatible Hardware.
-	   * @param ArrayList ArrayList with the matched components.
+	   * @param matchedComponents ArrayList with the matched components.
 	   * @return String Query to get the Motherboard from Neo4jDatabase.
 	   */
 	public String createQuery(ArrayList matchedComponents){
@@ -191,7 +251,7 @@ public class MatcherMain {
 //===========================================================
 	/**
 	   * This method parses JSON strings to Objects.
-	   * @param ArrayList ArrayList with the components.
+	   * @param componentsList ArrayList with the components.
 	   * @return ArrayList Returns a Hardware Object ArrayList.
 	   */
 	public ArrayList getHardwareByInput(ArrayList componentsList){

@@ -14,10 +14,10 @@ import components.WebInput;
 
 
 public class WebInputTest {
-	WebInput webinput = new WebInput();
-	MatcherMain matcher = new MatcherMain();
-	FindComponents findComponents = new FindComponents();
-	MatcherMotherboardCompatibility matchMobo = matcher.matchMobo;
+	private WebInput webinput = new WebInput();
+	private MatcherMain matcher = new MatcherMain();
+	private FindComponents findComponents = new FindComponents();
+	private MatcherMotherboardCompatibility matchMobo = matcher.matchMobo;
 	@Test
 	public void webInputTest() {
 		ArrayList result = webinput.inputWebserverMatchToMobo();
@@ -49,7 +49,7 @@ public class WebInputTest {
 		ArrayList matchedComponents = matcher.determineSelectedComponents(matcher.getHardwareByInput(webinput.inputWebserverMatchToMobo()));
 		String query = matcher.createQuery(matchedComponents);
 		Motherboard mb = new Motherboard();
-		if(query == "MOBO"){
+		if(query.equals("MOBO")){
 	    	mb = findComponents.getMotherboardFromArrayList(matchedComponents);
 			assertEquals(false, mb.getIsMatched());		//If MOBO is returned, it means that the motherboard is already in the ArrayList. 
 														//The motherboard can be retrieved from the arraylist and so its not matched. 
@@ -66,7 +66,7 @@ public class WebInputTest {
 		ArrayList matchedComponents = matcher.determineSelectedComponents(matcher.getHardwareByInput(webinput.inputWebserverMatchToMobo()));
 		String query = matcher.createQuery(matchedComponents);
 		Motherboard mb = new Motherboard();
-		if(query == "MOBO")
+		if(query.equals("MOBO"))
 	    	mb = findComponents.getMotherboardFromArrayList(matchedComponents);
 	    else
 	    	mb = matchMobo.matchMotherboard(query);

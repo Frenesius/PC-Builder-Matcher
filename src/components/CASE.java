@@ -1,21 +1,21 @@
 package components;
 
 public class CASE extends Hardware{
-	String hoogte;
-	String breedte;
-	String diepte;
-	String formfactor;
-	String materialen;
-	String kleuren;
-	String inclusiefvoeding;
-	String voedingplaats;
-	String behuizingtype;
-	String behuizingpanel;
-	String Volume;
-	String behuizingbayintern;		// origineel Behuizing bay intern
-	String gewicht;
-	String fanpoorten;
-	String aansluitingenvoorzijde;
+	private String hoogte;
+	private String breedte;
+	private String diepte;
+	private String formfactor;
+	private String materialen;
+	private String kleuren;
+	private String inclusiefvoeding;
+	private String voedingplaats;
+	private String behuizingtype;
+	private String behuizingpanel;
+	private String Volume;
+	private String behuizingbayintern;		// origineel Behuizing bay intern
+	private String gewicht;
+	private String fanpoorten;
+	private String aansluitingenvoorzijde;
 	public String getHoogte() {
 		return hoogte;
 	}
@@ -106,7 +106,4 @@ public class CASE extends Hardware{
 	public void setAansluitingenvoorzijde(String aansluitingenvoorzijde) {
 		this.aansluitingenvoorzijde = aansluitingenvoorzijde;
 	}
-	
-	
-	
 }

@@ -1,29 +1,29 @@
 package components;
 
 public class GPU extends Hardware{
-	String geheugengrootte;
-	String videochipfabrikant;
-	String geheugenbusbreedte;
-	String chipsetgeneratie;
-	String openglversie;
-	String typekoeling;
-	String aantalslots;
-	String cardinterfacevideo;			//origineel Card Interface (Video)
-	String geheugentypevideokaarten;	//origineel Geheugen Type (Videokaarten)
-	String verkoopstatus;
-	String aantalpinsvideokaarten;		// origineel Aantal pins (videokaarten)
-	String linkinterface;
-	String nominalesnelheidvideochip;
-	String videouit;
-	String lengte;
-	String maximaleturbofrequentie;
-	String geheugensnelheid;
-	String shadermodel;
-	String directxversie;
-	String videochip;
-	String aantal6pins;
-	String product;
-	String mantleondersteuning;
+	private String geheugengrootte;
+	private String videochipfabrikant;
+	private String geheugenbusbreedte;
+	private String chipsetgeneratie;
+	private String openglversie;
+	private String typekoeling;
+	private String aantalslots;
+	private String cardinterfacevideo;			//origineel Card Interface (Video)
+	private String geheugentypevideokaarten;	//origineel Geheugen Type (Videokaarten)
+	private String verkoopstatus;
+	private String aantalpinsvideokaarten;		// origineel Aantal pins (videokaarten)
+	private String linkinterface;
+	private String nominalesnelheidvideochip;
+	private String videouit;
+	private String lengte;
+	private String maximaleturbofrequentie;
+	private String geheugensnelheid;
+	private String shadermodel;
+	private String directxversie;
+	private String videochip;
+	private String aantal6pins;
+	private String product;
+	private String mantleondersteuning;
 	
 	public String getGeheugengrootte() {
 		return geheugengrootte;
@@ -163,7 +163,4 @@ public class GPU extends Hardware{
 	public void setMantleondersteuning(String mantleondersteuning) {
 		this.mantleondersteuning = mantleondersteuning;
 	}
-	
-	
-	
 }

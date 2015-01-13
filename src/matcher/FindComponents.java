@@ -3,7 +3,6 @@ package matcher;
 import java.util.ArrayList;
 
 import parsing.ParseHardware;
-import components.CPU;
 import components.Hardware;
 import components.Motherboard;
 
@@ -12,7 +11,7 @@ public class FindComponents {
 	ParseHardware parseHw = new ParseHardware();
 	   /**
 	   * This method is used to get a Motherboard from an ArrayList.
-	   * @param ArrayList ArrayList with the components.
+	   * @param components ArrayList with the components.
 	   * @return Motherboard Returns an motherboard from the ArrayList.
 	   */
 	public Motherboard getMotherboardFromArrayList(ArrayList components){
@@ -25,8 +24,8 @@ public class FindComponents {
 	}
 	/**
 	   * This method is used to merge the two ArrayLists. One with the selected components and one with matched.
-	   * @param ArrayList ArrayList with the user selected components.
-	   * @param ArrayList ArrayList with the matched components.
+	   * @param userSelectedComponents ArrayList with the user selected components.
+	   * @param matchedComponents ArrayList with the matched components.
 	   * @return ArrayList Returns a merged ArrayList.
 	   */
 	public ArrayList mergeComponentsArrayList(ArrayList userSelectedComponents, ArrayList matchedComponents){ 
@@ -50,11 +49,10 @@ public class FindComponents {
 			for(int i = 0; i<matchedComponents.size();i++){
 				Hardware matchedHw;
 				matchedHw = (Hardware) matchedComponents.get(i);
-				
 				try{
 				if(ParseHardware.isASubClass(userSelectedHw.getClass(), matchedHw))
 					System.out.print(i);
-				}catch(Exception e){System.out.println("null found");	}
+				}catch(Exception e){System.out.println("null found");}
 			}
 		}
 		return newList;

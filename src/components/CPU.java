@@ -1,13 +1,13 @@
 package components;
 
 public class CPU extends Hardware{
-	String snelheid;
-	String cpumultiplier;
-	String aantalcores;
-	String socket;
-	String threadsnieuw;
-	String procestechnologie;
-	String thermaldesignpower;
+	private String snelheid;
+	private String cpumultiplier;
+	private String aantalcores;
+	private String socket;
+	private String threadsnieuw;
+	private String procestechnologie;
+	private String thermaldesignpower;
 	
 	public String getSnelheid() {
 		return snelheid;
@@ -51,6 +51,4 @@ public class CPU extends Hardware{
 	public void setThermaldesignpower(String thermaldesignpower) {
 		this.thermaldesignpower = thermaldesignpower;
 	}
-	
-	
 }

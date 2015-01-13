@@ -51,10 +51,6 @@ public class MySqlManager {
 				 + "FROM hardwareprice.hardwareprice "
 				 + "WHERE ean = '"+EAN+"' "
 				 + "GROUP BY shopname;";
-	ResultSet rs = this.executeQueryMySql(mysqlConn, query);
-	return rs;
-}
-	
-	
-	
+	return this.executeQueryMySql(mysqlConn, query);
+	}
 }

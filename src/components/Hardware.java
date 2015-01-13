@@ -1,28 +1,27 @@
 package components;
 
 public class Hardware {
-	String sku;
-	String laagsteprijs;
-	String ean;
-	String tweakersid;
-	String aantalaanbieders;
-	String eersteprijsvermelding;
-	String merk;
-	String uitvoering;
-	String url;
+	private String sku;
+	private String laagsteprijs;
+	private String ean;
+	private String tweakersid;
+	private String aantalaanbieders;
+	private String eersteprijsvermelding;
+	private String merk;
+	private String uitvoering;
+	private String url;
+	private Boolean isEmpty;
+	private Boolean isMatched;
 
-	
-	String shopname;
-	String delivery;
-	String priceex;
-	String priceinc;
-	String linkshop;
-	String timestamp;
-	String hardwaresort;
-	
-	Boolean isEmpty;
-	Boolean isMatched;
-	
+	//Data from the MySQL Database
+	private String shopname;
+	private String delivery;
+	private String priceex;
+	private String priceinc;
+	private String linkshop;
+	private String timestamp;
+	private String hardwaresort;
+
 	public Boolean getIsMatched() {
 		return isMatched;
 	}
@@ -131,5 +130,4 @@ public class Hardware {
 	public void setIsEmpty(Boolean isEmpty) {
 		this.isEmpty = isEmpty;
 	}
-	
 }

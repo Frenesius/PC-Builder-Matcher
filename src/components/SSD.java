@@ -1,28 +1,28 @@
 package components;
 
 public class SSD extends Hardware{
-	String beoordeling;
-	String hoogte;
-	String verkoopstatus;
-	String fabrieksgarantie;
-	String product;
-	String serie;
-	String hardeschijfbusintern; 		// origineel Hardeschijf bus (intern)
-	String behuizingbayintern;
-	String ssdeigenschappen;
-	String opslagcapaciteit;
-	String lezensequentieel;			// origineel Lezen (sequentieel) 
-	String prijspergb;
-	String ssdtype;						// origineel SSD-type
-	String ssdcontroller;				// origineel SSD-controller
-	String schrijvensequentieel;		// origineel Schrijven (sequentieel)
-	String stroomverbruiklezen;			// origineel Stroomverbruik (lezen)
-	String lezenrandom4k;				// origineel Lezen (random 4K)
-	String schrijvenrandom4k;			// origineel Schrijven (random 4K)
-	String drivecache;
-	String stroomverbruikschrijven;		// origineel Stroomverbruik (schrijven)
-	String meantimebetweenfailures;		
-	String hddssdaansluiting;			// HDD/SSD-aansluiting
+	private String beoordeling;
+	private String hoogte;
+	private String verkoopstatus;
+	private String fabrieksgarantie;
+	private String product;
+	private String serie;
+	private String hardeschijfbusintern; 		// origineel Hardeschijf bus (intern)
+	private String behuizingbayintern;
+	private String ssdeigenschappen;
+	private String opslagcapaciteit;
+	private String lezensequentieel;			// origineel Lezen (sequentieel)
+	private String prijspergb;
+	private String ssdtype;						// origineel SSD-type
+	private String ssdcontroller;				// origineel SSD-controller
+	private String schrijvensequentieel;		// origineel Schrijven (sequentieel)
+	private String stroomverbruiklezen;			// origineel Stroomverbruik (lezen)
+	private String lezenrandom4k;				// origineel Lezen (random 4K)
+	private String schrijvenrandom4k;			// origineel Schrijven (random 4K)
+	private String drivecache;
+	private String stroomverbruikschrijven;		// origineel Stroomverbruik (schrijven)
+	private String meantimebetweenfailures;
+	private String hddssdaansluiting;			// HDD/SSD-aansluiting
 	
 	public String getBeoordeling() {
 		return beoordeling;
@@ -156,5 +156,4 @@ public class SSD extends Hardware{
 	public void setHddssdaansluiting(String hddssdaansluiting) {
 		this.hddssdaansluiting = hddssdaansluiting;
 	}
-	
 }

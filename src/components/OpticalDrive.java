@@ -1,18 +1,18 @@
 package components;
 
 public class OpticalDrive extends Hardware{
-	String kleuren;
-	String cdschrijfsnelheid;
-	String optischstationtype;			// origineel Optisch-stationtype
-	String cdleessnelheid;
-	String dvdherschijfsnelheid;
-	String dvdschrijfsnelheidsl;		// origineel DVD Schrijfsnelheid (SL)
-	String drivebay;
-	String dvdschrijfsnelheiddl;		// origineel DVD Schrijfsnelheid (DL)
-	String dvdleessnelheid;
-	String optischedriveextras;			// origineel Optische Drive Extra's
-	String cdherschrijfsnelheid;
-	String verbindingextern;			// origineel Verbinding (extern)
+	private String kleuren;
+	private String cdschrijfsnelheid;
+	private String optischstationtype;			// origineel Optisch-stationtype
+	private String cdleessnelheid;
+	private String dvdherschijfsnelheid;
+	private String dvdschrijfsnelheidsl;		// origineel DVD Schrijfsnelheid (SL)
+	private String drivebay;
+	private String dvdschrijfsnelheiddl;		// origineel DVD Schrijfsnelheid (DL)
+	private String dvdleessnelheid;
+	private String optischedriveextras;			// origineel Optische Drive Extra's
+	private String cdherschrijfsnelheid;
+	private String verbindingextern;			// origineel Verbinding (extern)
 	
 	public String getKleuren() {
 		return kleuren;
@@ -86,5 +86,4 @@ public class OpticalDrive extends Hardware{
 	public void setVerbindingextern(String verbindingextern) {
 		this.verbindingextern = verbindingextern;
 	}
-	
 }

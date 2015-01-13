@@ -1,24 +1,23 @@
 package components;
 
 public class HDD extends Hardware{
-	String behuizingbayintern;
-	String specsvanfabrikant;
-	String stroomverbruikschrijven; 	//origineel Stroomverbruik (shrijven)
-	String afmetingen;
-	String serie;
-	String meerinformatie;
-	String opslagcapaciteit;
-	String prijsverhouding;
-	String product;
-	String prijspergb;
-	String hardeschijfbusintern;		// origineel Hardeschijf bus (intern)
-	String drivecache;
-	String stroomverbruiklezen;			// origineel Stroomverbruik (lezen);
-	String hoogte;
-	String rotatiesnelheid;
-	String beoordeling;
-	
-	
+	private String behuizingbayintern;
+	private String specsvanfabrikant;
+	private String stroomverbruikschrijven; 	//origineel Stroomverbruik (shrijven)
+	private String afmetingen;
+	private String serie;
+	private String meerinformatie;
+	private String opslagcapaciteit;
+	private String prijsverhouding;
+	private String product;
+	private String prijspergb;
+	private String hardeschijfbusintern;		// origineel Hardeschijf bus (intern)
+	private String drivecache;
+	private String stroomverbruiklezen;			// origineel Stroomverbruik (lezen);
+	private String hoogte;
+	private String rotatiesnelheid;
+	private String beoordeling;
+
 	public String getBehuizingbayintern() {
 		return behuizingbayintern;
 	}
@@ -115,5 +114,4 @@ public class HDD extends Hardware{
 	public void setBeoordeling(String beoordeling) {
 		this.beoordeling = beoordeling;
 	}
-	
 }

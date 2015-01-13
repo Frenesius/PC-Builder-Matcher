@@ -1,28 +1,28 @@
 package components;
 
 public class PSU extends Hardware{
-	String beoordeling;
-	String typekoeling;
-	String hoogte;
-	String fabrieksgarantie;
-	String bijzonderheden;
-	String breedte;
-	String product;
-	String vermogenwatt;			// origineel Vermogen (watt)
-	String pciexpressaansluitingen;
-	String aantalmolexaansluitingen;
-	String aantalventilatoren;
-	String diepte;
-	String diameterventilator; //
-	String voedingtype;
-	String stroomspanningbeveiliging;
-	String aantal62pinsaansluitingen;	// origineel Aantal 6+2-pins aansluitingen
-	String modulair;
-	String rails12v;					// origineel +12V Rails
-	String aantalsataaansluitingen;		// origineel Aantal Sata-aansluitingen
-	String voedingcertificering;
-	String ventilatorlocatie;
-	String capaciteit12v1rail;
+	private String beoordeling;
+	private String typekoeling;
+	private String hoogte;
+	private String fabrieksgarantie;
+	private String bijzonderheden;
+	private String breedte;
+	private String product;
+	private String vermogenwatt;			// origineel Vermogen (watt)
+	private String pciexpressaansluitingen;
+	private String aantalmolexaansluitingen;
+	private String aantalventilatoren;
+	private String diepte;
+	private String diameterventilator; //
+	private String voedingtype;
+	private String stroomspanningbeveiliging;
+	private String aantal62pinsaansluitingen;	// origineel Aantal 6+2-pins aansluitingen
+	private String modulair;
+	private String rails12v;					// origineel +12V Rails
+	private String aantalsataaansluitingen;		// origineel Aantal Sata-aansluitingen
+	private String voedingcertificering;
+	private String ventilatorlocatie;
+	private String capaciteit12v1rail;
 	
 	public String getBeoordeling() {
 		return beoordeling;
@@ -156,6 +156,4 @@ public class PSU extends Hardware{
 	public void setCapaciteit12v1rail(String capaciteit12v1rail) {
 		this.capaciteit12v1rail = capaciteit12v1rail;
 	}
-	
-	
 }

@@ -1,23 +1,15 @@
 package databasemanager;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 
 import org.glassfish.jersey.client.ClientResponse;
-import org.neo4j.cypher.internal.spi.v2_1.TransactionBoundQueryContext.NodeOperations;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.ResourceIterator;
 import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
-import org.neo4j.helpers.collection.IteratorUtil;
 import org.neo4j.tooling.GlobalGraphOperations;
-
-import scala.collection.Iterator;
 
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
@@ -27,8 +19,8 @@ public class Neo4jManager {
 	 * Neo4j Database manager.
 	 * Used to execute queries, get nodes.
 	 */
-	public static String DB_PATH = "/home/j/Build/graph.db";  //TODO CHANGE LOCATION
-	public static String SERVER_ROOT_URI = "http://localhost:7474/";
+	private  String DB_PATH = "/home/j/Build/graph.db";  //TODO CHANGE LOCATION
+	private  String SERVER_ROOT_URI = "http://localhost:7474/";
 	
 	public GraphDatabaseService openNeo4jDatabase(){
 		/*
@@ -37,11 +29,8 @@ public class Neo4jManager {
 		
 		GraphDatabaseService start = new GraphDatabaseFactory().newEmbeddedDatabase(DB_PATH); 
 		start.shutdown();
-		GraphDatabaseService graphDb = new GraphDatabaseFactory().newEmbeddedDatabase(DB_PATH); 
-		
-		return graphDb;
+		return new GraphDatabaseFactory().newEmbeddedDatabase(DB_PATH);
 	}
-	
 	public void closeNeo4jDatabase(GraphDatabaseService graphDb){
 		/*
 		 * Shuts the database connection off.
@@ -50,7 +39,6 @@ public class Neo4jManager {
 		graphDb.shutdown();
 		System.out.println("Database Closed Successfully...");
 	}
-	
 	public ArrayList executeQueryNeo4j(GraphDatabaseService db, String cypherQuery){
 		/*
 		 * Executes a Cypher query on the Neo4j Database.
@@ -72,7 +60,6 @@ public class Neo4jManager {
 		finally {tx.close();} 
 		return nodeArr;
 	}
-	
 	public void openConnectionRest(){
 		/*
 		 * Testing to get a connection in REST.
@@ -85,7 +72,6 @@ public class Neo4jManager {
 		        SERVER_ROOT_URI, response.getStatus() ) );
 		response.close();
 	}
-	
     public ArrayList<Node> getAllNodes(GraphDatabaseService graphDb ){
     	/*
     	 * Gets all Nodes in the Neo4j Database and gives it back in an ArrayList.
@@ -97,12 +83,9 @@ public class Neo4jManager {
                 nodes.add(node);
             }
             tx.success();
-        }catch(Exception e){
-        	
-        }
+        }catch(Exception e){}
         return nodes;	//Returns an ArrayList with all the Nodes.
     }
-	
     public void getNodeByProperty(ArrayList nodeList, String property){
     	/*
     	 * Gets the property of an Node Proxy.
