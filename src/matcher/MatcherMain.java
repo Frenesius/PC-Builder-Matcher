@@ -47,7 +47,7 @@ public class MatcherMain{
 	public static MatcherMotherboardCompatibility matchMobo = new MatcherMotherboardCompatibility();
 	/**
 	   * This method is used to match components when we have a ArrayList with a Motherboard.
-	   * @param ArrayList ArrayList with the components (Motherboard needs to be in it).
+	   * @param componentsList ArrayList with the components (Motherboard needs to be in it).
 	   * @return ArrayList Returns a matched components ArrayList.
 	   */
 	public ArrayList matchFromMotherboard(ArrayList componentsList) throws SQLException{
@@ -112,40 +112,19 @@ public class MatcherMain{
 		CPU cpu = new CPU();
 		GPU gpu = new GPU();
 		Memory ram = new Memory();
-		
-		long startTime = System.currentTimeMillis();
 
-		ExecutorService executor = Executors.newFixedThreadPool(3);
-	    List<Future<Hardware>> list = new ArrayList<Future<Hardware>>();
-	   
-	    Callable<Hardware> cpuWorker = new CpuThread(motherboardSocket);
-	    Callable<Hardware> gpuWorker = new GpuThread(motherboardCardInterface);
-	    Callable<Hardware> ramWorker = new RamThread(motherboardGeheugenType);
-	    
-	    Future<Hardware> submit = executor.submit(cpuWorker);
-	    Future<Hardware> submit1 = executor.submit(gpuWorker);
-	    Future<Hardware> submit2 = executor.submit(ramWorker);
-	    
-	    list.add(submit);
-	    list.add(submit1);
-	    list.add(submit2);
-	    
-	    // now retrieve the result
-	    for (Future<Hardware> future : list) {
-	      try {
-	        hardware.add(future.get());
-	      } catch (InterruptedException e) {
-	        e.printStackTrace();
-	      } catch (ExecutionException e) {
-	        e.printStackTrace();
-	      }
-	    }
-	    
-	    System.out.print("\nDone");
-	    executor.shutdown();		
-	    long endTime   = System.currentTimeMillis();
-		long totalTime = endTime - startTime;
-		System.out.println("getHardware() Time: " +totalTime);
+		CpuThread cpuThread = new CpuThread(motherboardSocket);
+		RamThread ramThread = new RamThread(motherboardGeheugenType);
+		GpuThread gpuThread = new GpuThread(motherboardCardInterface);
+
+		cpuThread.run();
+		ramThread.run();
+		gpuThread.run();
+
+		hardware.add(0, (Memory) ramThread.getHardware());		//1
+		hardware.add(1, (CPU) cpuThread.getHardware());		//2
+		hardware.add(2, (GPU) gpuThread.getHardware());		//3
+
 		return hardware;
 	}
 	public ArrayList matchFromMotherboard(Motherboard motherboard) throws SQLException{
@@ -171,12 +150,11 @@ public class MatcherMain{
 		String motherboardCardInterface = temparr[temparr.length-1];
 		
 		//Multithread
-	
-		ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
-		cpu = matchMobo.matchCpuBasedOnMobo(motherboardSocket);
-		gpu = matchMobo.matchGpuBasedOnMobo(motherboardCardInterface);
 		ArrayList result = this.getHardware(motherboardSocket, motherboardCardInterface, motherboardGeheugenType);
-		
+		ram = (Memory) result.get(0);
+		cpu = (CPU) result.get(1);
+		gpu = (GPU) result.get(2);
+
 		//Fills the List up
 		componentsList.clear();
 		componentsList.add(0, cpu);
@@ -244,7 +222,6 @@ public class MatcherMain{
 		}
 		String returnCypher = "RETURN n;";
 		matchMoboQuery += returnCypher;
-		
 		return matchMoboQuery;	
 	}	
 	
