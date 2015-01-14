@@ -2,14 +2,10 @@ package matcher;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import components.*;
 import org.neo4j.graphdb.GraphDatabaseService;
 
 import parsing.ParseHardware;
-
-import components.CPU;
-import components.GPU;
-import components.Memory;
-import components.Motherboard;
 
 import databasemanager.Neo4jManager;
 
@@ -105,6 +101,29 @@ public class MatcherMotherboardCompatibility {
 		if(matches.size()>0){
 			mb = (Motherboard) priceComponent.getPricesByComponent(parseHw.parseQueryToMotherboardObject(this.db, matches));
 		}return mb;
+	}
+	public int checkInstance(Hardware h) {
+		if (h instanceof CPU)
+			return 0;
+		else if (h instanceof GPU)
+			return 1;
+		else if (h instanceof Memory)
+			return 2;
+		else if (h instanceof HDD)
+			return 3;
+		else if (h instanceof SSD)
+			return 4;
+		else if (h instanceof PSU)
+			return 5;
+		else if (h instanceof CASE)
+			return 6;
+		else if (h instanceof Motherboard)
+			return 7;
+		else if (h instanceof OpticalDrive)
+			return 8;
+		else if (h instanceof Soundcard)
+			return 9;
+		return -1;
 	}
 	
 }

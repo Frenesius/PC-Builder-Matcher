@@ -2,12 +2,11 @@ package matcher;
 
 import java.util.ArrayList;
 
+import components.*;
 import parsing.ParseHardware;
-import components.Hardware;
-import components.Motherboard;
 
 public class FindComponents {
-	
+	MatcherMotherboardCompatibility matcherMobo = new MatcherMotherboardCompatibility();
 	ParseHardware parseHw = new ParseHardware();
 	   /**
 	   * This method is used to get a Motherboard from an ArrayList.
@@ -28,7 +27,7 @@ public class FindComponents {
 	   * @param matchedComponents ArrayList with the matched components.
 	   * @return ArrayList Returns a merged ArrayList.
 	   */
-	public ArrayList mergeComponentsArrayList(ArrayList userSelectedComponents, ArrayList matchedComponents){ 
+	public ArrayList mergeComponentsArrayList(ArrayList userSelectedComponents, ArrayList matchedComponents) {
 		/*
 		 * userSelectedComponents goes before matchedComponents
 		 * Array with components
@@ -44,17 +43,24 @@ public class FindComponents {
 		 * arr[9] = Soundcard	
 		 */
 		ArrayList newList = new ArrayList();
-		for(int a = 0; a<userSelectedComponents.size(); a++){
-			Hardware userSelectedHw = (Hardware) userSelectedComponents.get(a);
-			for(int i = 0; i<matchedComponents.size();i++){
-				Hardware matchedHw;
-				matchedHw = (Hardware) matchedComponents.get(i);
-				try{
-				if(ParseHardware.isASubClass(userSelectedHw.getClass(), matchedHw))
-					System.out.print(i);
-				}catch(Exception e){System.out.println("null found");}
+		for(int i = 0; i<userSelectedComponents.size();i++) {
+			Hardware h = (Hardware) userSelectedComponents.get(i);
+			int position = matcherMobo.checkInstance(h);
+			if(position != -1)
+				newList.add(position, h);
+		}
+		for (int i = 0; i < matchedComponents.size(); i++) {
+			Hardware h = (Hardware) matchedComponents.get(i);
+			if (h != null) {
+				try {
+					newList.get(i);
+				} catch (Exception e) {
+					newList.add(i, h);
+				}
 			}
 		}
 		return newList;
 	}
+
+
 }

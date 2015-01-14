@@ -117,13 +117,23 @@ public class MatcherMain{
 		RamThread ramThread = new RamThread(motherboardGeheugenType);
 		GpuThread gpuThread = new GpuThread(motherboardCardInterface);
 
-		cpuThread.run();
-		ramThread.run();
-		gpuThread.run();
+		Thread t1 = new Thread(cpuThread);
+		Thread t2 = new Thread(ramThread);
+		Thread t3 = new Thread(gpuThread);
 
+		t1.start();
+		t2.start();
+		t3.start();
+		try {
+			t1.join();
+			t3.join();
+			t2.join();
+		}catch(Exception e){
+
+		}
 		hardware.add(0, (Memory) ramThread.getHardware());		//1
-		hardware.add(1, (CPU) cpuThread.getHardware());		//2
-		hardware.add(2, (GPU) gpuThread.getHardware());		//3
+		hardware.add(1, (CPU) cpuThread.getHardware());			//2
+		hardware.add(2, (GPU) gpuThread.getHardware());			//3
 
 		return hardware;
 	}
@@ -143,8 +153,8 @@ public class MatcherMain{
 		OpticalDrive opt = new OpticalDrive();
 		Soundcard soundcard = new Soundcard();
 		
-		String EAN = this.filter.splitByCommas(motherboard.getEan())[0];														//Ean to select the thing
-		String motherboardSocket = motherboard.getSocket();																//Staat goed
+		String EAN = this.filter.splitByCommas(motherboard.getEan())[0];								//Ean to select the thing
+		String motherboardSocket = motherboard.getSocket();												//Staat goed
 		String motherboardGeheugenType = filter.filterStringOnDdrType(motherboard.getGeheugentype());					//Gefilterd
 		String[] temparr = this.filter.filterWhitespaceToCardInterface(this.filter.splitByCommas(motherboard.getCardinterface()));
 		String motherboardCardInterface = temparr[temparr.length-1];
