@@ -49,7 +49,7 @@ public class FilterString {
 		}
 		return arrayCardInterface;
 	}
-	public String addWhitespaceToEanNumber(String EAN){
+	public String addWhitespaceToEanNumber(String EAN) throws Exception{
 		return EAN.replace(",", ", ");
 	}
 }

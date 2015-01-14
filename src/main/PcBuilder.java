@@ -16,6 +16,8 @@ public class PcBuilder {
 
 	private MatcherMain matcher = new MatcherMain();
 	private ParseHardware parseHw = new ParseHardware();
+	FindComponents findComponents = new FindComponents();
+	MatcherMotherboardCompatibility matchMobo = matcher.matchMobo;
 
 	//Starts to run the program
 	public void start() throws SQLException{
@@ -30,20 +32,12 @@ public class PcBuilder {
 	   * @return ArrayList Returns the result of the checking.
 	   */
 	public ArrayList fullCheck(ArrayList componentsInput) throws SQLException{
-		/*
-		 * Does the full check and gives back an compatible and cheapest Hardware in the form of an ArrayList.
-		 * 
-		 */
-		ArrayList selectedComponents = new ArrayList();
 		Motherboard mb = new Motherboard();
-		FindComponents findComponents = new FindComponents();
-	    MatcherMotherboardCompatibility matchMobo = matcher.matchMobo;
-
+		ArrayList selectedComponents = new ArrayList();
 	    ArrayList finishedComponents = new ArrayList();
-	    ArrayList tempComponents = new ArrayList();
 
 		ArrayList matchedComponents = matcher.determineSelectedComponents(componentsInput);	
-		selectedComponents = matchedComponents;												//Copies the components the user has selected
+		selectedComponents = matchedComponents;								//Copies the components the user has selected
 	    String result = matcher.createQuery(matchedComponents);
 	    
 	    //If there is a MOBO in the list match everything from motherboard
@@ -51,15 +45,9 @@ public class PcBuilder {
 	    	mb = findComponents.getMotherboardFromArrayList(matchedComponents);
 	    else
 	    	mb = matchMobo.matchMotherboard(result);
-		//Get prices for selected components
 
-		selectedComponents = MatcherMain.matchMobo.getPricesSelectedComponents(selectedComponents);
-
-	    tempComponents = matcher.matchFromMotherboard(mb);	//All matched Hardware
-
-    	//Remove the stuff you got as an input
-    	//i.e. This matches and give back CPU,and if CPU already selected. Replace the selected CPU
-	    finishedComponents = findComponents.mergeComponentsArrayList(selectedComponents, tempComponents); //Not complete
+	    finishedComponents = findComponents.mergeComponentsArrayList(MatcherMain.matchMobo.getPricesSelectedComponents(selectedComponents),
+				matcher.matchFromMotherboard(mb)); //Gets prices and merges the cheapest hardware.
 
 	    return finishedComponents;
 	}

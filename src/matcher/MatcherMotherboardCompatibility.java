@@ -110,7 +110,9 @@ public class MatcherMotherboardCompatibility {
 			ArrayList a = new ArrayList();
 			Hardware h = (Hardware) userSelectedComponents.get(i);
 			if(h instanceof CPU){
-				h.setEan(filterString.addWhitespaceToEanNumber(h.getEan()));
+				try {
+					h.setEan(filterString.addWhitespaceToEanNumber(h.getEan()));
+				}catch(Exception e){}
 			}
 			a.add(h);
 			priceComponentList.add(priceComponent.getPricesByArrayList(a));
