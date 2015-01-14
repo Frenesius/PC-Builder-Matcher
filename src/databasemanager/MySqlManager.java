@@ -73,9 +73,9 @@ public class MySqlManager {
 		for(int i = 0; i < component.size();i++){
 			Hardware hardware = (Hardware) component.get(i);
 			if(i == 0)
-				query +=" WHERE ean = \'"+hardware.getEan()+"\'";
+				query +=" WHERE ean LIKE \'"+hardware.getEan()+"\'";
 			else
-				query +=" OR ean = \'"+hardware.getEan()+"\'";
+				query +=" OR ean LIKE \'"+hardware.getEan()+"\'";
 
 		}
 		query += "GROUP BY shopname;";

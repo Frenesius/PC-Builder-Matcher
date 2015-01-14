@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import components.*;
 import org.neo4j.graphdb.GraphDatabaseService;
 
+import parsing.FilterString;
 import parsing.ParseHardware;
 
 import databasemanager.Neo4jManager;
@@ -16,6 +17,7 @@ public class MatcherMotherboardCompatibility {
 	private ParseHardware parseHw;
 	private Thread t;
 	private String threadName;
+	FilterString filterString = new FilterString();
 	
 	public MatcherMotherboardCompatibility(){
 		this.neo4j = new Neo4jManager();
@@ -46,7 +48,7 @@ public class MatcherMotherboardCompatibility {
 					 + "RETURN n;";
 		ArrayList matches = this.neo4j.executeQueryNeo4j(this.db, query);
 		if(matches.size()>0){
-			gpu = (GPU) priceComponent.getPricesByComponent(parseHw.parseQueryToGPUObject(this.db, matches));
+			gpu = (GPU) priceComponent.getPricesByArrayList(parseHw.parseQueryToGPUObject(this.db, matches));
 		}else{gpu = null;}
 		
 		return gpu;
@@ -67,7 +69,7 @@ public class MatcherMotherboardCompatibility {
 		if(matches.size()>0){
 			//TODO Return een ram met goedkoopste prijs
 			//================================
-			ram  = (Memory) priceComponent.getPricesByComponent(parseHw.parseQueryToRAMObject(this.db, matches));
+			ram  = (Memory) priceComponent.getPricesByArrayList(parseHw.parseQueryToRAMObject(this.db, matches));
 		}else{ram = null;}
 		
 		return ram;
@@ -84,7 +86,7 @@ public class MatcherMotherboardCompatibility {
 					 + "RETURN n;";
 		ArrayList matches = this.neo4j.executeQueryNeo4j(this.db, query);		
 		if(matches.size()>0){
-			cpu = (CPU) priceComponent.getPricesByComponent(parseHw.parseQueryToCPUObject(this.db, matches));
+			cpu = (CPU) priceComponent.getPricesByArrayList(parseHw.parseQueryToCPUObject(this.db, matches));
 
 		}else{cpu = null;}		
 		
@@ -99,31 +101,24 @@ public class MatcherMotherboardCompatibility {
 		Motherboard mb = new Motherboard();
 		ArrayList matches = this.neo4j.executeQueryNeo4j(this.db, matchMoboQuery);		
 		if(matches.size()>0){
-			mb = (Motherboard) priceComponent.getPricesByComponent(parseHw.parseQueryToMotherboardObject(this.db, matches));
+			mb = (Motherboard) priceComponent.getPricesByArrayList(parseHw.parseQueryToMotherboardObject(this.db, matches));
 		}return mb;
 	}
-	public int checkInstance(Hardware h) {
-		if (h instanceof CPU)
-			return 0;
-		else if (h instanceof GPU)
-			return 1;
-		else if (h instanceof Memory)
-			return 2;
-		else if (h instanceof HDD)
-			return 3;
-		else if (h instanceof SSD)
-			return 4;
-		else if (h instanceof PSU)
-			return 5;
-		else if (h instanceof CASE)
-			return 6;
-		else if (h instanceof Motherboard)
-			return 7;
-		else if (h instanceof OpticalDrive)
-			return 8;
-		else if (h instanceof Soundcard)
-			return 9;
-		return -1;
+	public ArrayList getPricesSelectedComponents(ArrayList userSelectedComponents){
+		ArrayList priceComponentList = new ArrayList();
+		for(int i = 0; i<userSelectedComponents.size();i++) {
+			ArrayList a = new ArrayList();
+			Hardware h = (Hardware) userSelectedComponents.get(i);
+			if(h instanceof CPU){
+				h.setEan(filterString.addWhitespaceToEanNumber(h.getEan()));
+			}
+			a.add(h);
+			priceComponentList.add(priceComponent.getPricesByArrayList(a));
+
+		}
+		return priceComponentList;
 	}
+
+
 	
 }

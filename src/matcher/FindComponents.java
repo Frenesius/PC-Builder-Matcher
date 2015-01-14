@@ -6,7 +6,6 @@ import components.*;
 import parsing.ParseHardware;
 
 public class FindComponents {
-	MatcherMotherboardCompatibility matcherMobo = new MatcherMotherboardCompatibility();
 	ParseHardware parseHw = new ParseHardware();
 	   /**
 	   * This method is used to get a Motherboard from an ArrayList.
@@ -45,7 +44,7 @@ public class FindComponents {
 		ArrayList newList = new ArrayList();
 		for(int i = 0; i<userSelectedComponents.size();i++) {
 			Hardware h = (Hardware) userSelectedComponents.get(i);
-			int position = matcherMobo.checkInstance(h);
+			int position = checkInstance(h);
 			if(position != -1)
 				newList.add(position, h);
 		}
@@ -61,6 +60,27 @@ public class FindComponents {
 		}
 		return newList;
 	}
-
-
+	public int checkInstance(Hardware h) {
+		if (h instanceof CPU)
+			return 0;
+		else if (h instanceof GPU)
+			return 1;
+		else if (h instanceof Memory)
+			return 2;
+		else if (h instanceof HDD)
+			return 3;
+		else if (h instanceof SSD)
+			return 4;
+		else if (h instanceof PSU)
+			return 5;
+		else if (h instanceof CASE)
+			return 6;
+		else if (h instanceof Motherboard)
+			return 7;
+		else if (h instanceof OpticalDrive)
+			return 8;
+		else if (h instanceof Soundcard)
+			return 9;
+		return -1;
+	}
 }

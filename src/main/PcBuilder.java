@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import matcher.FindComponents;
 import matcher.MatcherMain;
 import matcher.MatcherMotherboardCompatibility;
+import matcher.PriceComponent;
 import parsing.ParseHardware;
 
 import components.Motherboard;
@@ -15,6 +16,7 @@ public class PcBuilder {
 
 	private MatcherMain matcher = new MatcherMain();
 	private ParseHardware parseHw = new ParseHardware();
+
 	//Starts to run the program
 	public void start() throws SQLException{
 		//Connections and objects
@@ -36,10 +38,10 @@ public class PcBuilder {
 		Motherboard mb = new Motherboard();
 		FindComponents findComponents = new FindComponents();
 	    MatcherMotherboardCompatibility matchMobo = matcher.matchMobo;
-	    
+
 	    ArrayList finishedComponents = new ArrayList();
 	    ArrayList tempComponents = new ArrayList();
-	    
+
 		ArrayList matchedComponents = matcher.determineSelectedComponents(componentsInput);	
 		selectedComponents = matchedComponents;												//Copies the components the user has selected
 	    String result = matcher.createQuery(matchedComponents);
@@ -49,14 +51,17 @@ public class PcBuilder {
 	    	mb = findComponents.getMotherboardFromArrayList(matchedComponents);
 	    else
 	    	mb = matchMobo.matchMotherboard(result);
-	    
-	    tempComponents = matcher.matchFromMotherboard(mb);
+		//Get prices for selected components
+
+		selectedComponents = MatcherMain.matchMobo.getPricesSelectedComponents(selectedComponents);
+
+	    tempComponents = matcher.matchFromMotherboard(mb);	//All matched Hardware
+
     	//Remove the stuff you got as an input
     	//i.e. This matches and give back CPU,and if CPU already selected. Replace the selected CPU
 	    finishedComponents = findComponents.mergeComponentsArrayList(selectedComponents, tempComponents); //Not complete
-	    String debuga = "a";
 
-	    return finishedComponents;	
+	    return finishedComponents;
 	}
 
 

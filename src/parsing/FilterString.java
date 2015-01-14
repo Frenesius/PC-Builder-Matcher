@@ -49,4 +49,7 @@ public class FilterString {
 		}
 		return arrayCardInterface;
 	}
+	public String addWhitespaceToEanNumber(String EAN){
+		return EAN.replace(",", ", ");
+	}
 }
