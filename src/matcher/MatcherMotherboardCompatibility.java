@@ -50,8 +50,7 @@ public class MatcherMotherboardCompatibility {
 					 + "RETURN n;";
 		ArrayList matches = this.neo4j.executeQueryNeo4j(this.db, query);
 		if(matches.size()>0){
-			matches = priceComponent.getPricesByComponent(parseHw.parseQueryToGPUObject(this.db, matches));
-			gpu = (GPU) priceComponent.comparePricesFromComponentArray(matches);
+			gpu = (GPU) priceComponent.getPricesByComponent(parseHw.parseQueryToGPUObject(this.db, matches));
 		}else{gpu = null;}
 		
 		return gpu;
@@ -63,14 +62,16 @@ public class MatcherMotherboardCompatibility {
 	   */
 	
 	public Memory matchRamBasedOnMobo(String motherboardGeheugenType){
+		//================================
 		Memory ram = new Memory();
 		String query = "MATCH (n:MEMORY) "
 					 + "WHERE n.Geheugentype =~ '.*(?i)"+motherboardGeheugenType+".*' "
 					 + "RETURN n;";
 		ArrayList matches = this.neo4j.executeQueryNeo4j(this.db, query);
 		if(matches.size()>0){
-			matches = priceComponent.getPricesByComponent(parseHw.parseQueryToRAMObject(this.db, matches));
-			ram = (Memory) priceComponent.comparePricesFromComponentArray(matches);
+			//TODO Return een ram met goedkoopste prijs
+			//================================
+			ram  = (Memory) priceComponent.getPricesByComponent(parseHw.parseQueryToRAMObject(this.db, matches));
 		}else{ram = null;}
 		
 		return ram;
@@ -87,8 +88,8 @@ public class MatcherMotherboardCompatibility {
 					 + "RETURN n;";
 		ArrayList matches = this.neo4j.executeQueryNeo4j(this.db, query);		
 		if(matches.size()>0){
-			matches = priceComponent.getPricesByComponent(parseHw.parseQueryToCPUObject(this.db, matches));
-			cpu = (CPU) priceComponent.comparePricesFromComponentArray(matches);
+			cpu = (CPU) priceComponent.getPricesByComponent(parseHw.parseQueryToCPUObject(this.db, matches));
+
 		}else{cpu = null;}		
 		
 		return cpu;
@@ -102,8 +103,7 @@ public class MatcherMotherboardCompatibility {
 		Motherboard mb = new Motherboard();
 		ArrayList matches = this.neo4j.executeQueryNeo4j(this.db, matchMoboQuery);		
 		if(matches.size()>0){
-			matches = priceComponent.getPricesByComponent(parseHw.parseQueryToMotherboardObject(this.db, matches));
-			mb = (Motherboard) priceComponent.comparePricesFromComponentArray(matches);
+			mb = (Motherboard) priceComponent.getPricesByComponent(parseHw.parseQueryToMotherboardObject(this.db, matches));
 		}return mb;
 	}
 	

@@ -5,7 +5,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
+import java.util.ArrayList;
+
+import components.Hardware;
+
 
 public class MySqlManager {
 	/*
@@ -18,7 +21,6 @@ public class MySqlManager {
 	private String MYSQL_URL = "jdbc:mysql://localhost:3306/hardwareprice";
 	private String MYSQL_USER = "user1";
 	private String MYSQL_PASSWORD = "user1";
-
 
 	public Connection connectDB() throws SQLException {
 		/*
@@ -46,11 +48,38 @@ public class MySqlManager {
 		}catch (SQLException e){e.printStackTrace();}
 		return c;
 	}
+	int i = 0;
 	public ResultSet getPricesByComponentEan(Connection mysqlConn, String EAN){
 		String query = "SELECT ean, shopname, delivery, priceex, priceinc, linkshop, max(timestamp) "
 				 + "FROM hardwareprice.hardwareprice "
 				 + "WHERE ean = '"+EAN+"' "
 				 + "GROUP BY shopname;";
-	return this.executeQueryMySql(mysqlConn, query);
+		//2830 queries
+		System.out.println(query);
+		i++;
+		return this.executeQueryMySql(mysqlConn, query);
 	}
+	public ResultSet getEverything(Connection mysqlConn){
+		String query = "SELECT ean, shopname, delivery, priceex, priceinc, linkshop, max(timestamp) "
+				+ "FROM hardwareprice.hardwareprice GROUP BY hardwareprice.ean; ";
+		//2830 queries
+		//System.out.println(query);
+		i++;
+		return this.executeQueryMySql(mysqlConn, query);
+	}
+	public String buildQuery(ArrayList component){
+		String query = "SELECT ean, shopname, delivery, priceex, min(priceinc), linkshop, max(timestamp) " +
+				"FROM hardwareprice.hardwareprice ";
+		for(int i = 0; i < component.size();i++){
+			Hardware hardware = (Hardware) component.get(i);
+			if(i == 0)
+				query +=" WHERE ean = \'"+hardware.getEan()+"\'";
+			else
+				query +=" OR ean = \'"+hardware.getEan()+"\'";
+
+		}
+		query += "GROUP BY shopname;";
+		return query;
+	}
+
 }

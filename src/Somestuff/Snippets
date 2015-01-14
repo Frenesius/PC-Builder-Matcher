@@ -122,6 +122,41 @@ No idea what this does, but old code.
 			}
 =============================================================================================
 
+	public void getLowestPrice(float[] priceList){
+		float smallestNumber = priceList[0];
+		for(int i = 0; i<priceList.length;i++){
+			if(priceList[i]<smallestNumber)
+				smallestNumber = priceList[i];
+		}
+	}
+	public Memory getCheapestMemory(ArrayList arr){
+		Memory ram = new Memory();
+		float lowestPrice = 999999999;
+		for(int i = 0;i<arr.size();i++){
+			ram = (Memory) arr.get(i);
+			ResultSet rs  = mysqlManager.getPricesByComponentEan(this.mysqlConn, ram.getEan());
+			try {
+				if(rs.next()){
+					float price = Float.parseFloat(rs.getString(rs.findColumn("priceex")));
+					if (price < lowestPrice) {
+						lowestPrice = price;
+						ram.setEan(rs.getString(rs.findColumn("ean")));
+						ram.setShopname(rs.getString(rs.findColumn("shopname")));
+						ram.setDelivery(rs.getString(rs.findColumn("delivery")));
+						ram.setPriceex(rs.getString(rs.findColumn("priceex")));
+						ram.setPriceinc(rs.getString(rs.findColumn("priceinc")));
+						ram.setLinkshop(rs.getString(rs.findColumn("linkshop")));
+						ram.setTimestamp((rs.getString(rs.findColumn("max(timestamp)"))));
+					}
+				}
+			}catch(SQLException e){e.printStackTrace();}
+
+		}
+
+		return ram;
+	}
+========================================================================================================================
+
 
 
 

@@ -172,9 +172,9 @@ public class MatcherMain{
 		
 		//Multithread
 	
-		//ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
-		//cpu = matchMobo.matchCpuBasedOnMobo(motherboardSocket);
-		//gpu = matchMobo.matchGpuBasedOnMobo(motherboardCardInterface);
+		ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
+		cpu = matchMobo.matchCpuBasedOnMobo(motherboardSocket);
+		gpu = matchMobo.matchGpuBasedOnMobo(motherboardCardInterface);
 		ArrayList result = this.getHardware(motherboardSocket, motherboardCardInterface, motherboardGeheugenType);
 		
 		//Fills the List up
