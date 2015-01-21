@@ -2,12 +2,6 @@ package matcher;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 import parsing.FilterString;
 import threads.CpuThread;
@@ -71,8 +65,8 @@ public class MatcherMain{
 		String EAN = this.filter.splitByCommas(motherboard.getEan())[0];														//Ean to select the thing
 		String motherboardSocket = motherboard.getSocket();																//Staat goed
 		String motherboardGeheugenType = filter.filterStringOnDdrType(motherboard.getGeheugentype());					//Gefilterd
-		String[] temparr = this.filter.filterWhitespaceToCardInterface(this.filter.splitByCommas(motherboard.getCardinterface()));
-		String motherboardCardInterface = temparr[temparr.length-1];
+		ArrayList temparr = this.filter.filterWhitespaceToCardInterface(this.filter.splitByCommas(motherboard.getCardinterface()));
+		String motherboardCardInterface = (String) temparr.get(temparr.size()-1);
 		
 		//Multithread 
 		//Thread t = new Thread(new Runnable() {public void run(){}});
@@ -129,7 +123,7 @@ public class MatcherMain{
 			t3.join();
 			t2.join();
 		}catch(Exception e){
-
+			System.out.println("aaaaa");
 		}
 		hardware.add(0, (Memory) ramThread.getHardware());		//1
 		hardware.add(1, (CPU) cpuThread.getHardware());			//2
@@ -156,9 +150,10 @@ public class MatcherMain{
 		String EAN = this.filter.splitByCommas(motherboard.getEan())[0];								//Ean to select the thing
 		String motherboardSocket = motherboard.getSocket();												//Staat goed
 		String motherboardGeheugenType = filter.filterStringOnDdrType(motherboard.getGeheugentype());					//Gefilterd
-		String[] temparr = this.filter.filterWhitespaceToCardInterface(this.filter.splitByCommas(motherboard.getCardinterface()));
-		String motherboardCardInterface = temparr[temparr.length-1];
-		
+		ArrayList temparr = this.filter.filterWhitespaceToCardInterface(this.filter.splitByCommas(motherboard.getCardinterface()));
+		String motherboardCardInterface = (String) temparr.get(temparr.size()-1);
+		//TODO temparr-1 moet in getHardware(); if temparr-1 geen result dan temparr-2
+
 		//Multithread
 		ArrayList result = this.getHardware(motherboardSocket, motherboardCardInterface, motherboardGeheugenType);
 		ram = (Memory) result.get(0);
@@ -220,8 +215,8 @@ public class MatcherMain{
 			}
 			if(componentHardware instanceof GPU){
 				String cardInterface = ((GPU) componentHardware).getCardinterfacevideo();
-				String[] tempArr = filter.filterWhitespaceToCardInterface(filter.splitByCommas(cardInterface));
-				cardInterface = tempArr[tempArr.length-1];
+				ArrayList tempArr = filter.filterWhitespaceToCardInterface(filter.splitByCommas(cardInterface));
+				cardInterface = (String) tempArr.get(tempArr.size()-1);
 				tempQuery += "n.`Card Interface (moederbord)` =~ '.*(?i)"+cardInterface+".*' ";
 			}
 			if(componentHardware instanceof Memory){ //Parsing

@@ -55,6 +55,7 @@ public class FindComponents {
 					newList.get(i);
 				} catch (Exception e) {
 					newList.add(i, h);
+
 				}
 			}
 		}

@@ -24,7 +24,10 @@ public class PcBuilder {
 		//Connections and objects
 	    WebInput webinput = new WebInput();
 	    //Haalt alle onderdelen op gebasseert op de mobo.
-	    this.fullCheck(matcher.getHardwareByInput(webinput.inputWebserverMatchToMobo()));  
+		ArrayList a =this.fullCheck(webinput.inputWebserverCPU());
+		for(int i = 0; i<a.size(); i++){
+			System.out.println(a.get(i));
+		}
 	}
 	/**
 	   * This method is used to do a fully matching.
@@ -36,7 +39,7 @@ public class PcBuilder {
 		ArrayList selectedComponents = new ArrayList();
 	    ArrayList finishedComponents = new ArrayList();
 
-		ArrayList matchedComponents = matcher.determineSelectedComponents(componentsInput);	
+		ArrayList matchedComponents = matcher.determineSelectedComponents(matcher.getHardwareByInput(componentsInput));	
 		selectedComponents = matchedComponents;								//Copies the components the user has selected
 	    String result = matcher.createQuery(matchedComponents);
 	    
@@ -45,9 +48,10 @@ public class PcBuilder {
 	    	mb = findComponents.getMotherboardFromArrayList(matchedComponents);
 	    else
 	    	mb = matchMobo.matchMotherboard(result);
-
-	    finishedComponents = findComponents.mergeComponentsArrayList(MatcherMain.matchMobo.getPricesSelectedComponents(selectedComponents),
-				matcher.matchFromMotherboard(mb)); //Gets prices and merges the cheapest hardware.
+	    selectedComponents = MatcherMain.matchMobo.getPricesSelectedComponents(selectedComponents);
+	    matchedComponents = matcher.matchFromMotherboard(mb);//MOGELIJKE BUG
+		finishedComponents = findComponents.mergeComponentsArrayList(selectedComponents, matchedComponents
+				); //Gets prices and merges the cheapest hardware.
 
 	    return finishedComponents;
 	}

@@ -18,21 +18,7 @@ public class WebInput {
 		String OpticalDrive = null;
 		String SoundCard = null;
 		
-		CPU = "{'SKU':'587505-B21',"
-				+ "'Laagste prijs':' ',"
-				+ "'Uitvoering':'HP Intel Xeon L5630',"
-				+ "'EAN':'0884962471586, 4948382686046',"
-				+ "'Tweakers ID':'356597',"
-				+ "'Aantal aanbieders':'8 winkels',"
-				+ "'Merk':'HP',"
-				+ "'Eerste prijsvermelding':'vrijdag 15 november 2013',"
-				+ "'Snelheid':'2,13GHz',"
-				+ "'CPU Cache Level 3':'12MB',"
-				+ "'Aantal cores':'Quad Core',"
-				+ "'Socket':'1366',"
-				+ "'Procestechnologie':'32 nm',"
-				+ "'Thermal Design Power':'40W',"
-				+ "'url':'http://tweakers.net/pricewatch/356597/hp-intel-xeon-l5630/'}";
+		CPU = "{'SKU':'462780-001','Aantal aanbieders':'2 winkels','Procestechnologie':'45 nm','Socket':'775','Thermal Design Power':'80W','EAN':'5704327816218','url':'http://tweakers.net/pricewatch/416736/hp-intel-xeon-e5420/','Snelheid':'2,5GHz','Aantal cores':'Quad Core','Uitvoering':'HP Intel Xeon E5420','Geintegreerde graphics':'Nee','Merk':'HP','Tweakers ID':'416736','Eerste prijsvermelding':'dinsdag 23 september 2014','Laagste prijs':' '}";
 		
 		a.add(CPU);
 		a.add(GPU);
@@ -179,4 +165,5 @@ public class WebInput {
 		a.add(SoundCard);
 		return a;
 	}
+	//
 }
