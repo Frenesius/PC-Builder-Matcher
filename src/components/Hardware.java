@@ -22,6 +22,11 @@ public class Hardware {
 	private String timestamp;
 	private String hardwaresort;
 
+	//Additional
+	private String imageurl;
+
+	public String getImageurl() {return imageurl;}
+	public void setImageurl(String imageurl) {this.imageurl = imageurl;}
 	public Boolean getIsMatched() {
 		return isMatched;
 	}

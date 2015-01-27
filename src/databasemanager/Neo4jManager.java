@@ -1,7 +1,6 @@
 package databasemanager;
 import java.util.ArrayList;
 
-import org.glassfish.jersey.client.ClientResponse;
 import org.neo4j.cypher.javacompat.ExecutionEngine;
 import org.neo4j.cypher.javacompat.ExecutionResult;
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -11,8 +10,6 @@ import org.neo4j.graphdb.Transaction;
 import org.neo4j.graphdb.factory.GraphDatabaseFactory;
 import org.neo4j.tooling.GlobalGraphOperations;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.WebResource;
 
 public class Neo4jManager {
 	/*
@@ -59,18 +56,6 @@ public class Neo4jManager {
 			} 
 		finally {tx.close();} 
 		return nodeArr;
-	}
-	public void openConnectionRest(){
-		/*
-		 * Testing to get a connection in REST.
-		 */
-		WebResource resource = Client.create()
-		        .resource(SERVER_ROOT_URI);
-		ClientResponse response = resource.get(ClientResponse.class);
-
-		System.out.println( String.format( "GET on [%s], status code [%d]",
-		        SERVER_ROOT_URI, response.getStatus() ) );
-		response.close();
 	}
     public ArrayList<Node> getAllNodes(GraphDatabaseService graphDb ){
     	/*

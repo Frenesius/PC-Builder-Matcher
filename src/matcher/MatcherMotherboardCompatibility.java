@@ -1,14 +1,24 @@
 package matcher;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import components.*;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.neo4j.graphdb.GraphDatabaseService;
 
 import parsing.FilterString;
 import parsing.ParseHardware;
 
 import databasemanager.Neo4jManager;
+import us.codecraft.xsoup.Xsoup;
+
 
 public class MatcherMotherboardCompatibility {
 	private Neo4jManager neo4j;
@@ -117,11 +127,30 @@ public class MatcherMotherboardCompatibility {
 			}
 			a.add(h);
 			priceComponentList.add(priceComponent.getPricesByArrayList(a));
-
 		}
 		return priceComponentList;
 	}
+	public ArrayList getImageForComponent(ArrayList<Hardware> componentList){
+		ArrayList newList = new ArrayList();
+		for(Hardware h : componentList){
+			newList.add(getImageForHardware(h));
+		}
+		return newList;
+	}
+	public Hardware getImageForHardware(Hardware hardware){
+		String xpath = "//*[@id=\"entity\"]/div/div[2]/header/div[3]/div[1]/a/img/@src";
+		try {
+			hardware.setImageurl(
+					Xsoup.compile(xpath)
+					.evaluate(Jsoup.connect("http://tweakers.net/pricewatch/315313/crucial-ballistix-sport-bls2cp8g3d1609ds1s00ceu.html").get())
+					.get());
+			return hardware;
+		}
+		catch (MalformedURLException mue) { mue.printStackTrace(); }
+		catch (IOException ioe) { ioe.printStackTrace(); }
 
+		return hardware;
+	}
 
 	
 }

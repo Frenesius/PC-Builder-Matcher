@@ -3,6 +3,7 @@ package main;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import components.Hardware;
 import matcher.FindComponents;
 import matcher.MatcherMain;
 import matcher.MatcherMotherboardCompatibility;
@@ -20,14 +21,12 @@ public class PcBuilder {
 	MatcherMotherboardCompatibility matchMobo = matcher.matchMobo;
 
 	//Starts to run the program
-	public void start() throws SQLException{
+	public void start() throws SQLException {
 		//Connections and objects
-	    WebInput webinput = new WebInput();
-	    //Haalt alle onderdelen op gebasseert op de mobo.
-		ArrayList a =this.fullCheck(webinput.inputWebserverCPU());
-		for(int i = 0; i<a.size(); i++){
-			System.out.println(a.get(i));
-		}
+		WebInput webinput = new WebInput();
+		//Haalt alle onderdelen op gebasseert op de mobo.
+		ArrayList a = this.fullCheck(webinput.inputWebserverCPU());
+		String b = "";
 	}
 	/**
 	   * This method is used to do a fully matching.
@@ -50,8 +49,8 @@ public class PcBuilder {
 	    	mb = matchMobo.matchMotherboard(result);
 	    selectedComponents = MatcherMain.matchMobo.getPricesSelectedComponents(selectedComponents);
 	    matchedComponents = matcher.matchFromMotherboard(mb);//MOGELIJKE BUG
-		finishedComponents = findComponents.mergeComponentsArrayList(selectedComponents, matchedComponents
-				); //Gets prices and merges the cheapest hardware.
+		finishedComponents = findComponents.mergeComponentsArrayList(selectedComponents,
+				matchedComponents); //Gets prices and merges the cheapest hardware.
 
 	    return finishedComponents;
 	}

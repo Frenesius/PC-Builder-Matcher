@@ -61,7 +61,7 @@ public class FindComponents {
 		}
 		return newList;
 	}
-	public int checkInstance(Hardware h) {
+	public int checkInstance(Hardware h) {//TODO SWITCH
 		if (h instanceof CPU)
 			return 0;
 		else if (h instanceof GPU)
