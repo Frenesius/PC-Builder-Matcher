@@ -1,7 +1,14 @@
 package components;
 
 import java.util.ArrayList;
-
+/**
+ * This class is intended to mimic the possible inputs from the webpage.
+ * This class is used to debug.
+ *
+ * @author Frenesius
+ * @since 1-1-2015
+ * @version 0.1
+ */
 public class WebInput {
 	
 	public ArrayList inputWebserverCPU(){

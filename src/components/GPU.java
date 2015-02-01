@@ -1,5 +1,13 @@
 package components;
-
+/**
+ * GPU class. Contains all the information that a Graphics Card has.
+ * All the fields match the fields in the Neo4j Database.
+ * Extends {@link components.Hardware}
+ *
+ * @author Frenesius
+ * @since 1-1-2015
+ * @version 0.1
+ */
 public class GPU extends Hardware{
 	private String geheugengrootte;
 	private String videochipfabrikant;

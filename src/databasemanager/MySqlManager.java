@@ -9,24 +9,26 @@ import java.util.ArrayList;
 
 import components.Hardware;
 
-
+/**
+ * <h1>MySQL manager.<h1/>
+ * Used to get data from MySQL.
+ * <b>Do not forget to change the MYSQL_URL<b/>
+ *
+ * @author Frenesius
+ * @since 1-1-2015
+ * @version 0.1
+ */
 public class MySqlManager {
-	/*
-	 * MySQL manager.
-	 * Used to get data from MySQL.
-	 */
 	public boolean isConnected = false;
-	
-	//TODO Put this in a config.
 	private String MYSQL_URL = "jdbc:mysql://localhost:3306/hardwareprice";
 	private String MYSQL_USER = "user1";
 	private String MYSQL_PASSWORD = "user1";
 
+	/**
+     * Opens an MySQL connection with the database
+     * @return Gives Connection object back. This is the JDBC connection object.
+     */
 	public Connection connectDB() throws SQLException {
-		/*
-		 * MySql connection.
-		 * Gives Connection object back.
-		 */
 		Connection myConn = null;
 		myConn = DriverManager.getConnection(MYSQL_URL, MYSQL_USER, MYSQL_PASSWORD);
 		if (myConn != null) 
@@ -35,11 +37,15 @@ public class MySqlManager {
 			myConn.close();
 		return myConn;
 	}
-	
+
+	/**
+	 * Executes Queries on the MySQL Database.
+	 *
+	 * @param mysqlConnection The Connection to the database. You can get this connection by calling connectDB().
+	 * @param query String with the query that you want to execute on the MySQL Database.
+ 	 */
 	public ResultSet executeQueryMySql(Connection mysqlConnection, String query){
-		/*
-		 * Executes Queries and gives a ResultSet back.
-		 */
+
 		ResultSet c = null;
 		try {
 			Statement myStmt = mysqlConnection.createStatement();
@@ -48,25 +54,43 @@ public class MySqlManager {
 		}catch (SQLException e){e.printStackTrace();}
 		return c;
 	}
-	int i = 0;
-	public ResultSet getPricesByComponentEan(Connection mysqlConn, String EAN){
+
+	/**
+	 * Gets the prices for a specific EAN number.
+	 *
+	 * @param mysqlConnection The Connection to the database. You can get this connection by calling connectDB().
+	 * @param EAN The EAN number that you want to get all the prices off.
+	 * @return ResultSet which contains all the prices of a specific EAN number.
+	 */
+	public ResultSet getPricesByComponentEan(Connection mysqlConnection, String EAN){
 		String query = "SELECT ean, shopname, delivery, priceex, priceinc, linkshop, max(timestamp) "
 				 + "FROM hardwareprice.hardwareprice "
 				 + "WHERE ean = '"+EAN+"' "
 				 + "GROUP BY shopname;";
-		//2830 queries
-		System.out.println(query);
-		i++;
-		return this.executeQueryMySql(mysqlConn, query);
+
+		return this.executeQueryMySql(mysqlConnection, query);
 	}
-	public ResultSet getEverything(Connection mysqlConn){
+
+	/**
+	 * This will get all the lines in the MySQL database.
+	 * Debug Purposes.
+	 *
+	 * @param mysqlConnection The Connection to the database. You can get this connection by calling connectDB().
+	 * @return ResultSet which contains all the lines of the MySQL Database.
+	 */
+	public ResultSet getEverything(Connection mysqlConnection){
 		String query = "SELECT ean, shopname, delivery, priceex, priceinc, linkshop, max(timestamp) "
 				+ "FROM hardwareprice.hardwareprice GROUP BY hardwareprice.ean; ";
-		//2830 queries
-		//System.out.println(query);
-		i++;
-		return this.executeQueryMySql(mysqlConn, query);
+		return this.executeQueryMySql(mysqlConnection, query);
 	}
+
+	/**
+	 * Builds a Query based on the components that you have given as input.
+	 * The Query will match the cheapest Component from the ArrayList.
+	 *
+	 * @param component ArrayList with all the Components. This will be used to find the cheapest Hardware in that list.
+	 * @return String with the query.
+	 */
 	public String buildQuery(ArrayList component){
 		String query = "SELECT ean, shopname, delivery, priceex, min(priceinc), linkshop, max(timestamp) " +
 				"FROM hardwareprice.hardwareprice ";
@@ -81,5 +105,4 @@ public class MySqlManager {
 		query += "GROUP BY shopname;";
 		return query;
 	}
-
 }

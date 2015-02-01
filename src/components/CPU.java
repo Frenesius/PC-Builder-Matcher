@@ -1,5 +1,14 @@
 package components;
 
+/**
+ * CPU class. Contains all attributes that a Processor has.
+ * All the fields match the fields in the Neo4j Database.
+ * Extends {@link components.Hardware}
+ *
+ * @author Frenesius
+ * @since 1-1-2015
+ * @version 0.1
+ */
 public class CPU extends Hardware{
 	private String snelheid;
 	private String cpumultiplier;

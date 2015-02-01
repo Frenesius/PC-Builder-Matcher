@@ -11,13 +11,27 @@ import components.GPU;
 import components.Memory;
 import components.Motherboard;
 
-public class ParseHardware {		//Needs optimizing.
-	//TODO ALLES!!!!
-	public ArrayList parseQueryToGPUObject(GraphDatabaseService db, ArrayList components){
+/**
+ * This class handles all the Parsing from NodeProxies(Neo4j Matches) to Hardware Objects.
+ *
+ * @author Frenesius
+ * @since 1-1-2015
+ * @version 0.1
+ */
+public class ParseHardware {
+
+	/**
+	 * This will parse a Query into GPU Objects.
+	 *
+	 * @param graphDb The Neo4j Graph Database Service.
+	 * @param components ArrayList of the NodeProxy components.
+	 * @return ArrayList with Parsed Components.
+	 */
+	public ArrayList parseQueryToGPUObject(GraphDatabaseService graphDb, ArrayList components){
 		ArrayList componentsArray = new ArrayList();
 		for(int i = 0; i<components.size();i++){
 			GPU gpu = new GPU();
-			Transaction tx =  db.beginTx();
+			Transaction tx =  graphDb.beginTx();
 			try{
 				NodeProxy node = (NodeProxy) components.get(i);
 				//Hardware
@@ -68,11 +82,18 @@ public class ParseHardware {		//Needs optimizing.
 		return componentsArray;
 	}
 
-	public ArrayList parseQueryToCPUObject(GraphDatabaseService db, ArrayList components){
+	/**
+	 * This will parse a Query into CPU Objects.
+	 *
+	 * @param graphDb The Neo4j Graph Database Service.
+	 * @param components ArrayList of the NodeProxy components.
+	 * @return ArrayList with Parsed Components.
+	 */
+	public ArrayList parseQueryToCPUObject(GraphDatabaseService graphDb, ArrayList components){
 		ArrayList componentsArray = new ArrayList();
 		for(int i = 0; i<components.size();i++){
 			CPU cpu = new CPU();
-			Transaction tx =  db.beginTx();
+			Transaction tx =  graphDb.beginTx();
 			try{
 				NodeProxy node = (NodeProxy) components.get(i);
 				//Hardware
@@ -104,11 +125,19 @@ public class ParseHardware {		//Needs optimizing.
 		}
 		return componentsArray;
 	}
-	public ArrayList parseQueryToMotherboardObject(GraphDatabaseService db, ArrayList components){
+
+	/**
+	 * This will parse a Query into Motherboard Objects.
+	 *
+	 * @param graphDb The Neo4j Graph Database Service.
+	 * @param components ArrayList of the NodeProxy components.
+	 * @return ArrayList with Parsed Components.
+	 */
+	public ArrayList parseQueryToMotherboardObject(GraphDatabaseService graphDb, ArrayList components){
 		ArrayList componentsArray = new ArrayList();
 		for(int i = 0; i<components.size();i++){
 			Motherboard mb = new Motherboard();
-			Transaction tx =  db.beginTx();
+			Transaction tx =  graphDb.beginTx();
 			try{
 				NodeProxy node = (NodeProxy) components.get(i);
 				//Hardware
@@ -146,7 +175,6 @@ public class ParseHardware {		//Needs optimizing.
 				mb.setBiosuefi(node.getProperty("BIOS of UEFI").toString());
 				mb.setDualofsinglebiosuefi(node.getProperty("Dual of Single BIOS/UEFI").toString());
 				mb.setAudiokanalen(node.getProperty("Audio kanalen").toString());
-
 				tx.success();
 			}catch(Exception e){
 				mb.setIsEmpty(true);
@@ -157,13 +185,19 @@ public class ParseHardware {		//Needs optimizing.
 		}
 		return componentsArray;
 	}
-	public ArrayList parseQueryToRAMObject(GraphDatabaseService db, ArrayList components){
+
+	/**
+	 * This will parse a Query into RAM Objects.
+	 *
+	 * @param graphDb The Neo4j Graph Database Service.
+	 * @param components ArrayList of the NodeProxy components.
+	 * @return ArrayList with Parsed Components.
+	 */
+	public ArrayList parseQueryToRAMObject(GraphDatabaseService graphDb, ArrayList components){
 		ArrayList componentsArray = new ArrayList();
 		for(int i = 0; i<components.size();i++){
 			Memory ram = new Memory();
-
-			//TODO
-			Transaction tx =  db.beginTx();
+			Transaction tx =  graphDb.beginTx();
 			try{
 				NodeProxy node = (NodeProxy) components.get(i);
 				//Hardware
@@ -200,8 +234,5 @@ public class ParseHardware {		//Needs optimizing.
 				tx.close();}
 		}
 		return componentsArray;
-	}
-	public static boolean isASubClass(Class classTypeWeWant, Object objectWeHave) {
-	    return classTypeWeWant.isAssignableFrom(objectWeHave.getClass());
 	}
 }

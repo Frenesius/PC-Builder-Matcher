@@ -1,21 +1,27 @@
 package threads;
 
-import java.util.concurrent.Callable;
-
 import matcher.MatcherMain;
 import matcher.MatcherMotherboardCompatibility;
 
 import components.Hardware;
 
+/**
+ * Thread class.
+ * This will get the Hardware from Neo4j Database.
+ *
+ * @author Frenesius
+ * @since 1-1-2015
+ * @version 0.1
+ */
 public class GpuThread implements Runnable{
 	MatcherMain matcherMain = new MatcherMain();
 	MatcherMotherboardCompatibility matchMobo = matcherMain.matchMobo;
 	String motherboardCardInterface;
-	Hardware h = new Hardware();
+	Hardware hardware = new Hardware();
 
 	public void run(){
 		try{
-			h = call();
+			hardware = call();
 		}catch(Exception e){
 
 		}
@@ -28,6 +34,6 @@ public class GpuThread implements Runnable{
 		return matchMobo.matchGpuBasedOnMobo(this.motherboardCardInterface);
 	}
 	public Hardware getHardware(){
-		return this.h;
+		return this.hardware;
 	}
 }

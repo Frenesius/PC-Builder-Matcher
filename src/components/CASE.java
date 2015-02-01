@@ -1,5 +1,14 @@
 package components;
 
+/**
+ * CASE class. Contains all the information that a Computer Case has.
+ * All the fields match the fields in the Neo4j Database.
+ * Extends {@link components.Hardware}
+ *
+ * @author Frenesius
+ * @since 1-1-2015
+ * @version 0.1
+ */
 public class CASE extends Hardware{
 	private String hoogte;
 	private String breedte;
@@ -16,6 +25,7 @@ public class CASE extends Hardware{
 	private String gewicht;
 	private String fanpoorten;
 	private String aansluitingenvoorzijde;
+
 	public String getHoogte() {
 		return hoogte;
 	}

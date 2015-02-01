@@ -13,6 +13,14 @@ import parsing.ParseHardware;
 import components.Motherboard;
 import components.WebInput;
 
+/**
+ * This is the Main class to call. The method fullCheck is the main method.
+ * This will handle everything.
+ *
+ * @author Frenesius
+ * @since 1-1-2015
+ * @version 0.1
+ */
 public class PcBuilder {
 
 	private MatcherMain matcher = new MatcherMain();
@@ -20,26 +28,27 @@ public class PcBuilder {
 	FindComponents findComponents = new FindComponents();
 	MatcherMotherboardCompatibility matchMobo = matcher.matchMobo;
 
-	//Starts to run the program
+	/**
+	   * This method is for Debug purposes
+	   *
+	   */
 	public void start() throws SQLException {
-		//Connections and objects
 		WebInput webinput = new WebInput();
-		//Haalt alle onderdelen op gebasseert op de mobo.
 		ArrayList a = this.fullCheck(webinput.inputWebserverCPU());
-		String b = "";
 	}
+
 	/**
 	   * This method is used to do a fully matching.
 	   * @param componentsInput ArrayList with JSON Strings.
-	   * @return ArrayList Returns the result of the checking.
+	   * @return Returns a ArrayList with the Matched components.
 	   */
-	public ArrayList fullCheck(ArrayList componentsInput) throws SQLException{
+	public ArrayList fullCheck(ArrayList componentsInput) {
 		Motherboard mb = new Motherboard();
 		ArrayList selectedComponents = new ArrayList();
 	    ArrayList finishedComponents = new ArrayList();
 
 		ArrayList matchedComponents = matcher.determineSelectedComponents(matcher.getHardwareByInput(componentsInput));	
-		selectedComponents = matchedComponents;								//Copies the components the user has selected
+		selectedComponents = matchedComponents;		//Copies the components the user has selected
 	    String result = matcher.createQuery(matchedComponents);
 	    
 	    //If there is a MOBO in the list match everything from motherboard
@@ -48,12 +57,13 @@ public class PcBuilder {
 	    else
 	    	mb = matchMobo.matchMotherboard(result);
 	    selectedComponents = MatcherMain.matchMobo.getPricesSelectedComponents(selectedComponents);
-	    matchedComponents = matcher.matchFromMotherboard(mb);//MOGELIJKE BUG
+	    try {
+			matchedComponents = matcher.matchFromMotherboard(mb);
+		}catch(Exception e){
+			System.out.println("ERROR");
+		}
 		finishedComponents = findComponents.mergeComponentsArrayList(selectedComponents,
 				matchedComponents); //Gets prices and merges the cheapest hardware.
-
 	    return finishedComponents;
 	}
-
-
 }

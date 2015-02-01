@@ -22,6 +22,13 @@ import components.PSU;
 import components.SSD;
 import components.Soundcard;
 
+/**
+ * This class contains all the Main things to match components.
+ *
+ * @author Frenesius
+ * @since 1-1-2015
+ * @version 0.1
+ */
 public class MatcherMain{
 	/*
 	 * When matching always fallback to Motherboard.
@@ -39,16 +46,14 @@ public class MatcherMain{
 	 */
 	private FilterString filter = new FilterString();
 	public static MatcherMotherboardCompatibility matchMobo = new MatcherMotherboardCompatibility();
+
 	/**
-	   * This method is used to match components when we have a ArrayList with a Motherboard.
-	   * @param componentsList ArrayList with the components (Motherboard needs to be in it).
-	   * @return ArrayList Returns a matched components ArrayList.
-	   */
+	 * This method is used to match components when we have a ArrayList with a Motherboard.
+	 *
+	 * @param componentsList ArrayList with the components (Motherboard needs to be in it).
+	 * @return Returns a matched components ArrayList.
+	 */
 	public ArrayList matchFromMotherboard(ArrayList componentsList) throws SQLException{
-		/*
-		 * Matches CPU,GPU and RAM when you have Motherboard as input.
-		 * !!Motherboard needs to be on row 7.
-		 */
 		CPU cpu = new CPU();
 		GPU gpu = new GPU();
 		Memory ram = new Memory();
@@ -62,22 +67,15 @@ public class MatcherMain{
 		
 		motherboard = (Motherboard) componentsList.get(7);
 		
-		String EAN = this.filter.splitByCommas(motherboard.getEan())[0];														//Ean to select the thing
-		String motherboardSocket = motherboard.getSocket();																//Staat goed
-		String motherboardGeheugenType = filter.filterStringOnDdrType(motherboard.getGeheugentype());					//Gefilterd
+		String EAN = this.filter.splitByCommas(motherboard.getEan())[0];
+		String motherboardSocket = motherboard.getSocket();
+		String motherboardGeheugenType = filter.filterStringOnDdrType(motherboard.getGeheugentype());
 		ArrayList temparr = this.filter.filterWhitespaceToCardInterface(this.filter.splitByCommas(motherboard.getCardinterface()));
 		String motherboardCardInterface = (String) temparr.get(temparr.size()-1);
-		
-		//Multithread 
-		//Thread t = new Thread(new Runnable() {public void run(){}});
-		//t.start();
 
-//======//===============================
 		ram = matchMobo.matchRamBasedOnMobo(motherboardGeheugenType);
 		cpu = matchMobo.matchCpuBasedOnMobo(motherboardSocket);
 		gpu = matchMobo.matchGpuBasedOnMobo(motherboardCardInterface);
-
-//======//===============================
 		
 		//Fills the List up
 		componentsList.clear();
@@ -94,13 +92,15 @@ public class MatcherMain{
 		
 		return componentsList;
 	}
+
 	/**
-	   * This method is used to match components when we have a Motherboard.
-	   * @param motherboardSocket Socket of the Motherboard. Needed to match a CPU.
-	   * @param motherboardCardInterface Card interface of the Motherboard. Needed to match a GPU.
-	   * @param motherboardGeheugenType Memory type (DDR type). Needed to match a RAM.
-	   * @return ArrayList Returns a matched components ArrayList.
-	   */
+	 * This method is used to match components when we have a Motherboard.
+	 *
+	 * @param motherboardSocket Socket of the Motherboard. Needed to match a CPU.
+	 * @param motherboardCardInterface Card interface of the Motherboard. Needed to match a GPU.
+	 * @param motherboardGeheugenType Memory type (DDR type). Needed to match a RAM.
+	 * @return Returns a matched components ArrayList.
+	 */
 	private ArrayList getHardware(String motherboardSocket, String motherboardCardInterface, String motherboardGeheugenType){
 		ArrayList hardware = new ArrayList();
 		CPU cpu = new CPU();
@@ -123,7 +123,7 @@ public class MatcherMain{
 			t3.join();
 			t2.join();
 		}catch(Exception e){
-			System.out.println("aaaaa");
+			System.out.println("ERROR");
 		}
 		hardware.add(0, (Memory) ramThread.getHardware());		//1
 		hardware.add(1, (CPU) cpuThread.getHardware());			//2
@@ -131,6 +131,13 @@ public class MatcherMain{
 
 		return hardware;
 	}
+
+	/**
+	 * This method is used to match components when we have a Motherboard.
+	 *
+	 * @param motherboard Motherboard instance which we need to Match everything from
+	 * @return Returns a matched components ArrayList.
+	 */
 	public ArrayList matchFromMotherboard(Motherboard motherboard) throws SQLException{
 		/*
 		 * Matches CPU,GPU and RAM when you have Motherboard as input.
@@ -175,13 +182,13 @@ public class MatcherMain{
 		
 		return componentsList;
 	}
-	
-//============================================MATCHER TO MOBO	
+
 	/**
-	   * Determines if a component is selected or not.
-	   * @param components ArrayList with components.
-	   * @return ArrayList Returns a ArrayList with components that are not empty.
-	   */
+     * Determines if a component is selected or not.
+	 *
+     * @param components ArrayList with components.
+	 * @return Returns a ArrayList with components that are not empty.
+	 */
 	public ArrayList determineSelectedComponents(ArrayList components){
 		ArrayList selectedComponents = new ArrayList();
 		for(int i = 0; i<components.size();i++){
@@ -191,11 +198,13 @@ public class MatcherMain{
 		}
 		return selectedComponents;
 	}
+
 	/**
-	   * Creates a query to get the Motherboard matching the compatible Hardware.
-	   * @param matchedComponents ArrayList with the matched components.
-	   * @return String Query to get the Motherboard from Neo4jDatabase.
-	   */
+	 * Creates a query to get the Motherboard matching the compatible Hardware.
+	 *
+	 * @param matchedComponents ArrayList with the matched components.
+	 * @return String Query to get the Motherboard from Neo4jDatabase.
+	 */
 	public String createQuery(ArrayList matchedComponents){
 		String matchMoboQuery = "";
 		String matchCypher = "MATCH (n:MOTHERBOARD) ";
@@ -230,12 +239,12 @@ public class MatcherMain{
 		return matchMoboQuery;	
 	}	
 	
-//===========================================================
 	/**
-	   * This method parses JSON strings to Objects.
-	   * @param componentsList ArrayList with the components.
-	   * @return ArrayList Returns a Hardware Object ArrayList.
-	   */
+	 * This method parses JSON strings to Objects.
+	 *
+	 * @param componentsList ArrayList with the components.
+	 * @return ArrayList Returns a ArrayList with Hardware Objects.
+	 */
 	public ArrayList getHardwareByInput(ArrayList componentsList){
 		/* 
 		 * Gets the JSON file from the web server input.
@@ -349,6 +358,5 @@ public class MatcherMain{
 		}
 		return componentsObjects;
 	}
-	public void niks(){}
 }
 

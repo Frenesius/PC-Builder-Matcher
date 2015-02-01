@@ -1,16 +1,12 @@
 package matcher;
-import java.io.BufferedReader;
+
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 import components.*;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.neo4j.graphdb.GraphDatabaseService;
 
 import parsing.FilterString;
@@ -19,7 +15,13 @@ import parsing.ParseHardware;
 import databasemanager.Neo4jManager;
 import us.codecraft.xsoup.Xsoup;
 
-
+/**
+ * This class handles everything that needs to be done with Motherboard and matching.
+ *
+ * @author Frenesius
+ * @since 1-1-2015
+ * @version 0.1
+ */
 public class MatcherMotherboardCompatibility {
 	private Neo4jManager neo4j;
 	private GraphDatabaseService db;
@@ -40,18 +42,13 @@ public class MatcherMotherboardCompatibility {
 		}
 		this.parseHw = new ParseHardware();
 	}
+
 	/**
-	   * This method is used to match a GPU Object from the Neo4j Database.
-	   * @param motherboardCardInterface String of the Motherboard Card Interface to match a GPU.
-	   * @return GPU Returns a GPU Object.
-	   */
+	 * This method is used to match a GPU Object from the Neo4j Database.
+	 * @param motherboardCardInterface String of the Motherboard Card Interface to match a GPU.
+	 * @return GPU Returns a GPU Object.
+	 */
 	public GPU matchGpuBasedOnMobo(String motherboardCardInterface){
-		/*USE THIS FOR THE OTHER HARDWARE
-		 * [x] Selects the GPU that is compatible with the mobo from Neo4j
-		 * [x] Makes objects from those selected nodes
-		 * [x] Gets the prices for all the nodes and writes them in the object
-		 * [x] Selects the cheapest one and returns that gpu
-		 */
 		GPU gpu = new GPU();
 		String query = "MATCH (n:GRAPHICSCARD) "
 				     + "WHERE n.`Card Interface (Video)` =~ '.*(?i)"+motherboardCardInterface+".*' "
@@ -61,35 +58,32 @@ public class MatcherMotherboardCompatibility {
 		if(matches.size()>0){
 			gpu = (GPU) priceComponent.getPricesByArrayList(parseHw.parseQueryToGPUObject(this.db, matches));
 		}else{gpu = null;}
-		
 		return gpu;
 	}
+
 	/**
-	   * This method is used to match a Memory Object from the Neo4j Database.
-	   * @param motherboardGeheugenType String of the Motherboard Memory Type to match a Memory.
-	   * @return Memory Returns a Memory Object.
-	   */
-	
+	 * This method is used to match a Memory Object from the Neo4j Database.
+	 * @param motherboardGeheugenType String of the Motherboard Memory Type to match a Memory.
+	 * @return Memory Returns a Memory Object.
+	 */
 	public Memory matchRamBasedOnMobo(String motherboardGeheugenType){
-		//================================
 		Memory ram = new Memory();
 		String query = "MATCH (n:MEMORY) "
 					 + "WHERE n.Geheugentype =~ '.*(?i)"+motherboardGeheugenType+".*' "
 					 + "RETURN n;";
 		ArrayList matches = this.neo4j.executeQueryNeo4j(this.db, query);
 		if(matches.size()>0){
-			//TODO Return een ram met goedkoopste prijs
-			//================================
 			ram  = (Memory) priceComponent.getPricesByArrayList(parseHw.parseQueryToRAMObject(this.db, matches));
 		}else{ram = null;}
-		
 		return ram;
 	}
+
 	/**
-	   * This method is used to match a CPU Object from the Neo4j Database. Needs a Motherboard socket for compatibility.
-	   * @param motherboardSocket String of the Motherboard Socket to match a CPU.
-	   * @return CPU Returns a CPU Object.
-	   */
+	 * This method is used to match a CPU Object from the Neo4j Database. Needs a Motherboard socket for compatibility.
+	 *
+	 * @param motherboardSocket String of the Motherboard Socket to match a CPU.
+	 * @return CPU Returns a CPU Object.
+	 */
 	public CPU matchCpuBasedOnMobo(String motherboardSocket){
 		CPU cpu = new CPU(); //TODO Remove the new
 		String query = "MATCH (n:PROCESSOR) "
@@ -99,15 +93,16 @@ public class MatcherMotherboardCompatibility {
 		if(matches.size()>0){
 			cpu = (CPU) priceComponent.getPricesByArrayList(parseHw.parseQueryToCPUObject(this.db, matches));
 
-		}else{cpu = null;}		
-		
+		}else{cpu = null;}
 		return cpu;
 	}
+
 	/**
-	   * This method is used to match a Motherboard Object from the Neo4j Database.
-	   * @param matchMoboQuery String of the Query to match a Motherboard.
-	   * @return Motherboard Returns a Motherboard Object.
-	   */
+	 * This method is used to match a Motherboard Object from the Neo4j Database.
+	 *
+	 * @param matchMoboQuery String of the Query to match a Motherboard.
+	 * @return Motherboard Returns a Motherboard Object.
+	 */
 	public Motherboard matchMotherboard(String matchMoboQuery){
 		Motherboard mb = new Motherboard();
 		ArrayList matches = this.neo4j.executeQueryNeo4j(this.db, matchMoboQuery);		
@@ -115,6 +110,13 @@ public class MatcherMotherboardCompatibility {
 			mb = (Motherboard) priceComponent.getPricesByArrayList(parseHw.parseQueryToMotherboardObject(this.db, matches));
 		}return mb;
 	}
+
+	/**
+	 * Gets the pries of the user selected Components.
+	 *
+	 * @param userSelectedComponents ArrayList with the user selected components.
+	 * @return ArrayList with the components and prices.
+	 */
 	public ArrayList getPricesSelectedComponents(ArrayList userSelectedComponents){
 		ArrayList priceComponentList = new ArrayList();
 		for(int i = 0; i<userSelectedComponents.size();i++) {
@@ -130,6 +132,13 @@ public class MatcherMotherboardCompatibility {
 		}
 		return priceComponentList;
 	}
+
+	/**
+	 * Gets the images for the Components.
+	 *
+	 * @param componentList ArrayList with the matched and final components which needs image urls.
+	 * @return ArrayList with the same components and all components have image urls.
+	 */
 	public ArrayList getImageForComponent(ArrayList<Hardware> componentList){
 		ArrayList newList = new ArrayList();
 		for(Hardware h : componentList){
@@ -137,20 +146,25 @@ public class MatcherMotherboardCompatibility {
 		}
 		return newList;
 	}
+
+	/**
+	 * Gets the images for a specific Hardware.
+	 *
+	 * @param hardware A Hardware that needs an image url.
+	 * @return Hardware with the image url.
+	 */
 	public Hardware getImageForHardware(Hardware hardware){
 		String xpath = "//*[@id=\"entity\"]/div/div[2]/header/div[3]/div[1]/a/img/@src";
 		try {
+
 			hardware.setImageurl(
 					Xsoup.compile(xpath)
-					.evaluate(Jsoup.connect("http://tweakers.net/pricewatch/315313/crucial-ballistix-sport-bls2cp8g3d1609ds1s00ceu.html").get())
+					.evaluate(Jsoup.connect(hardware.getUrl()).get())
 					.get());
 			return hardware;
 		}
 		catch (MalformedURLException mue) { mue.printStackTrace(); }
 		catch (IOException ioe) { ioe.printStackTrace(); }
-
 		return hardware;
 	}
-
-	
 }

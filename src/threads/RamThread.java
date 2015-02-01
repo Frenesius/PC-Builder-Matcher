@@ -1,21 +1,26 @@
 package threads;
 
-import java.util.concurrent.Callable;
-
-import components.Memory;
 import matcher.MatcherMain;
 import matcher.MatcherMotherboardCompatibility;
 import components.Hardware;
 
+/**
+ * Thread class.
+ * This will get the Hardware from Neo4j Database.
+ *
+ * @author Frenesius
+ * @since 1-1-2015
+ * @version 0.1
+ */
 public class RamThread implements Runnable{
 	MatcherMain matcherMain = new MatcherMain();
 	MatcherMotherboardCompatibility matchMobo = matcherMain.matchMobo;
 	String motherboardGeheugenType;
-	Hardware h = new Hardware();
+	Hardware hardware = new Hardware();
 
 	public void run(){
 		try{
-			h = call();
+			hardware = call();
 		}catch(Exception e){
 
 		}
@@ -27,6 +32,6 @@ public class RamThread implements Runnable{
 		return matchMobo.matchRamBasedOnMobo(this.motherboardGeheugenType);
 	}
 	public Hardware getHardware(){
-		return this.h;
+		return this.hardware;
 	}
 }

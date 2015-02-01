@@ -1,5 +1,13 @@
 package components;
-
+/**
+ * HDD class. Contains all the information that a Hard Drive Disk has.
+ * All the fields match the fields in the Neo4j Database.
+ * Extends {@link components.Hardware}
+ *
+ * @author Frenesius
+ * @since 1-1-2015
+ * @version 0.1
+ */
 public class HDD extends Hardware{
 	private String behuizingbayintern;
 	private String specsvanfabrikant;

@@ -1,4 +1,5 @@
 package matcher;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +12,13 @@ import components.Hardware;
 import databasemanager.MySqlManager;
 import databasemanager.Neo4jManager;
 
+/**
+ * This class will handle everything that has to do with prices.
+ *
+ * @author Frenesius
+ * @since 1-1-2015
+ * @version 0.1
+ */
 public class PriceComponent {
 	private MySqlManager mysqlManager;
 	private Connection mysqlConn;
@@ -21,10 +29,25 @@ public class PriceComponent {
 		this.mysqlConn = mysqlManager.connectDB();
 		this.neo4jManager = new Neo4jManager();
 	}
-	public Hardware getCheapestMotherboard(GraphDatabaseService db, String cypherQuery){
-		ArrayList tempArray = this.neo4jManager.executeQueryNeo4j(db, cypherQuery);
+
+	/**
+	 * This will get the cheapest Motherboard from Neo4j.
+	 *
+	 * @param graphDb The Neo4j Graph Database Service.
+	 * @param cypherQuery Query to match the Motherboard.
+	 * @return
+	 */
+	public Hardware getCheapestMotherboard(GraphDatabaseService graphDb, String cypherQuery){
+		ArrayList tempArray = this.neo4jManager.executeQueryNeo4j(graphDb, cypherQuery);
 		return this.getPricesByArrayList(tempArray);
 	}
+
+	/**
+	 * This will get all the prices for components in the ArrayList.
+	 *
+	 * @param component ArrayList with the components that needs prices.
+	 * @return ArrayList with the components and their prices.
+	 */
 	public Hardware getPricesByArrayList(ArrayList component){ //TODO
 		ArrayList newComponentList = new ArrayList();
 		Hardware hardware = null;
@@ -44,9 +67,14 @@ public class PriceComponent {
 				hardware.setTimestamp((rs.getString(rs.findColumn("max(timestamp)"))));
 			}
 		}catch(SQLException e){e.printStackTrace();}
-
 		return hardware;
 	}
+
+	/**
+	 * This will get the prices per component.
+	 * @param component ArrayList with the components that needs prices.
+	 * @return Hardware with price.
+	 */
 	public Hardware getPricesByComponent(ArrayList component){ //TODO
 		ArrayList newComponentList = new ArrayList();
 		Hardware hardware = null;
@@ -66,9 +94,15 @@ public class PriceComponent {
 				hardware.setTimestamp((rs.getString(rs.findColumn("max(timestamp)"))));
 			}
 		}catch(SQLException e){e.printStackTrace();}
-
 		return hardware;
 	}
+
+	/**
+	 * This will compare the prices from a ArrayList and return the cheapest.
+	 *
+	 * @param component ArrayList with components.
+	 * @return Hardware that is the cheapest.
+	 */
 	public Hardware comparePricesFromComponentArray(ArrayList component){
 		float lowstPrice = 100;
 		int cheapestIndex = 0;
@@ -86,16 +120,23 @@ public class PriceComponent {
 		return (Hardware) component.get(cheapestIndex);
 	}
 
+	/**
+	 * This will find the Hardware by EAN number.
+	 *
+	 * @param component ArrayList with the components.
+	 * @param ean EAN number that you want from the ArrayList.
+	 * @return
+	 */
 	public Hardware findHardwareByEan(ArrayList component, String ean){
-		Hardware h = null;
+		Hardware hardware = null;
 		for(int i =0; i<component.size();i++){
-			h = (Hardware) component.get(i);
-			String eanComp = h.getEan();
+			hardware = (Hardware) component.get(i);
+			String eanComp = hardware.getEan();
 			if (eanComp.equals(ean)){
-				return h;
+				return hardware;
 			}
 		}
-		return h;
+		return hardware;
 	}
 } 
 

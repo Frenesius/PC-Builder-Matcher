@@ -1,5 +1,12 @@
 package components;
-
+/**
+ * Hardware class. Contains all the information that all Computer Hardware has.
+ * This is a Super class for all the Hardware.
+ *
+ * @author Frenesius
+ * @since 1-1-2015
+ * @version 0.1
+ */
 public class Hardware {
 	private String sku;
 	private String laagsteprijs;

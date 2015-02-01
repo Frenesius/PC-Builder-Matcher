@@ -5,13 +5,23 @@ import java.util.ArrayList;
 import components.*;
 import parsing.ParseHardware;
 
+/**
+ * This class will Find and Merge components with each other.
+ * All the fields match the fields in the Neo4j Database.
+ *
+ * @author Frenesius
+ * @since 1-1-2015
+ * @version 0.1
+ */
 public class FindComponents {
 	ParseHardware parseHw = new ParseHardware();
-	   /**
-	   * This method is used to get a Motherboard from an ArrayList.
-	   * @param components ArrayList with the components.
-	   * @return Motherboard Returns an motherboard from the ArrayList.
-	   */
+
+	/**
+	 * This method is used to get a Motherboard from an ArrayList.
+	 *
+	 * @param components ArrayList with the components.
+	 * @return Returns a Motherboard from the ArrayList.
+	 */
 	public Motherboard getMotherboardFromArrayList(ArrayList components){
 		Motherboard mb = new Motherboard();
 		for(int i = 0; i<components.size();i++){
@@ -20,16 +30,20 @@ public class FindComponents {
 		}
 		return mb;
 	}
+
 	/**
-	   * This method is used to merge the two ArrayLists. One with the selected components and one with matched.
-	   * @param userSelectedComponents ArrayList with the user selected components.
-	   * @param matchedComponents ArrayList with the matched components.
-	   * @return ArrayList Returns a merged ArrayList.
-	   */
+	 * This method is used to merge the two ArrayLists. One with the selected components and one with matched.
+	 * Selected components has top priority.
+	 *
+	 * @param userSelectedComponents ArrayList with the user selected components.
+	 * @param matchedComponents ArrayList with the matched components.
+	 * @return Returns a merged ArrayList.
+	 */
 	public ArrayList mergeComponentsArrayList(ArrayList userSelectedComponents, ArrayList matchedComponents) {
 		/*
 		 * userSelectedComponents goes before matchedComponents
 		 * Array with components
+		 *
 		 * arr[0] = CPU	
 		 * arr[1] = GPU
 		 * arr[2] = RAM
@@ -55,32 +69,38 @@ public class FindComponents {
 					newList.get(i);
 				} catch (Exception e) {
 					newList.add(i, h);
-
 				}
 			}
 		}
 		return newList;
 	}
-	public int checkInstance(Hardware h) {//TODO SWITCH
-		if (h instanceof CPU)
+
+	/**
+	 * Checks which Instance the Hardware is, and returns its position.
+	 *
+	 * @param hardware The Hardware which you want to know the instace of.
+	 * @return The position to place it in a ArrayList. -1 If none if these instaces.
+	 */
+	public int checkInstance(Hardware hardware) {
+		if (hardware instanceof CPU)
 			return 0;
-		else if (h instanceof GPU)
+		else if (hardware instanceof GPU)
 			return 1;
-		else if (h instanceof Memory)
+		else if (hardware instanceof Memory)
 			return 2;
-		else if (h instanceof HDD)
+		else if (hardware instanceof HDD)
 			return 3;
-		else if (h instanceof SSD)
+		else if (hardware instanceof SSD)
 			return 4;
-		else if (h instanceof PSU)
+		else if (hardware instanceof PSU)
 			return 5;
-		else if (h instanceof CASE)
+		else if (hardware instanceof CASE)
 			return 6;
-		else if (h instanceof Motherboard)
+		else if (hardware instanceof Motherboard)
 			return 7;
-		else if (h instanceof OpticalDrive)
+		else if (hardware instanceof OpticalDrive)
 			return 8;
-		else if (h instanceof Soundcard)
+		else if (hardware instanceof Soundcard)
 			return 9;
 		return -1;
 	}
